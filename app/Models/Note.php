@@ -13,7 +13,12 @@ class Note extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $guarded = [];
+    protected $fillable = [
+        'title',
+        'content',
+        'blocks',
+        'links',
+    ];
 
     protected $casts=[
         'links'=>'array',
