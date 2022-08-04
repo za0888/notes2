@@ -1,11 +1,11 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -19,6 +19,7 @@ return new class extends Migration
 //            blocks used for code blocks(js php html...
 //            for any other kind of content fiel is used
             $table->text('content')
+                ->fulltext()
                 ->nullable();
             $table->json('blocks')->nullable();
 // a block {
@@ -38,8 +39,9 @@ return new class extends Migration
                 ->constrained()
                 ->cascadeOnUpdate();
 
-            $table->bigInteger('created_by_user');
+//            $table->bigInteger('created_by_user');
 
+            $table->foreignIdFor(User::class);
 
             $table->timestamps();
 

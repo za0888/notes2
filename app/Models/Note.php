@@ -35,7 +35,7 @@ class Note extends Model
     public function user():BelongsTo
     {
         return $this->belongsTo(User::class)
-            ->withDefault();
+            ->withDefault('ANONIMOUS');
     }
 
 
