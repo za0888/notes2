@@ -37,4 +37,9 @@ class Category extends Model
             ->orderBy('name');
     }
 
+    public function notes()
+    {
+        return $this->hasMany(Note::class)->orderBy('updated_at');
+    }
+
 }

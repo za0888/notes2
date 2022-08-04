@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Notes;
+use App\Models\Note;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class NotesPolicy
+class NotePolicy
 {
     use HandlesAuthorization;
 
@@ -25,10 +25,10 @@ class NotesPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Notes  $notes
+     * @param  \App\Models\Note  $notes
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Notes $notes)
+    public function view(User $user, Note $notes)
     {
         //
     }
@@ -48,10 +48,10 @@ class NotesPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Notes  $notes
+     * @param  \App\Models\Note  $notes
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Notes $notes)
+    public function update(User $user, Note $notes)
     {
         //
     }
@@ -60,10 +60,10 @@ class NotesPolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Notes  $notes
+     * @param  \App\Models\Note  $notes
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Notes $notes)
+    public function delete(User $user, Note $notes)
     {
         //
     }
@@ -72,10 +72,10 @@ class NotesPolicy
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Notes  $notes
+     * @param  \App\Models\Note  $notes
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, Notes $notes)
+    public function restore(User $user, Note $notes)
     {
         //
     }
@@ -84,10 +84,10 @@ class NotesPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Notes  $notes
+     * @param  \App\Models\Note  $notes
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, Notes $notes)
+    public function forceDelete(User $user, Note $notes)
     {
         //
     }

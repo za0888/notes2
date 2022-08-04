@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Notes;
+use App\Models\Note;
 use App\Http\Requests\StoreNotesRequest;
 use App\Http\Requests\UpdateNotesRequest;
 
@@ -42,10 +42,10 @@ class NotesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Notes  $notes
+     * @param  \App\Models\Note  $notes
      * @return \Illuminate\Http\Response
      */
-    public function show(Notes $notes)
+    public function show(Note $notes)
     {
         //
     }
@@ -53,10 +53,10 @@ class NotesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Notes  $notes
+     * @param  \App\Models\Note  $notes
      * @return \Illuminate\Http\Response
      */
-    public function edit(Notes $notes)
+    public function edit(Note $notes)
     {
         //
     }
@@ -65,10 +65,10 @@ class NotesController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\UpdateNotesRequest  $request
-     * @param  \App\Models\Notes  $notes
+     * @param  \App\Models\Note  $notes
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateNotesRequest $request, Notes $notes)
+    public function update(UpdateNotesRequest $request, Note $notes)
     {
         //
     }
@@ -76,10 +76,10 @@ class NotesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Notes  $notes
+     * @param  \App\Models\Note  $notes
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Notes $notes)
+    public function destroy(Note $notes)
     {
         //
     }

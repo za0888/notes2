@@ -25,7 +25,7 @@ class SubCategory extends Model
     }
     public function notes()
     {
-        return $this->hasMany(Notes::class);
+        return $this->hasMany(Note::class);
 
     }
 
