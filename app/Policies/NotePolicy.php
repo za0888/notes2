@@ -9,7 +9,19 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 class NotePolicy
 {
     use HandlesAuthorization;
-
+    /**
+     * Perform pre-authorization checks.
+     *
+     * @param  \App\Models\User  $user
+     * @param  string  $ability
+     * @return void|bool
+     */
+    public function before(User $user)
+    {
+        if ($user->is_admin) {
+            return true;
+        }
+    }
     /**
      * Determine whether the user can view any models.
      *
@@ -18,7 +30,7 @@ class NotePolicy
      */
     public function viewAny(User $user)
     {
-        //
+//        return  $this->before($user,'viewAny');
     }
 
     /**

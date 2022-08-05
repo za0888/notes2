@@ -6,10 +6,16 @@ use App\Models\Theme;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class ThemePolicy
+class ThemePolicy extends ServiceForPolicies
 {
     use HandlesAuthorization;
 
+    public function before(User $user)
+    {
+        if ($user->is_admin) {
+            return true;
+        }
+    }
     /**
      * Determine whether the user can view any models.
      *
@@ -18,7 +24,6 @@ class ThemePolicy
      */
     public function viewAny(User $user)
     {
-        //
     }
 
     /**
@@ -30,7 +35,7 @@ class ThemePolicy
      */
     public function view(User $user, Theme $theme)
     {
-        //
+        return $this->ifModelCreatedByUser($user, $theme);
     }
 
     /**
@@ -41,7 +46,7 @@ class ThemePolicy
      */
     public function create(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -53,7 +58,7 @@ class ThemePolicy
      */
     public function update(User $user, Theme $theme)
     {
-        //
+        return $this->ifModelCreatedByUser($user, $theme);
     }
 
     /**
@@ -65,7 +70,7 @@ class ThemePolicy
      */
     public function delete(User $user, Theme $theme)
     {
-        //
+        return $this->ifIsAdmin();
     }
 
     /**
@@ -77,7 +82,7 @@ class ThemePolicy
      */
     public function restore(User $user, Theme $theme)
     {
-        //
+        return  $this->ifIsAdmin();
     }
 
     /**
@@ -89,6 +94,6 @@ class ThemePolicy
      */
     public function forceDelete(User $user, Theme $theme)
     {
-        //
+        return  $this->ifIsAdmin();
     }
 }
