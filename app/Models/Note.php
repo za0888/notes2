@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Scopes\OnlyUserScope;
 
 class Note extends Model
 {
@@ -26,9 +27,8 @@ class Note extends Model
     ];
     protected static function booted()
     {
-        static::addGlobalScope('onlyUser', function (Builder $builder) {
-            $builder->where('created_by_user', auth()->id());
-        });
+        static::addGlobalScope(new OnlyUserScope());
+
     }
 
     public function category():BelongsTo

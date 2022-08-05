@@ -6,7 +6,7 @@ use App\Models\SubCategory;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class SubCategoryPolicy
+class SubCategoryPolicy extends  ServiceForPolicies
 {
     use HandlesAuthorization;
 
@@ -37,6 +37,8 @@ class SubCategoryPolicy
     public function view(User $user, SubCategory $subCategory)
     {
         //
+        return $this->ifModelCreatedByUser($user, $subCategory);
+
     }
 
     /**
@@ -47,7 +49,7 @@ class SubCategoryPolicy
      */
     public function create(User $user)
     {
-        //
+        return true;
     }
 
     /**

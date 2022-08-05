@@ -18,7 +18,7 @@ class ServiceForPolicies
     public function ifIsAdmin(User $user)
     {
         return $user->is_admin ? $this->allow() :
-            $this->denyWithStatus(466);
+            $this->denyWithStatus(466,'Must have admin rights');
     }
 
 

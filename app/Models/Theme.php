@@ -1,6 +1,7 @@
 <?php
 namespace App\Models;
 
+use App\Scopes\OnlyUserScope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,9 +18,8 @@ class Theme extends Model
     ];
     protected static function booted()
     {
-        static::addGlobalScope('onlyUser', function (Builder $builder) {
-            $builder->where('created_by_user', auth()->id());
-        });
+        static::addGlobalScope(new OnlyUserScope());
+
     }
 
     public function categories()

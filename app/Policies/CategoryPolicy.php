@@ -50,7 +50,7 @@ class CategoryPolicy extends ServiceForPolicies
      */
     public function create(User $user)
     {
-//        return $this->ifIsAdmin($user);
+        return true;
     }
 
     /**
