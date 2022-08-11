@@ -5,6 +5,7 @@ namespace App\Scopes;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope;
+use Illuminate\Support\Facades\Session;
 
 class OnlyUserScope implements Scope
 
@@ -19,7 +20,19 @@ class OnlyUserScope implements Scope
 
     public function apply(Builder $builder, Model $model)
     {
-        if (!auth()->user()?->is_admin) {
+
+        $user=auth()->user();
+
+        if ($user){
+
+            $trusteds=$user->trusteds()->get('trusted_user');
+
+            $is_admin=$user ??-$user->is_admin->toArray();
+        }
+
+
+
+        if (!$is_admin) {
             $builder->where('created_by_user', auth()->id());
         }
     }

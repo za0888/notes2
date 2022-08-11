@@ -45,7 +45,9 @@ class Note extends Model
 
     public function media():HasMany
     {
-        return $this->hasMany(Media::class);
+        return $this->hasMany(Media::class)
+            ->orderBy('media_type')
+            ;
 //            ->orderBy('name');
     }
 

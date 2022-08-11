@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\SubCategory;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -35,7 +36,7 @@ return new class extends Migration {
 //            'link':''}
 // links =[link1,...,link23]
 //
-            $table->foreignId('category_id')
+            $table->foreignIdFor(SubCategory::class)
                 ->constrained()
                 ->cascadeOnUpdate();
 
