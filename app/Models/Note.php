@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Scopes\OnlyUserScope;
 
@@ -31,7 +32,7 @@ class Note extends Model
 
     }
 
-    public function category():BelongsTo
+    public function subCategory():BelongsTo
     {
         return $this->belongsTo(SubCategory::class)
             ->withDefault(['name'=>'ANONIMOUS']);
@@ -41,6 +42,12 @@ class Note extends Model
     {
         return $this->belongsTo(User::class)
             ->withDefault('ANONIMOUS');
+    }
+
+    public function media():HasMany
+    {
+        return $this->hasMany(Media::class)
+            ->withDefault();
     }
 
 

@@ -14,4 +14,10 @@ class Trusted extends Model
     protected $fillable=[
        'trusted_user'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class)
+            ->withDefault('name','no user');
+    }
 }
