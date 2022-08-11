@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Scopes\OnlyUserScope;
-
 class Note extends Model
 {
     use HasFactory;
@@ -46,8 +45,8 @@ class Note extends Model
 
     public function media():HasMany
     {
-        return $this->hasMany(Media::class)
-            ->withDefault();
+        return $this->hasMany(Media::class);
+//            ->orderBy('name');
     }
 
 
