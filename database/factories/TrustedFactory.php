@@ -17,7 +17,7 @@ class TrustedFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'trusted_user'=>random_int(1,5)
         ];
     }
 }

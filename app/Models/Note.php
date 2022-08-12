@@ -34,21 +34,19 @@ class Note extends Model
     public function subCategory():BelongsTo
     {
         return $this->belongsTo(SubCategory::class)
-            ->withDefault(['name'=>'ANONIMOUS']);
+            ->withDefault(['name'=>'ANONIMOUS subcat']);
     }
 
     public function user():BelongsTo
     {
         return $this->belongsTo(User::class)
-            ->withDefault('ANONIMOUS');
+            ->withDefault('ANONIMOUS user');
     }
 
     public function media():HasMany
     {
         return $this->hasMany(Media::class)
-            ->orderBy('media_type')
-            ;
-//            ->orderBy('name');
+            ->orderBy('media_type');
     }
 
 

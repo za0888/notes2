@@ -17,7 +17,14 @@ class MediaFactory extends Factory
     public function definition()
     {
         return [
-            //
+            ['media_type'=>0]
         ];
+    }
+
+    public function video()
+    {
+        return $this->state(
+            fn(array $attributes)=>['media_type'=>1]
+        );
     }
 }

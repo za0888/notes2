@@ -26,6 +26,8 @@ return new class extends Migration
 
             $table->softDeletes();
 
+            $table->unique(['user_id','trusted_user']);
+
             $table->bigInteger('trusted_user')
                 ->nullable();
         });

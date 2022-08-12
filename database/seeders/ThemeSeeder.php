@@ -16,23 +16,26 @@ class ThemeSeeder extends Seeder
      */
     public function run()
     {
+//        We have 5 users
         $users = User::all();
-        $themes = [
-            'Kitchen',
-            'Soft',
-            'Repaiment',
-            'Dachia'
-        ];
-foreach ($users as $user){
-    Theme::create([
-        'name' => array_rand($themes),
-        'created_bu_user'=>$user->id,
-    ]);
-}
+        $user_1=$users->find(1);
+//        $themes = [
+//            'Soft',
+//            'House',
+//            'Dachia'
+//        ];
+//
+//foreach ($users as $user){
+//    Theme::create([
+//        'name' => array_rand($themes),
+//        'created_by_user'=>$user->id,
+//    ]);
 
-        array_map(
-            fn($item) => Theme::create(['name' => $item]),
-            $themes
-        );
+//}
+
+//        array_map(
+//            fn($item) => Theme::create(['name' => $item]),
+//            $themes
+//        );
     }
 }

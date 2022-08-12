@@ -26,7 +26,7 @@ class Media extends Model
     public function note()
     {
         return $this->belongsTo(Note::class)
-            ->withDefault(['title'=>'empty note Sorry see Model']);
+            ->withDefault(['title'=>'empty note']);
     }
 
 }
