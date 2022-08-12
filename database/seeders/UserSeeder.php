@@ -20,11 +20,11 @@ class UserSeeder extends Seeder
     public function run()
     {
         $numberOfUsers = 5;
-        $count = random_int(1, $numberOfUsers);
+        $count = random_int(0, $numberOfUsers);
 
         User::factory()
             ->has(Trusted::factory()
-                ->count(random_int(0, $count)))
+                ->count(3))
             ->count(3)->create();
 
         User::factory()
@@ -41,14 +41,16 @@ class UserSeeder extends Seeder
             try {
 //                process link to oneself
                 if ($trusted->user_id === $trusted->trusted_user) {
-                    $trusted->trusted_user = $trusted->user_id > 1 ?
-                        $trusted->user_id - 1 : $trusted->user_id + 1;
+                    $trusted->delete();
                 }
-                $trusted->save();
+                    $trusted->save();
             } catch (\Exception $e) {
-                echo $e->getMessage();
+//                echo $e->getMessage();
+                break;
             }
+
         }
+        Trusted::onlyTrashed()->forceDelete();
     }
 
 }
