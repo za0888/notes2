@@ -42,10 +42,10 @@ class NotesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Note  $notes
+     * @param  \App\Models\Note  $note
      * @return \Illuminate\Http\Response
      */
-    public function show(Note $notes)
+    public function show(Note $note)
     {
         //
     }
@@ -53,10 +53,10 @@ class NotesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Note  $notes
+     * @param  \App\Models\Note  $note
      * @return \Illuminate\Http\Response
      */
-    public function edit(Note $notes)
+    public function edit(Note $note)
     {
         //
     }
@@ -65,21 +65,23 @@ class NotesController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\UpdateNotesRequest  $request
-     * @param  \App\Models\Note  $notes
+     * @param  \App\Models\Note  $note
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateNotesRequest $request, Note $notes)
+    public function update(UpdateNotesRequest $request, Note $note)
     {
-        //
+        if (!$this->authorize('update', $note)) {
+            abort(403,"Unautorized action with Note {$note}");
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Note  $notes
+     * @param  \App\Models\Note  $note
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Note $notes)
+    public function destroy(Note $note)
     {
         //
     }
