@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,16 @@ class TrustedFactory extends Factory
     public function definition()
     {
         return [
-            'trusted_user'=>random_int(1,5)
+            'trusted_user' => random_int(1, 5)
         ];
     }
+
+// just a thought
+    public function userSelf(User $user)
+    {
+        if ($user) {
+            return $this->state(fn($attributes) => ['trusted_user'=>$user->id]);
+        }
+    }
+
 }

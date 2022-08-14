@@ -17,14 +17,14 @@ class SubCategory extends Model
 
     protected $fillable = [
         'name',
-        'created_by-user'
+        'created_by_user'
     ];
 
-    protected static function booted()
-    {
-        static::addGlobalScope(new OnlyUserScope());
-
-    }
+//    protected static function booted()
+//    {
+//        static::addGlobalScope(new OnlyUserScope());
+//
+//    }
     public function notes() : HasMany
     {
         return $this->hasMany(Note::class);

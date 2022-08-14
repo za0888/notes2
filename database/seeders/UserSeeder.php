@@ -21,12 +21,14 @@ class UserSeeder extends Seeder
     {
         $numberOfUsers = 5;
         $count = random_int(0, $numberOfUsers);
-
+        User::factory()
+            ->count(5)
+            ->create();
         User::factory()
             ->has(Trusted::factory()
                 ->count(3))
             ->count(3)->create();
-
+// use state from user facnjry to generate  user with admin rights
         User::factory()
             ->has(Trusted::factory()->count($count))
             ->count(2)
@@ -54,3 +56,4 @@ class UserSeeder extends Seeder
     }
 
 }
+//php artisan db:seed --class=UserSeeder

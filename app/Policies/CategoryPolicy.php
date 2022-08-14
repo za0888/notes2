@@ -24,9 +24,7 @@ class CategoryPolicy extends ServiceForPolicies
      */
     public function viewAny(User $user)
     {
-//        return  (new ServiceForPolicies())->ifIsAdmin($user);
-        return $this->ifIsAdmin($user);
-
+//
     }
 
     /**
@@ -39,7 +37,10 @@ class CategoryPolicy extends ServiceForPolicies
     public function view(User $user, Category $category)
     {
 
-        return $this->ifModelCreatedByUser($user, $category);
+        return
+            $this->ifModelCreatedByUser($user, $category)
+            ||
+            $this->isTrustedUser($user,$category);
     }
 
     /**

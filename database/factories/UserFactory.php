@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -18,10 +19,13 @@ class UserFactory extends Factory
      */
     public function definition()
     {
+        $users=['status'=>"suspended",'adult'=>true];
+        $confidants=Arr::random($users,random_int(1,2));
         return [
             'name' => fake()->name(),
             'email' => fake()->safeEmail(),
             'email_verified_at' => now(),
+            'confidant'=>$confidants,
             'password' => Hash::make('12345678'),
             'is_admin'=>false,
 //            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password

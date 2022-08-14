@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -42,6 +43,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'confidant'=>'array'
     ];
 
     public function notes()
@@ -53,5 +55,13 @@ class User extends Authenticatable
     public function trusteds():HasMany
     {
         return $this->hasMany(Trusted::class);
+    }
+
+    public function trustedsToArray()
+    {
+        return $this->trusteds()
+                ->get('trusted_user')
+                ->pluck('trusted_user');
+
     }
 }

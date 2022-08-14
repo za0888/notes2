@@ -6,10 +6,16 @@ use App\Models\Trusted;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class TrustedPolicy
+class TrustedPolicy extends ServiceForPolicies
 {
     use HandlesAuthorization;
 
+    public function before(User $user)
+    {
+        if ($user->is_admin) {
+            return true;
+        }
+    }
     /**
      * Determine whether the user can view any models.
      *
@@ -30,7 +36,10 @@ class TrustedPolicy
      */
     public function view(User $user, Trusted $trusted)
     {
-        //
+        return
+            $this->ifModelCreatedByUser($user,$trusted)
+            ||
+            $this->isTrustedUser($user,$trusted);
     }
 
     /**
@@ -41,7 +50,7 @@ class TrustedPolicy
      */
     public function create(User $user)
     {
-        //
+        return  true;
     }
 
     /**
@@ -53,7 +62,7 @@ class TrustedPolicy
      */
     public function update(User $user, Trusted $trusted)
     {
-        //
+        return $this->ifModelCreatedByUser($user,$trusted);
     }
 
     /**
@@ -65,7 +74,7 @@ class TrustedPolicy
      */
     public function delete(User $user, Trusted $trusted)
     {
-        //
+        return $this->ifModelCreatedByUser($user,$trusted);
     }
 
     /**
@@ -77,7 +86,7 @@ class TrustedPolicy
      */
     public function restore(User $user, Trusted $trusted)
     {
-        //
+        return $this->ifModelCreatedByUser($user,$trusted);
     }
 
     /**
@@ -89,6 +98,6 @@ class TrustedPolicy
      */
     public function forceDelete(User $user, Trusted $trusted)
     {
-        //
+        return $this->ifModelCreatedByUser($user,$trusted);
     }
 }

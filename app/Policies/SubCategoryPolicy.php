@@ -37,7 +37,10 @@ class SubCategoryPolicy extends  ServiceForPolicies
     public function view(User $user, SubCategory $subCategory)
     {
         //
-        return $this->ifModelCreatedByUser($user, $subCategory);
+        return
+            $this->ifModelCreatedByUser($user, $subCategory)
+            ||
+            $this->isTrustedUser($user,$subCategory);
 
     }
 
@@ -62,6 +65,8 @@ class SubCategoryPolicy extends  ServiceForPolicies
     public function update(User $user, SubCategory $subCategory)
     {
         //
+        $this->ifModelCreatedByUser($user, $subCategory);
+
     }
 
     /**
@@ -73,7 +78,8 @@ class SubCategoryPolicy extends  ServiceForPolicies
      */
     public function delete(User $user, SubCategory $subCategory)
     {
-        //
+        $this->ifModelCreatedByUser($user, $subCategory);
+
     }
 
     /**
@@ -85,7 +91,8 @@ class SubCategoryPolicy extends  ServiceForPolicies
      */
     public function restore(User $user, SubCategory $subCategory)
     {
-        //
+        $this->ifModelCreatedByUser($user, $subCategory);
+
     }
 
     /**
@@ -97,6 +104,7 @@ class SubCategoryPolicy extends  ServiceForPolicies
      */
     public function forceDelete(User $user, SubCategory $subCategory)
     {
-        //
+        $this->ifModelCreatedByUser($user, $subCategory);
+
     }
 }

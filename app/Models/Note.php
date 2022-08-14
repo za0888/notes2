@@ -25,11 +25,11 @@ class Note extends Model
         'links'=>'array',
         'blocks'=>'array'
     ];
-    protected static function booted()
-    {
-        static::addGlobalScope(new OnlyUserScope());
-
-    }
+//    protected static function booted()
+//    {
+//        static::addGlobalScope(new OnlyUserScope());
+//
+//    }
 
     public function subCategory():BelongsTo
     {

@@ -21,20 +21,21 @@ class OnlyUserScope implements Scope
     public function apply(Builder $builder, Model $model)
     {
 
-        $user=auth()->user();
+        $user = auth()->user();
 
-        if ($user){
-
-            $trusteds=$user->trusteds()->get('trusted_user');
-
-            $is_admin=$user ??-$user->is_admin->toArray();
-        }
-
+        $is_admin = $user->is_admin ?? false;
+//        if ($user) {
+//            $trusteds = $user->trusteds()
+//                ->get('trusted_user')
+//                ->pluck('trusted_user');
+//            $is_trusted = in_array($user->id, $trusteds);
+//        }
 
 
         if (!$is_admin) {
             $builder->where('created_by_user', auth()->id());
         }
+
     }
 
 }

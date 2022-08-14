@@ -6,7 +6,7 @@ use App\Models\Media;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class MediaPolicy
+class MediaPolicy extends ServiceForPolicies
 {
     use HandlesAuthorization;
 
@@ -30,7 +30,10 @@ class MediaPolicy
      */
     public function view(User $user, Media $media)
     {
-        //
+        return
+            $this->ifModelCreatedByUser($user,$media)
+            ||
+            $this->isTrustedUser($user,$media);
     }
 
     /**

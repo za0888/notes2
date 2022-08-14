@@ -16,11 +16,11 @@ class Theme extends Model
         'name',
         'created_by-user'
     ];
-    protected static function booted()
-    {
-        static::addGlobalScope(new OnlyUserScope());
-
-    }
+//    protected static function booted()
+//    {
+//        static::addGlobalScope(new OnlyUserScope());
+//
+//    }
 
     public function categories()
     {
