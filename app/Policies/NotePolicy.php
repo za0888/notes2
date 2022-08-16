@@ -58,7 +58,9 @@ class NotePolicy extends ServiceForPolicies
      */
     public function create(User $user)
     {
-        return true;
+        if ($user?->permissions & Permissions::CAN_CREATE) {
+            return true;
+        }
     }
 
     /**
@@ -70,7 +72,9 @@ class NotePolicy extends ServiceForPolicies
      */
     public function update(User $user, Note $note)
     {
-        return $this->ifModelCreatedByUser($user, $note);
+        if ($user?->permissions & Permissions::CAN_UPDATE) {
+            return $this->ifModelCreatedByUser($user, $note);
+        }
 
     }
 
@@ -83,8 +87,11 @@ class NotePolicy extends ServiceForPolicies
      */
     public function delete(User $user, Note $note)
     {
-        return
-            $this->ifModelCreatedByUser($user, $note);
+
+        if ($user?->permissions & Permissions::CAN_DELETE) {
+            return
+                $this->ifModelCreatedByUser($user, $note);
+        }
     }
 
     /**
@@ -96,8 +103,10 @@ class NotePolicy extends ServiceForPolicies
      */
     public function restore(User $user, Note $note)
     {
-        return
-            $this->ifModelCreatedByUser($user, $note);
+        if ($user?->permissions & Permissions::CAN_RESTORE) {
+            return
+                $this->ifModelCreatedByUser($user, $note);
+        }
     }
 
     /**
@@ -109,8 +118,10 @@ class NotePolicy extends ServiceForPolicies
      */
     public function forceDelete(User $user, Note $note)
     {
-        return
-            $this->ifModelCreatedByUser($user, $note);
+        if ($user?->permissions & Permissions::CAN_FORCE_DELETE) {
+            return
+                $this->ifModelCreatedByUser($user, $note);
+        }
 
     }
 }

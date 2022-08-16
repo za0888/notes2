@@ -14,7 +14,7 @@ class Theme extends Model
 
     protected $fillable=[
         'name',
-        'created_by-user'
+        'created_by_user'
     ];
 //    protected static function booted()
 //    {

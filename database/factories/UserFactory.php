@@ -19,8 +19,11 @@ class UserFactory extends Factory
      */
     public function definition()
     {
-        $users=['status'=>"suspended",'adult'=>true];
-        $confidants=Arr::random($users,random_int(1,2));
+        $confidants=['status'=>"suspended",'adult'=>true];
+
+//        $confidants=Arr::random($users,random_int(1,2));
+//        $confidants=json_encode($confidants);
+
         return [
             'name' => fake()->name(),
             'email' => fake()->safeEmail(),

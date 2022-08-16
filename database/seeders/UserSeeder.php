@@ -21,19 +21,31 @@ class UserSeeder extends Seeder
     {
         $numberOfUsers = 5;
         $count = random_int(0, $numberOfUsers);
-        User::factory()
-            ->count(5)
-            ->create();
-        User::factory()
-            ->has(Trusted::factory()
-                ->count(3))
-            ->count(3)->create();
+        try {
+            User::factory()
+                ->count(2)
+                ->create();
+        } catch (\Exception $e) {
+        }
+
+        try {
+            User::factory()
+                ->has(Trusted::factory()
+                    ->count(2))
+                ->count(3)->create();
+        } catch (\Exception $e) {
+
+        }
+
 // use state from user facnjry to generate  user with admin rights
-        User::factory()
-            ->has(Trusted::factory()->count($count))
-            ->count(2)
-            ->isadmin()
-            ->create();
+        try {
+            User::factory()
+                ->has(Trusted::factory()->count($count))
+                ->count(1)
+                ->isadmin()
+                ->create();
+        } catch (\Exception $e) {
+        }
 
         $trusteds = Trusted::all();
 

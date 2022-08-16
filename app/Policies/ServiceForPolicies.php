@@ -20,17 +20,17 @@ class ServiceForPolicies
     public function ifIsAdmin(User $user)
     {
         return $user->is_admin ? $this->allow() :
-            $this->denyWithStatus(466, 'Must have admin rights');
+            $this->denyWithStatus(666, 'Must have admin rights');
     }
 
 
     public function ifModelCreatedByUser(User $user, Note|Theme|Category|SubCategory|Media|Trusted $model)
     {
         return $user->id === $model->created_by_user ? $this->allow() :
-            $this->denyWithStatus(466);
+            $this->denyWithStatus(666);
     }
 
-    public function isTrustedUser(User $user, Note|Theme|Category|SubCategory|Media|Trusted $model): bool
+    public function isTrustedUser(User $user, Note|Theme|Category|SubCategory|Media|Trusted $model)
     {
         $created_by_id = $model->created_by_user->id;
         $UserTrustedsToArray = User::find($created_by_id)
@@ -39,8 +39,8 @@ class ServiceForPolicies
             ->pluck('trusted_user')
             ->toArray();
 
-        return in_array(
-            $user->id, $UserTrustedsToArray
-        );
+        return in_array($user->id, $UserTrustedsToArray)
+            ? $this->allow() :
+            $this->denyWithStatus(666);
     }
 }

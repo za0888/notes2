@@ -5,15 +5,31 @@ namespace App\Http\Controllers;
 use App\Models\Note;
 use App\Http\Requests\StoreNotesRequest;
 use App\Http\Requests\UpdateNotesRequest;
+use App\Models\User;
+use App\Policies\NotePolicy;
+use App\Policies\Permissions;
 
 class NotesController extends Controller
 {
+    /**
+     * Create the controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        /*Authorizing Resource Controllers
+If you are utilizing resource controllers, you may make use of the authorizeResource method in your controller's constructor. This method will attach the appropriate can middleware definitions to the resource controller's methods.*/
+//        https://laravel.com/docs/9.x/authorization#authorizing-resource-controllers
+        $this->authorizeResource(Note::class, 'note');
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(User $user)
     {
         //
     }
@@ -23,9 +39,9 @@ class NotesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(User $user)
     {
-        //
+//        $this->authorize('create',NotePolicy::class);
     }
 
     /**
@@ -36,7 +52,8 @@ class NotesController extends Controller
      */
     public function store(StoreNotesRequest $request)
     {
-        //
+//
+//        $this->authorize('create',NotePolicy::class);
     }
 
     /**
@@ -48,6 +65,7 @@ class NotesController extends Controller
     public function show(Note $note)
     {
         //
+//        $this->authorize('view',$note);
     }
 
     /**
@@ -58,7 +76,7 @@ class NotesController extends Controller
      */
     public function edit(Note $note)
     {
-        //
+//        $this->authorize('update',$note);
     }
 
     /**
@@ -70,9 +88,11 @@ class NotesController extends Controller
      */
     public function update(UpdateNotesRequest $request, Note $note)
     {
-        if (!$this->authorize('update', $note)) {
-            abort(403,"Unautorized action with Note {$note}");
-        }
+//        if (!$this->authorize('update', $note)) {
+//            abort(403,"Unautorized action with Note {$note}");
+//        }
+//        $this->authorize('update', $note);
+
     }
 
     /**
@@ -83,6 +103,6 @@ class NotesController extends Controller
      */
     public function destroy(Note $note)
     {
-        //
+//        $this->authorize('delete',$note);
     }
 }

@@ -16,6 +16,7 @@ class CategoryPolicy extends ServiceForPolicies
             return true;
         }
     }
+
     /**
      * Determine whether the user can view any models.
      *
@@ -40,7 +41,7 @@ class CategoryPolicy extends ServiceForPolicies
         return
             $this->ifModelCreatedByUser($user, $category)
             ||
-            $this->isTrustedUser($user,$category);
+            $this->isTrustedUser($user, $category);
     }
 
     /**
@@ -51,7 +52,9 @@ class CategoryPolicy extends ServiceForPolicies
      */
     public function create(User $user)
     {
-        return true;
+        if ($user->permissions & Permissions::CAN_CREATE) {
+            return true;
+        }
     }
 
     /**
