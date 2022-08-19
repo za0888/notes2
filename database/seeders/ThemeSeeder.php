@@ -7,6 +7,7 @@ use App\Models\Theme;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use phpDocumentor\Reflection\Types\Collection;
 
 class ThemeSeeder extends Seeder
 {
@@ -15,25 +16,25 @@ class ThemeSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run() //php artisan db:seed --class=ThemeSeeder
     {
         $themes = [
 
-            'Soft' => [
-                'laravel' => ['test', 'eloquent', 'how to'],
+            'SOFT' => [
+                'laravel' => ['test', 'eloquent', 'howto'],
                 'js' => ['array', 'functions', 'DOM'],
                 'php' => ['array', 'functions',]
             ],
 
-            'House' => [
-                'electrica' => [''],
+            'HOUSE' => [
+                'electrica' => ['switch', 'tools', 'lights'],
 
                 'pets' => ['food', 'useful inf'],
 
                 'kitchen' => ['recepies', 'gadgets']
             ],
 
-            'Dachia' => [
+            'DACHIA' => [
                 'plants' => [
                     'apple',
                     'grape',
@@ -43,7 +44,7 @@ class ThemeSeeder extends Seeder
                 'house' => ['maintenance'],
             ],
 
-            'hobby' => [
+            'HOBBY' => [
 
                 'languages' => [
                     'spanis',
@@ -58,107 +59,79 @@ class ThemeSeeder extends Seeder
                 ]
             ],
 
-            'articles' => [
-                'usa',
-                'europe',
-                'war',
-                'arts',
-                'people',
-                'science'
+            'Media' => [
+                'news' => [
+                    'usa',
+                    'europe',
+                    'war',
+                    'arts',
+                    'people',
+                    'science'
+                ],
+                'sciense'=>[
+                    'astronomy',
+                    'chemistry'
+                ]
             ]
         ];
 
 //        We have 5 user
-//        a user - one domain(themes,categories, subcategories)
+//        a user is a domain domain(themes,categories, subcategories)(for seeding it has to be 'a theme- a user')
 //        user can have trusted users(see trusted model)
 //        1
-        $user = User::findOrFail(1);
-        if (!$user) {
-            throw  new \Exception("The User {{$user->id}} not FOUND");
+        $numberOfUsers = User::all()->count();
+        if (!$numberOfUsers) {
+            throw  new \Exception("NO USERS FOUND");
         }
 
-        \Auth::login($user);
-
-        $theme = Theme::firstOrCreate(['name' => 'Soft', 'created_by_user' => $user->id]);
-
-        $categories = $theme->categories()
-            ->createMany(
-                [
-                    ['name' => 'LARAVEL', 'created_by_user' => $user->id],
-                    ['name' => 'JS', 'created_by_user' => $user->id],
-                    ['name' => 'PHP', 'created_by_user' => $user->id],
-                ]);
-
-        $laravel = Category::firstOrFail('name', 'LARAVEL');
-        $laravel->subCategories()->createMany(
-            [
-                ['name' => 'Eloquent', 'created_by_user' => $user->id],
-                ['name' => 'Tests', 'created_by_user' => $user->id],
-                ['name' => 'Security', 'created_by_user' => $user->id]
-            ]
-        );
-
-        $js = Category::firstOrFail('name', 'JS');
-        $js->subCategories()->createMany(
-            [
-                ['name' => 'DOM', 'created_by_user' => $user->id],
-                ['name' => 'Array', 'created_by_user' => $user->id],
-                ['name' => 'Functions', 'created_by_user' => $user->id]
-            ]
-        );
-
-        $php = Category::firstOrFail('name', 'PHP');
-        $php->subCategories()->createMany(
-            [
-                ['name' => 'Traits', 'created_by_user' => $user->id],
-                ['name' => 'Classes', 'created_by_user' => $user->id],
-                ['name' => 'Sessions', 'created_by_user' => $user->id]
-            ]
-        );
-
-        \Auth::logout($user);
-
-//        2
-        $user = User::findOrFail(2);
-        if (!$user) {
-            throw  new \Exception("The User {{$user->id}} not FOUND");
+        if (count($themes) > $numberOfUsers) {
+            throw new \Exception("NUMBER OF THEMES HAS TO BE MORE OR EQUAL TO NUMBER OF USERS...Nick");
         }
 
-        \Auth::login($user);
-        $theme = Theme::create([['name' => 'House', 'created_by_user' => $user->id]]);
+
+        for ($currentUser = 1; $currentUser <= 5; $currentUser++) {
+
+            $user = User::findOrFail($currentUser);
+            if (!$user) {
+                throw  new \Exception("The User {{$user->id}} not FOUND");
+            }
+            \Auth::login($user);
+
+            $themeName = array_keys($themes)[$currentUser - 1];//SOFT, House, Dachia,...
+// add array of cats to the theme
+
+            $categoriesOfTheTheme = $this->catsForTheme($user, $themeName, array_keys($themes[$themeName]));//add array of subcats to the cat
+
+
+
+            foreach ($categoriesOfTheTheme as $category) {
+                $this->subCatsForCat($user, $category, $themes[$themeName][$category->name]);
+            }
+            \Auth::logout($user);
+        }
+    }
+
+//   createы a theme and then add cats for the theme ; return $categories of the theme
+    public function catsForTheme(User $user, string $themeName, array $catNames): \Illuminate\Database\Eloquent\Collection
+    {
+        $theme = Theme::firstOrCreate(['name' => $themeName, 'created_by_user' => $user->id]);
+//        dd($theme);
+        $createManyArr = array();
+        foreach ($catNames as $catName) {
+            $createManyArr[] = ['name' => $catName, 'created_by_user' => $user->id];
+        }
         $categories = $theme->categories()
-            ->createMany(
-                [
-                    ['name' => 'ELECTRICA', 'created_by_user' => $user->id],
-                    ['name' => 'PETS', 'created_by_user' => $user->id],
-                    ['name' => 'KITCHEN', 'created_by_user' => $user->id],
-                ]);
+            ->createMany($createManyArr);
 
-        $electrica = Category::firstOrFail('ELECTRICA');
-        $electrica->subCategories()->createMany([
-            ['name' => 'zakon OMA', 'created_by_user' => $user->id],
-            ['name' => 'circuit', 'created_by_user' => $user->id],
-            ['name' => 'switch', 'created_by_user' => $user->id]
-        ]);
+        return $categories;
+    }
 
-
-        $pets = Category::firstOrFail('PETS');
-        $pets->subCategories()->createMany([
-            ['name' => 'breed', 'created_by_user' => $user->id],
-            ['name' => 'names', 'created_by_user' => $user->id],
-            ['name' => 'diseases', 'created_by_user' => $user->id]
-        ]);
-
-
-        $kitchen = Category::firstOrFail('KITCHEN');
-        $kitchen->subCategories()->createMany([
-            ['name' => 'food', 'created_by_user' => $user->id],
-            ['name' => 'gadgets', 'created_by_user' => $user->id],
-            ['name' => 'tools', 'created_by_user' => $user->id]
-        ]);
-
-        \Auth::logout($user);
-
-
+//    take a category and adds subCategories from arr $catSubCats
+    public function subCatsForCat(User $user, Category $category, array $catSubCats): void
+    {
+        foreach ($catSubCats as $subCatName) {
+            $createManyArr[] = ['name' => $subCatName, 'created_by_user' => $user->id];
+        }
+        $category->subCategories()->createMany($createManyArr);
     }
 }
