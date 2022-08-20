@@ -16,7 +16,7 @@ class NoteFactory extends Factory
      */
     public function definition()
     {
-        $user=\Auth::user();
+        $user = \Auth::user();
         return [
             'title' => fake()->word(3),
             'content' => fake()->text(),
@@ -36,6 +36,37 @@ class NoteFactory extends Factory
             ],
         ];
     }
+
+
+    /**
+     * @return NoteFactory
+     */
+    public function html_blocks()
+    {
+        $html_code = '   $numberOfUsers = User::all()->count();
+        if (!$numberOfUsers) {
+            throw  new \Exception("NO USERS FOUND");
+        }
+
+        if (count($themes) > $numberOfUsers) {
+            throw new \Exception("NUMBER OF THEMES HAS TO BE MORE OR EQUAL TO NUMBER OF USERS...Nick");
+        }';
+
+        return $this->state(
+            fn()=> [
+                'blocks' => [
+                    [
+                        'block_header' => fake()->text,
+
+                        'block_code_html' => $html_code,
+
+                        'block_footer' => fake()->text
+                    ],
+                ],
+            ]
+        );
+    }
+
 }
 //'title',
 //        'content',

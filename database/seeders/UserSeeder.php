@@ -37,7 +37,7 @@ class UserSeeder extends Seeder
 
         }
 
-// use state from user facnjry to generate  user with admin rights
+// use state from user factory to generate  user with admin rights
         try {
             User::factory()
                 ->has(Trusted::factory()->count($count))

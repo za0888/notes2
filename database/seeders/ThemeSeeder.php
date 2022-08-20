@@ -68,7 +68,7 @@ class ThemeSeeder extends Seeder
                     'people',
                     'science'
                 ],
-                'sciense'=>[
+                'sciense' => [
                     'astronomy',
                     'chemistry'
                 ]
@@ -88,10 +88,13 @@ class ThemeSeeder extends Seeder
             throw new \Exception("NUMBER OF THEMES HAS TO BE MORE OR EQUAL TO NUMBER OF USERS...Nick");
         }
 
+        $currentUser = 0;
+        $users = User::all();
 
-        for ($currentUser = 1; $currentUser <= 5; $currentUser++) {
+        foreach ($users as $user) {
+            $currentUser += 1;
+            $user = User::find($user->id);
 
-            $user = User::findOrFail($currentUser);
             if (!$user) {
                 throw  new \Exception("The User {{$user->id}} not FOUND");
             }
@@ -103,12 +106,15 @@ class ThemeSeeder extends Seeder
             $categoriesOfTheTheme = $this->catsForTheme($user, $themeName, array_keys($themes[$themeName]));//add array of subcats to the cat
 
 
-
             foreach ($categoriesOfTheTheme as $category) {
                 $this->subCatsForCat($user, $category, $themes[$themeName][$category->name]);
             }
             \Auth::logout($user);
         }
+//        for ($currentUser = 1; $currentUser <= 5; $currentUser++) {
+//
+//
+//        }
     }
 
 //   createы a theme and then add cats for the theme ; return $categories of the theme

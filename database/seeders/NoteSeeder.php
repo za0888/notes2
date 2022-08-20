@@ -8,13 +8,13 @@ use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class NotesSeeder extends Seeder
+class NoteSeeder extends Seeder
 {
-//php artisan db:seed --class=NotesSeeder
     /**
      * Run the database seeds.
      *
      * @return void
+     * @throws \Exception
      */
     public function run()
     {
@@ -35,17 +35,23 @@ class NotesSeeder extends Seeder
 
             foreach ($subCategories as $subCategory) {
 
-                $subCategory = SubCategory::find($subCategory->id);
-//                dd($subCategory);
+//we have $categories as a collection but need a $category as a model so:
+                $subCategory = SubCategory::findOrFail($subCategory->id);
 
                 $notes = Note::factory()
                     ->count(random_int(1, 5))
                     ->for($subCategory)
                     ->for($user)
                     ->create();
-
+                $notes = Note::factory()
+                    ->html_blocks()
+                    ->count(random_int(1, 2))
+                    ->for($subCategory)
+                    ->for($user)
+                    ->create();
             }
             \Auth::logout($user);
         }
     }
 }
+//php artisan db:seed --class=NoteSeeder

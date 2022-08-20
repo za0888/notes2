@@ -92,6 +92,7 @@ namespace App\Models{
  * @property-read int|null $media_count
  * @property-read \App\Models\SubCategory|null $subCategory
  * @property-read \App\Models\User|null $user
+ * @method static \Database\Factories\NoteFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Note newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Note newQuery()
  * @method static \Illuminate\Database\Query\Builder|Note onlyTrashed()
@@ -150,8 +151,8 @@ namespace App\Models{
  *
  * @property int $id
  * @property string $name
- * @property int|null $article_id
- * @property int $created_by_user
+ * @property int|null $note_id
+ * @property int|null $created_by_user
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
@@ -162,12 +163,12 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Theme newQuery()
  * @method static \Illuminate\Database\Query\Builder|Theme onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Theme query()
- * @method static \Illuminate\Database\Eloquent\Builder|Theme whereArticleId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Theme whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Theme whereCreatedByUser($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Theme whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Theme whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Theme whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Theme whereNoteId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Theme whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|Theme withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Theme withoutTrashed()

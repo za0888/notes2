@@ -24,9 +24,9 @@ return new class extends Migration {
                 ->nullable();
             $table->json('blocks')->nullable();
 // a block {
-//            'introduction':'',
-//            'code_html':'',
-//            'conclusion':''
+//            'block_header':'',
+//            'block_code_html':'',
+//            'block_footer':''
 //        }
 //}
 //            blocks=[block1,block2,...]
