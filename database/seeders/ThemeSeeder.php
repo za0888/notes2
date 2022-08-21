@@ -93,6 +93,11 @@ class ThemeSeeder extends Seeder
 
         foreach ($users as $user) {
             $currentUser += 1;
+
+            if ($currentUser > 5) {
+                break;
+            }
+
             $user = User::find($user->id);
 
             if (!$user) {

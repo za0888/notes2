@@ -34,7 +34,15 @@ class UserSeeder extends Seeder
                     ->count(2))
                 ->count(3)->create();
         } catch (\Exception $e) {
-
+            $numberOfUsers = User::all()->count();
+            if ($numberOfUsers < 5) {
+                try {
+                    User::factory()
+                        ->count(2)
+                        ->create();
+                } catch (\Exception $e) {
+                }
+            }
         }
 
 // use state from user factory to generate  user with admin rights
@@ -57,7 +65,7 @@ class UserSeeder extends Seeder
                 if ($trusted->user_id === $trusted->trusted_user) {
                     $trusted->delete();
                 }
-                    $trusted->save();
+                $trusted->save();
             } catch (\Exception $e) {
 //                echo $e->getMessage();
                 break;
