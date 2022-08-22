@@ -17,7 +17,7 @@ namespace App\Models{
  * @property int $id
  * @property string $name
  * @property int|null $theme_id
- * @property int $created_by_user
+ * @property int $domain_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
@@ -30,8 +30,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Query\Builder|Category onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Category query()
  * @method static \Illuminate\Database\Eloquent\Builder|Category whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereCreatedByUser($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Category whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Category whereDomainId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Category whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Category whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Category whereThemeId($value)
@@ -44,13 +44,41 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\Domain
+ *
+ * @property int $id
+ * @property string|null $title
+ * @property string|null $body
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
+ * @property-read int|null $users_count
+ * @method static \Database\Factories\DomainFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|Domain newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Domain newQuery()
+ * @method static \Illuminate\Database\Query\Builder|Domain onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Domain query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Domain whereBody($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Domain whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Domain whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Domain whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Domain whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|Domain withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Domain withoutTrashed()
+ */
+	class Domain extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Media
  *
  * @property int $id
  * @property int|null $note_id
  * @property string|null $title
- * @property string|null $description
+ * @property string|null $body
  * @property \App\enums\Media_types|null $media_type
+ * @property int $domain_id
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -60,9 +88,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Media newQuery()
  * @method static \Illuminate\Database\Query\Builder|Media onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Media query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Media whereBody($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Media whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Media whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Media whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Media whereDomainId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Media whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Media whereMediaType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Media whereNoteId($value)
@@ -80,11 +109,12 @@ namespace App\Models{
  *
  * @property int $id
  * @property string|null $title
- * @property string|null $content
- * @property array|null $blocks
+ * @property string|null $body
+ * @property mixed|null $html_block
  * @property array|null $links
  * @property int $sub_category_id
  * @property int $user_id
+ * @property int|null $domain_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
@@ -97,10 +127,11 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Note newQuery()
  * @method static \Illuminate\Database\Query\Builder|Note onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Note query()
- * @method static \Illuminate\Database\Eloquent\Builder|Note whereBlocks($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Note whereContent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Note whereBody($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Note whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Note whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Note whereDomainId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Note whereHtmlBlock($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Note whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Note whereLinks($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Note whereSubCategoryId($value)
@@ -120,7 +151,7 @@ namespace App\Models{
  * @property int $id
  * @property string $name
  * @property int|null $category_id
- * @property int $created_by_user
+ * @property int $domain_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
@@ -134,8 +165,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|SubCategory query()
  * @method static \Illuminate\Database\Eloquent\Builder|SubCategory whereCategoryId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SubCategory whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SubCategory whereCreatedByUser($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SubCategory whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SubCategory whereDomainId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SubCategory whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SubCategory whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SubCategory whereUpdatedAt($value)
@@ -152,7 +183,7 @@ namespace App\Models{
  * @property int $id
  * @property string $name
  * @property int|null $note_id
- * @property int|null $created_by_user
+ * @property int $domain_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
@@ -164,8 +195,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Query\Builder|Theme onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Theme query()
  * @method static \Illuminate\Database\Eloquent\Builder|Theme whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Theme whereCreatedByUser($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Theme whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Theme whereDomainId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Theme whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Theme whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Theme whereNoteId($value)
@@ -178,40 +209,11 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\Trusted
- *
- * @property int $id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property int|null $user_id
- * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property int|null $trusted_user
- * @property-read \App\Models\User|null $user
- * @method static \Database\Factories\TrustedFactory factory(...$parameters)
- * @method static \Illuminate\Database\Eloquent\Builder|Trusted newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Trusted newQuery()
- * @method static \Illuminate\Database\Query\Builder|Trusted onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder|Trusted query()
- * @method static \Illuminate\Database\Eloquent\Builder|Trusted whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Trusted whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Trusted whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Trusted whereTrustedUser($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Trusted whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Trusted whereUserId($value)
- * @method static \Illuminate\Database\Query\Builder|Trusted withTrashed()
- * @method static \Illuminate\Database\Query\Builder|Trusted withoutTrashed()
- */
-	class Trusted extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
  * App\Models\User
  *
  * @property int $id
  * @property string $name
- * @property int $is_admin
- * @property array|null $confidant
+ * @property int $domain_id
  * @property string $email
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property string $password
@@ -219,24 +221,22 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int|null $permissions
+ * @property-read \App\Models\Domain|null $domain
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Note[] $notes
  * @property-read int|null $notes_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
  * @property-read int|null $tokens_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Trusted[] $trusteds
- * @property-read int|null $trusteds_count
  * @method static \Database\Factories\UserFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User query()
- * @method static \Illuminate\Database\Eloquent\Builder|User whereConfidant($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereDomainId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmailVerifiedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereIsAdmin($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePermissions($value)

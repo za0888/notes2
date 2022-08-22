@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -24,6 +25,7 @@ class User extends Authenticatable
         'email',
         'password',
         'is_admin',
+        'permissions'
     ];
 
     /**
@@ -34,7 +36,6 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-        'permissions'
     ];
 
     /**
@@ -44,25 +45,17 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'confidant'=>'array'
     ];
 
-    public function notes()
+    public function notes():HasMany
     {
         return $this->hasMany(Note::class)
             ->orderBy('updated_at');
     }
 
-    public function trusteds():HasMany
+    public function domain():BelongsTo
     {
-        return $this->hasMany(Trusted::class);
-    }
+        return $this->belongsTo(Domain::class);
+   }
 
-    public function trustedsToArray()
-    {
-        return $this->trusteds()
-                ->get('trusted_user')
-                ->pluck('trusted_user');
-
-    }
 }

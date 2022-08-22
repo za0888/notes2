@@ -24,12 +24,14 @@ return new class extends Migration {
 
             $table->string('title')->nullable();
 
-            $table->string('description')->nullable();
+            $table->string('body')->nullable();
 
             $table->integer('media_type')
                 ->nullable()
                 ->default( 0
                 );
+
+            $table->foreignIdFor(\App\Models\Domain::class);
 
             $table->softDeletes();
 

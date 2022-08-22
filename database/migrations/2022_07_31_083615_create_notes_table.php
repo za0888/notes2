@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Domain;
 use App\Models\SubCategory;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
@@ -19,10 +20,10 @@ return new class extends Migration {
             $table->string('title')->nullable();
 //            blocks used for code blocks(js php html...
 //            for any other kind of content fiel is used
-            $table->text('content')
+            $table->text('body')
                 ->fulltext()
                 ->nullable();
-            $table->json('blocks')->nullable();
+            $table->json('html_block')->nullable();
 // a block {
 //            'block_header':'',
 //            'block_code_html':'',
@@ -43,6 +44,7 @@ return new class extends Migration {
 //            $table->bigInteger('created_by_user');
 
             $table->foreignIdFor(User::class);
+            $table->foreignIdFor(Domain::class)->nullable();
 
             $table->timestamps();
 

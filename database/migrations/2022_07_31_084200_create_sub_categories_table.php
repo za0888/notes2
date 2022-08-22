@@ -25,7 +25,9 @@ return new class extends Migration
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
 
-            $table->bigInteger('created_by_user');
+//            $table->bigInteger('created_by_user');
+            $table->foreignIdFor(\App\Models\Domain::class);
+
 
             $table->timestamps();
             $table->softDeletes();

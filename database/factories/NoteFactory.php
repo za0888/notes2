@@ -54,7 +54,7 @@ class NoteFactory extends Factory
 
         return $this->state(
             fn()=> [
-                'blocks' => [
+                'html_block' => [
                     [
                         'block_header' => fake()->text,
 

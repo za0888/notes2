@@ -1,6 +1,7 @@
 <?php
 namespace App\Models;
 
+use App\Scopes\DomainScope;
 use App\Scopes\OnlyUserScope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,11 +17,12 @@ class Theme extends Model
         'name',
         'created_by_user'
     ];
-//    protected static function booted()
-//    {
-//        static::addGlobalScope(new OnlyUserScope());
-//
-//    }
+
+    protected static function booted()
+    {
+        static::addGlobalScope(new DomainScope);
+
+    }
 
     public function categories()
     {

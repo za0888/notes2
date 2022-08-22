@@ -24,8 +24,10 @@ return new class extends Migration {
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
 
-            $table->bigInteger('created_by_user')
-            ->nullable();
+//            $table->bigInteger('created_by_user')
+//                ->nullable();
+
+            $table->foreignIdFor(\App\Models\Domain::class);
 
 
             $table->timestamps();

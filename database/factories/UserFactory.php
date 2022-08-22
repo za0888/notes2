@@ -19,7 +19,6 @@ class UserFactory extends Factory
      */
     public function definition()
     {
-        $confidants=['status'=>"suspended",'adult'=>true];
 
 //        $confidants=Arr::random($users,random_int(1,2));
 //        $confidants=json_encode($confidants);
@@ -28,7 +27,6 @@ class UserFactory extends Factory
             'name' => fake()->name(),
             'email' => fake()->safeEmail(),
             'email_verified_at' => now(),
-            'confidant'=>$confidants,
             'password' => Hash::make('12345678'),
             'is_admin'=>false,
 //            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password

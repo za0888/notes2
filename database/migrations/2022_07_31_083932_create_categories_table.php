@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Domain;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -23,7 +24,8 @@ return new class extends Migration {
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
 
-            $table->bigInteger('created_by_user');
+//            $table->bigInteger('created_by_user');
+            $table->foreignIdFor(Domain::class);
 
             $table->timestamps();
             $table->softDeletes();

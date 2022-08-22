@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Scopes\DomainScope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -16,20 +17,21 @@ class Note extends Model
 
     protected $fillable = [
         'title',
-        'content',
+        'body',
         'blocks',
         'links',
     ];
 
     protected $casts=[
+        'blocks'=>'array',
         'links'=>'array',
-        'blocks'=>'array'
     ];
-//    protected static function booted()
-//    {
-//        static::addGlobalScope(new OnlyUserScope());
-//
-//    }
+
+    protected static function booted()
+    {
+        static::addGlobalScope(new DomainScope);
+
+    }
 
     public function subCategory():BelongsTo
     {

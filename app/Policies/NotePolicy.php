@@ -5,10 +5,12 @@ namespace App\Policies;
 use App\Models\Note;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use App\Traits\CheckPermisson;
 
 class NotePolicy extends ServiceForPolicies
 {
     use HandlesAuthorization;
+    use CheckPermisson;
 
     /**
      * Perform pre-authorization checks.
@@ -19,7 +21,7 @@ class NotePolicy extends ServiceForPolicies
      */
     public function before(User $user)
     {
-        if ($user->is_admin) {
+        if ($this->isAdmin() || $this->isSuperAdmin()) {
             return true;
         }
     }
@@ -44,10 +46,15 @@ class NotePolicy extends ServiceForPolicies
      */
     public function view(User $user, Note $note)
     {
-        return
-            $this->ifModelCreatedByUser($user, $note)
-            ||
-            $this->isTrustedUser($user, $note);
+        if (!$user) {
+            return false;
+        }
+
+        $canView = $this->canView($user);
+        if ($canView) {
+            return true;
+        }
+
     }
 
     /**
@@ -58,7 +65,12 @@ class NotePolicy extends ServiceForPolicies
      */
     public function create(User $user)
     {
-        if ($user?->permissions & Permissions::CAN_CREATE) {
+        if (!$user) {
+            return false;
+        }
+
+        $canCreate = $this->canCreate($user);
+        if ($canCreate) {
             return true;
         }
     }
@@ -72,8 +84,11 @@ class NotePolicy extends ServiceForPolicies
      */
     public function update(User $user, Note $note)
     {
-        if ($user?->permissions & Permissions::CAN_UPDATE) {
-            return $this->ifModelCreatedByUser($user, $note);
+
+        $canUpdate = $this->canUpdate($user);
+
+        if ($canUpdate) {
+            return true;
         }
 
     }
@@ -88,10 +103,12 @@ class NotePolicy extends ServiceForPolicies
     public function delete(User $user, Note $note)
     {
 
-        if ($user?->permissions & Permissions::CAN_DELETE) {
-            return
-                $this->ifModelCreatedByUser($user, $note);
+        $canDelete = $this->canDelete($user);
+
+        if ($canDelete) {
+            return true;
         }
+
     }
 
     /**
@@ -103,9 +120,10 @@ class NotePolicy extends ServiceForPolicies
      */
     public function restore(User $user, Note $note)
     {
-        if ($user?->permissions & Permissions::CAN_RESTORE) {
-            return
-                $this->ifModelCreatedByUser($user, $note);
+//
+        $canRestore = $this->canRestore($user);
+        if ($canRestore) {
+            return true;
         }
     }
 
@@ -118,9 +136,8 @@ class NotePolicy extends ServiceForPolicies
      */
     public function forceDelete(User $user, Note $note)
     {
-        if ($user?->permissions & Permissions::CAN_FORCE_DELETE) {
-            return
-                $this->ifModelCreatedByUser($user, $note);
+        if ($this->canForceDelete($user)) {
+            return true;
         }
 
     }
