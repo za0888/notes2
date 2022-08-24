@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Theme extends Model
@@ -23,7 +24,7 @@ class Theme extends Model
 
     }
 
-    public function categories()
+    public function categories(): HasMany
     {
         return $this->hasMany(Category::class)
             ->orderBy('name');

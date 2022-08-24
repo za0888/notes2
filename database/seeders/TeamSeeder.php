@@ -3,10 +3,12 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
+use App\Models\SubCategory;
 use App\Models\Team;
 use App\Models\Theme;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use function PHPUnit\Framework\isEmpty;
 
 class TeamSeeder extends Seeder
 {
@@ -65,8 +67,8 @@ class TeamSeeder extends Seeder
             ],
 
             "Red Girls" => [
-                'HOUSE' => [
-                    'electrica' => ['switch', 'tools', 'lights'],
+                'BEAUTY' => [
+                    'cosmetics' => ['paint', 'adour', 'makeup'],
                     'pets' => ['food', 'useful inf'],
                     'kitchen' => ['recepies', 'gadgets']
                 ],
@@ -80,22 +82,38 @@ class TeamSeeder extends Seeder
             ]);
             foreach ($themes as $themeName => $categories) {
 //                create THEME
-                $theme = $team->themes()->create([
-                    'name' => $themeName,
-                ]);
-dd($categories);
-
-                foreach ($categories as $categoryName => $subCategories) {
-//                    dd($categories);
-//                    create Category
-                    $category = $theme->categories()->create([
-                        ['name' => $categoryName]
+                try {
+                    $theme = $team->themes()->create([
+                        'name' => $themeName,
                     ]);
+                } catch (\Exception $e) {
+                    echo  $e->getMessage();
+                }
+//CATEGORY PROCESSING
+                foreach ($categories as $categoryName => $subCategories) {
+
+                    try {
+                        $category = new Category(['name' => $categoryName]);
+//                        hook category on the team & on the theme
+                        $team->categories()->save($category);
+                        $theme->categories()->save($category);
+
+                    } catch (\Exception $e) {
+                        echo $e->getMessage();
+                    }
+
+//                    SubCAtegory processing
                     foreach ($subCategories as $subCategory) {
 //                        create SubCategory
-                        $subCategory = $category->subCategories()->create([
-                            'name' => $subCategory
-                        ]);
+                        try {
+                            $subCategory = new SubCategory(['name' => $subCategory]);
+
+                            //   hook subCategory on the category & on the team
+                            $team->subCategories()->save($subCategory);
+                            $category->subCategories()->save($subCategory);
+                        } catch (\Exception $e) {
+                            echo $e->getMessage();
+                        }
                     }
                 }
             }
