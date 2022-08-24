@@ -26,28 +26,28 @@ class Team extends Model
 
     public function themes(): HasMany
     {
-        return $this->hasMany(User::class);
+        return $this->hasMany(Theme::class);
     }
 
     public function categories(): HasMany
     {
-        return $this->hasMany(User::class);
+        return $this->hasMany(Category::class);
 
     }
 
     public function subCategories(): HasMany
     {
-        return $this->hasMany(User::class);
+        return $this->hasMany(SubCategory::class);
     }
 
     public function notes(): HasMany
     {
-        return $this->hasMany(User::class);
+        return $this->hasMany(Note::class);
     }
 
     public function media(): HasMany
     {
-        return $this->hasMany(User::class);
+        return $this->hasMany(Media::class);
     }
 
     public function name(): Attribute

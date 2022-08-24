@@ -76,17 +76,26 @@ class TeamSeeder extends Seeder
 //            Create the TEAM
             $team = Team::create([
                 'name' => $teamName,
-                'title' => fake()->text
+                'about' => fake()->text
             ]);
             foreach ($themes as $themeName => $categories) {
-                $theme = Theme::create([
+//                create THEME
+                $theme = $team->themes()->create([
                     'name' => $themeName,
                 ]);
+dd($categories);
+
                 foreach ($categories as $categoryName => $subCategories) {
-                    $category = Category::create(['name' => $categoryName]);
-
+//                    dd($categories);
+//                    create Category
+                    $category = $theme->categories()->create([
+                        ['name' => $categoryName]
+                    ]);
                     foreach ($subCategories as $subCategory) {
-
+//                        create SubCategory
+                        $subCategory = $category->subCategories()->create([
+                            'name' => $subCategory
+                        ]);
                     }
                 }
             }
