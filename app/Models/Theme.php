@@ -1,11 +1,11 @@
 <?php
 namespace App\Models;
 
-use App\Scopes\DomainScope;
-use App\Scopes\OnlyUserScope;
+use App\Scopes\TeamScope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Theme extends Model
@@ -15,12 +15,11 @@ class Theme extends Model
 
     protected $fillable=[
         'name',
-        'created_by_user'
     ];
 
     protected static function booted()
     {
-        static::addGlobalScope(new DomainScope);
+        static::addGlobalScope(new TeamScope);
 
     }
 
@@ -29,4 +28,10 @@ class Theme extends Model
         return $this->hasMany(Category::class)
             ->orderBy('name');
     }
+
+    public function team(): BelongsTo
+    {
+        return $this->belongsTo(Team::class)->withDefault();
+    }
+
 }

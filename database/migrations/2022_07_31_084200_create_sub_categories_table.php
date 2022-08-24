@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Team;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -26,7 +27,7 @@ return new class extends Migration
                 ->cascadeOnUpdate();
 
 //            $table->bigInteger('created_by_user');
-            $table->foreignIdFor(\App\Models\Domain::class);
+            $table->foreignIdFor(Team::class);
 
 
             $table->timestamps();

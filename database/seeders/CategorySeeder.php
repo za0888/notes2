@@ -14,6 +14,64 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
-        //
+//        $themes=['soft','house','hobby'];
+
+        $themes = [
+
+            'SOFT' => [
+                'laravel' => ['test', 'eloquent', 'howto'],
+                'js' => ['array', 'functions', 'DOM'],
+                'php' => ['array', 'functions',]
+            ],
+
+            'HOUSE' => [
+                'electrica' => ['switch', 'tools', 'lights'],
+
+                'pets' => ['food', 'useful inf'],
+
+                'kitchen' => ['recepies', 'gadgets']
+            ],
+
+            'DACHIA' => [
+                'plants' => [
+                    'apple',
+                    'grape',
+                    'chery'
+                ],
+
+                'house' => ['maintenance'],
+            ],
+
+            'HOBBY' => [
+
+                'languages' => [
+                    'spanis',
+                    'english',
+                    'german',
+                    'franch'
+                ],
+
+                'maintenance' => [
+                    'electronic',
+                    'paperwals'
+                ]
+            ],
+
+            'Media' => [
+                'news' => [
+                    'usa',
+                    'europe',
+                    'war',
+                    'arts',
+                    'people',
+                    'science'
+                ],
+                'sciense' => [
+                    'astronomy',
+                    'chemistry'
+                ]
+            ]
+        ];
+
     }
 }

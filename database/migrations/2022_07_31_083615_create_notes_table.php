@@ -2,6 +2,7 @@
 
 use App\Models\Domain;
 use App\Models\SubCategory;
+use App\Models\Team;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -44,7 +45,7 @@ return new class extends Migration {
 //            $table->bigInteger('created_by_user');
 
             $table->foreignIdFor(User::class);
-            $table->foreignIdFor(Domain::class)->nullable();
+            $table->foreignIdFor(Team::class)->nullable();
 
             $table->timestamps();
 

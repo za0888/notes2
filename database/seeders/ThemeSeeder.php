@@ -3,11 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
+use App\Models\Team;
 use App\Models\Theme;
-use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use phpDocumentor\Reflection\Types\Collection;
 
 class ThemeSeeder extends Seeder
 {
@@ -16,8 +15,9 @@ class ThemeSeeder extends Seeder
      *
      * @return void
      */
-    public function run() //php artisan db:seed --class=ThemeSeeder
+    public function run()
     {
+        // Themes with categories and SubCategories
         $themes = [
 
             'SOFT' => [
@@ -74,62 +74,51 @@ class ThemeSeeder extends Seeder
                 ]
             ]
         ];
+        $teams = Team::all();
+        $numberOfTeams = $teams->count();
 
-//        We have 5 user
-//        a user is a domain domain(themes,categories, subcategories)(for seeding it has to be 'a theme- a user')
-//        user can have trusted users(see trusted model)
-//        1
-        $numberOfUsers = User::all()->count();
-        if (!$numberOfUsers) {
-            throw  new \Exception("NO USERS FOUND");
+        if (!$numberOfTeams) {
+            throw  new \Exception("NO DOMAINS FOUND");
         }
 
-        if (count($themes) > $numberOfUsers) {
-            throw new \Exception("NUMBER OF THEMES HAS TO BE MORE OR EQUAL TO NUMBER OF USERS...Nick");
+        if (count($themes) < $numberOfTeams) {
+            throw new \Exception("NUMBER OF THEMES HAS TO BE MORE OR EQUAL TO NUMBER OF Teams...Nick");
         }
 
-        $currentUser = 0;
-        $users = User::all();
+        $currentTeam = 0;
 
-        foreach ($users as $user) {
-            $currentUser += 1;
+        foreach ($teams as $team) {
 
-            if ($currentUser > 5) {
+            $team = Team::find($team->id);
+            $currentTeam += 1;
+
+            if ($currentTeam > 5) {
                 break;
             }
 
-            $user = User::find($user->id);
 
-            if (!$user) {
-                throw  new \Exception("The User {{$user->id}} not FOUND");
-            }
-            \Auth::login($user);
-
-            $themeName = array_keys($themes)[$currentUser - 1];//SOFT, House, Dachia,...
+            $themeName = array_keys($themes)[$currentTeam - 1];//SOFT, House, Dachia,...
 // add array of cats to the theme
+            $categoriesOfTheTheme = $this->catsForTheme($team, $themeName, array_keys($themes[$themeName]));
 
-            $categoriesOfTheTheme = $this->catsForTheme($user, $themeName, array_keys($themes[$themeName]));//add array of subcats to the cat
 
-
+            //add array of subcats to the cat
             foreach ($categoriesOfTheTheme as $category) {
-                $this->subCatsForCat($user, $category, $themes[$themeName][$category->name]);
+
+                $this->subCatsForCat($team, $category, $themes[$themeName][$category->name]);
             }
-            \Auth::logout($user);
+
         }
-//        for ($currentUser = 1; $currentUser <= 5; $currentUser++) {
-//
-//
-//        }
     }
 
-//   createы a theme and then add cats for the theme ; return $categories of the theme
-    public function catsForTheme(User $user, string $themeName, array $catNames): \Illuminate\Database\Eloquent\Collection
+    //   create a theme and then add cats for the theme ; return $categories of the theme
+    public function catsForTheme(Team $team, string $themeName, array $catNames): \Illuminate\Database\Eloquent\Collection
     {
-        $theme = Theme::firstOrCreate(['name' => $themeName, 'created_by_user' => $user->id]);
+        $theme = Theme::firstOrCreate(['name' => $themeName]);
 //        dd($theme);
         $createManyArr = array();
         foreach ($catNames as $catName) {
-            $createManyArr[] = ['name' => $catName, 'created_by_user' => $user->id];
+            $createManyArr[] = ['name' => $catName];
         }
         $categories = $theme->categories()
             ->createMany($createManyArr);
@@ -138,11 +127,13 @@ class ThemeSeeder extends Seeder
     }
 
 //    take a category and adds subCategories from arr $catSubCats
-    public function subCatsForCat(User $user, Category $category, array $catSubCats): void
+    public function subCatsForCat(Team $team, Category $category, array $catSubCats): void
     {
         foreach ($catSubCats as $subCatName) {
-            $createManyArr[] = ['name' => $subCatName, 'created_by_user' => $user->id];
+            $createManyArr[] = ['name' => $subCatName];
         }
         $category->subCategories()->createMany($createManyArr);
     }
+
+
 }

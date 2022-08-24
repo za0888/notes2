@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Scopes\DomainScope;
+use App\Scopes\TeamScope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -29,11 +29,11 @@ class Note extends Model
 
     protected static function booted()
     {
-        static::addGlobalScope(new DomainScope);
+        static::addGlobalScope(new TeamScope);
 
     }
 
-    public function subCategory():BelongsTo
+    public function subCategory(): BelongsTo
     {
         return $this->belongsTo(SubCategory::class)
             ->withDefault(['name'=>'ANONIMOUS subcat']);
@@ -49,6 +49,11 @@ class Note extends Model
     {
         return $this->hasMany(Media::class)
             ->orderBy('media_type');
+    }
+
+    public function team(): BelongsTo
+    {
+        return $this->belongsTo(Team::class)->withDefault();
     }
 
 

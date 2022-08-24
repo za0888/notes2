@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope;
 use Illuminate\Support\Facades\Session;
 use App\Traits\CheckPermisson;
-class DomainScope implements Scope
+class TeamScope implements Scope
 {
     use CheckPermisson;
 

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Domain;
-use App\Http\Requests\StoreDomainRequest;
-use App\Http\Requests\UpdateDomainRequest;
+use App\Models\Team;
+use App\Http\Requests\StoreTeamRequest;
+use App\Http\Requests\UpdateTeamRequest;
 
-class DomainController extends Controller
+class TeamController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -31,10 +31,10 @@ class DomainController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreDomainRequest  $request
+     * @param  \App\Http\Requests\StoreTeamRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreDomainRequest $request)
+    public function store(StoreTeamRequest $request)
     {
         //
     }
@@ -42,10 +42,10 @@ class DomainController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Domain  $domain
+     * @param  \App\Models\Team  $team
      * @return \Illuminate\Http\Response
      */
-    public function show(Domain $domain)
+    public function show(Team $team)
     {
         //
     }
@@ -53,10 +53,10 @@ class DomainController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Domain  $domain
+     * @param  \App\Models\Team  $team
      * @return \Illuminate\Http\Response
      */
-    public function edit(Domain $domain)
+    public function edit(Team $team)
     {
         //
     }
@@ -64,11 +64,11 @@ class DomainController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateDomainRequest  $request
-     * @param  \App\Models\Domain  $domain
+     * @param  \App\Http\Requests\UpdateTeamRequest  $request
+     * @param  \App\Models\Team  $team
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateDomainRequest $request, Domain $domain)
+    public function update(UpdateTeamRequest $request, Team $team)
     {
         //
     }
@@ -76,10 +76,10 @@ class DomainController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Domain  $domain
+     * @param  \App\Models\Team  $team
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Domain $domain)
+    public function destroy(Team $team)
     {
         //
     }

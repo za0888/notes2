@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-
+use App\Policies\Permissions;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
  */
@@ -28,7 +28,6 @@ class UserFactory extends Factory
             'email' => fake()->safeEmail(),
             'email_verified_at' => now(),
             'password' => Hash::make('12345678'),
-            'is_admin'=>false,
 //            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
         ];
@@ -48,10 +47,13 @@ class UserFactory extends Factory
         });
     }
 
-    public function isadmin()
+    public function permission($permission=null)
     {
+        if (!$permission) {
+            Throw new \Exception('NO PERMISSION !');
+        }
         return $this->state(
-            fn(array $attributes)=>['is_admin'=>true]
+            fn(array $attributes)=>['permissions'=>$permission]
         );
     }
 }

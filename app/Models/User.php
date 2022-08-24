@@ -24,7 +24,6 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'is_admin',
         'permissions'
     ];
 
@@ -53,9 +52,10 @@ class User extends Authenticatable
             ->orderBy('updated_at');
     }
 
-    public function domain():BelongsTo
+    public function team(): BelongsTo
     {
-        return $this->belongsTo(Domain::class);
-   }
+        return $this->belongsTo(Team::class)->withDefault();
+    }
+
 
 }

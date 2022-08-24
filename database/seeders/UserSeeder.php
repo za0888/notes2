@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Trusted;
+use App\Models\Domain;
 use App\Models\User;
+use App\Policies\Permissions;
 use Doctrine\DBAL\Query\QueryException;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -19,61 +20,55 @@ class UserSeeder extends Seeder
 //php artisan db:seed --class=UserSeeder
     public function run()
     {
-        $numberOfUsers = 5;
-        $count = random_int(0, $numberOfUsers);
-        try {
-            User::factory()
+//        create 3 Domains :['Single','China','Hokkaido']
+
+//      Domain  King
+        Domain::factory()
+            ->title('King Artur')
+            ->has(
+                User::factory()
+                    ->permission(Permissions::IS_SUPER_ADMIN)
+            )->create();
+
+//      Domain  CHINA
+        Domain::factory()
+            ->title('Little China')
+            ->has(
+                User::factory()
+                    ->permission(Permissions::IS_ADMIN)
+            )
+            ->has(User::factory()->permission(Permissions::CAN_VIEW))
+            ->has(User::factory()->permission(
+                Permissions::CAN_VIEW |
+                Permissions::CAN_CREATE |
+                Permissions::CAN_UPDATE |
+                Permissions::CAN_DELETE
+            )->count(5))
+            ->create();
+//
+//        Domain Small
+        Domain::factory()
+            ->title('Ukatan')
+            ->has(
+                User::factory()
+                    ->permission(Permissions::IS_ADMIN)
+            )
+            ->has(User::factory()->permission(
+                Permissions::CAN_VIEW
+                )
+            )
+            ->has(User::factory()->permission(
+                Permissions::CAN_VIEW |
+                Permissions::CAN_CREATE |
+                Permissions::CAN_UPDATE|
+                Permissions::CAN_DELETE
+            )
                 ->count(2)
-                ->create();
-        } catch (\Exception $e) {
-        }
+            )
+            ->create();
 
-        try {
-            User::factory()
-                ->has(Trusted::factory()
-                    ->count(2))
-                ->count(3)->create();
-        } catch (\Exception $e) {
-            $numberOfUsers = User::all()->count();
-            if ($numberOfUsers < 5) {
-                try {
-                    User::factory()
-                        ->count(2)
-                        ->create();
-                } catch (\Exception $e) {
-                }
-            }
-        }
-
-// use state from user factory to generate  user with admin rights
-        try {
-            User::factory()
-                ->has(Trusted::factory()->count($count))
-                ->count(1)
-                ->isadmin()
-                ->create();
-        } catch (\Exception $e) {
-        }
-
-        $trusteds = Trusted::all();
-
-        foreach ($trusteds as $trusted) {
-// process integrity violation  1062 PDO exception  Duplicate index
-//            look migration  of trusteds (unique)
-            try {
-//                process link to oneself
-                if ($trusted->user_id === $trusted->trusted_user) {
-                    $trusted->delete();
-                }
-                $trusted->save();
-            } catch (\Exception $e) {
-//                echo $e->getMessage();
-                break;
-            }
-
-        }
-        Trusted::onlyTrashed()->forceDelete();
     }
+
 
 }
 //php artisan db:seed --class=UserSeeder

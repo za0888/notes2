@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Scopes\DomainScope;
+use App\Scopes\TeamScope;
 use App\Scopes\OnlyUserScope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,12 +18,11 @@ class SubCategory extends Model
 
     protected $fillable = [
         'name',
-        'created_by_user'
     ];
 
     protected static function booted()
     {
-        static::addGlobalScope(new DomainScope);
+        static::addGlobalScope(new TeamScope);
 
     }
 
@@ -39,4 +38,11 @@ class SubCategory extends Model
             ->orderBy('name')
             ->withDefault('ANONIMOUS');
     }
+
+    public function team(): BelongsTo
+    {
+        return $this->belongsTo(Team::class)->withDefault();
+    }
+
+
 }

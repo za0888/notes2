@@ -21,7 +21,7 @@ class NotePolicy extends ServiceForPolicies
      */
     public function before(User $user)
     {
-        if ($this->isAdmin() || $this->isSuperAdmin()) {
+        if ($this->isAdmin($user) || $this->isSuperAdmin($user)) {
             return true;
         }
     }
