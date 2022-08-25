@@ -18,12 +18,12 @@ class Note extends Model
     protected $fillable = [
         'title',
         'body',
-        'blocks',
+        'html_block',
         'links',
     ];
 
     protected $casts=[
-        'blocks'=>'array',
+        'html_block'=>'array',
         'links'=>'array',
     ];
 
@@ -53,7 +53,7 @@ class Note extends Model
 
     public function team(): BelongsTo
     {
-        return $this->belongsTo(Team::class)->withDefault();
+        return $this->belongsTo(Team::class)->withDefault('No TEAM');
     }
 
 

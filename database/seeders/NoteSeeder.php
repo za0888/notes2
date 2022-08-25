@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Note;
 use App\Models\SubCategory;
+use App\Models\Team;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -25,9 +26,10 @@ class NoteSeeder extends Seeder
         }
 
         foreach ($users as $user) {
-            \Auth::login($user);
+            $team = Team::findOrFail($user->team_id);
+//            dd($team);
 
-            $subCategories = SubCategory::where('created_by_user', $user->id)->get();
+            $subCategories = SubCategory::where('team_id', $team->id)->get();
 //            dd($subCategories);
             if (!$subCategories) {
                 throw  new \Exception("No SUBCATEGORIES");
@@ -42,15 +44,16 @@ class NoteSeeder extends Seeder
                     ->count(random_int(1, 5))
                     ->for($subCategory)
                     ->for($user)
+                    ->for($team)
                     ->create();
                 $notes = Note::factory()
-                    ->html_blocks()
+                    ->html_block()
                     ->count(random_int(1, 2))
                     ->for($subCategory)
                     ->for($user)
+                    ->for($team)
                     ->create();
             }
-            \Auth::logout($user);
         }
     }
 }

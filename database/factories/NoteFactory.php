@@ -19,7 +19,7 @@ class NoteFactory extends Factory
         $user = \Auth::user();
         return [
             'title' => fake()->word(3),
-            'content' => fake()->text(),
+            'body' => fake()->text(),
             'links' => [
                 [
                     'description' => fake()->realText(),
@@ -41,7 +41,7 @@ class NoteFactory extends Factory
     /**
      * @return NoteFactory
      */
-    public function html_blocks()
+    public function html_block()
     {
         $html_code = '   $numberOfUsers = User::all()->count();
         if (!$numberOfUsers) {
