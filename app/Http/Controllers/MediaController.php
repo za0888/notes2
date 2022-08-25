@@ -8,6 +8,11 @@ use App\Http\Requests\UpdateMediaRequest;
 
 class MediaController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(MediaController::class,'media');
+    }
+
     /**
      * Display a listing of the resource.
      *

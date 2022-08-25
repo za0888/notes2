@@ -11,6 +11,7 @@ use App\Policies\Permissions;
 
 class NotesController extends Controller
 {
+
     /**
      * Create the controller instance.
      *

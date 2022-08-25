@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\MediaController;
 use App\Http\Controllers\NotesController;
 use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\SubCategoriesController;
@@ -30,6 +31,7 @@ Route::get('/dashboard', function () {
 
 Route::resources([
     'notes'=> NotesController::class,
+    'media'=> MediaController::class,
     'teams'=> TeamController::class,
     'themes'=> ThemesController::class,
     'categories'=> CategoriesController::class,

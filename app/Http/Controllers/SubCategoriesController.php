@@ -5,8 +5,19 @@ namespace App\Http\Controllers;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
 
+/**
+ *
+ */
 class SubCategoriesController extends Controller
 {
+    /**
+     *https://laravel.com/docs/9.x/authorization#authorizing-resource-controllers
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(SubCategory::class,'subCategory');
+    }
+
     /**
      * Display a listing of the resource.
      *
