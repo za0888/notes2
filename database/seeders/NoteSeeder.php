@@ -19,14 +19,20 @@ class NoteSeeder extends Seeder
      */
     public function run()
     {
-        $users = User::all();
+        $users = User::whereNotNull('team_id')->get();
 
         if (!$users) {
             throw  new \Exception("NO User found");
         }
 
         foreach ($users as $user) {
+//            $team = Team::whereid($user->team_id)->first();
             $team = Team::findOrFail($user->team_id);
+
+            if (!$team) {
+                throw new \Exception("Team {$user->team_id} not found");
+            }
+
 //            dd($team);
 
             $subCategories = SubCategory::where('team_id', $team->id)->get();

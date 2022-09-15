@@ -17,7 +17,8 @@ class CategoryFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name'=>fake()->word,
+            'team_id'=>1
         ];
     }
 }

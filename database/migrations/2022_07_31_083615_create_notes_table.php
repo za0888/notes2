@@ -22,7 +22,7 @@ return new class extends Migration {
 //            blocks used for code blocks(js php html...
 //            for any other kind of content fiel is used
             $table->text('body')
-                ->fulltext()
+//                ->fulltext()
                 ->nullable();
             $table->json('html_block')->nullable();
 // a block {

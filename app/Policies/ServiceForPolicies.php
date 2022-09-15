@@ -24,13 +24,13 @@ class ServiceForPolicies
     }
 
 
-    public function ifModelCreatedByUser(User $user, Note|Theme|Category|SubCategory|Media|Trusted $model)
+    public function ifModelCreatedByUser(User $user, Note|Theme|Category|SubCategory|Media $model)
     {
         return $user->id === $model->created_by_user ? $this->allow() :
             $this->denyWithStatus(666);
     }
 
-    public function isTrustedUser(User $user, Note|Theme|Category|SubCategory|Media|Trusted $model)
+    public function isTrustedUser(User $user, Note|Theme|Category|SubCategory|Media $model)
     {
         $created_by_id = $model->created_by_user->id;
         $UserTrustedsToArray = User::find($created_by_id)

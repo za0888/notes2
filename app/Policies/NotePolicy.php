@@ -35,6 +35,10 @@ class NotePolicy extends ServiceForPolicies
     public function viewAny(User $user)
     {
 //
+        $canView = $this->canView($user);
+        if ($canView) {
+            return true;
+        }
     }
 
     /**

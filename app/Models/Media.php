@@ -15,8 +15,8 @@ class Media extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $casts=[
-        'media_type'=>Media_types::class,
+    protected $casts = [
+        'media_type' => Media_types::class,
     ];
 
     protected $fillable = [
@@ -27,18 +27,17 @@ class Media extends Model
 
     public function note()
     {
+
         return $this->belongsTo(Note::class)
-            ->withDefault(['title'=>'empty note']);
+            ->withDefault(['title' => 'empty note']);
     }
 
     protected static function booted()
     {
         static::addGlobalScope(new TeamScope);
-
     }
     public function team(): BelongsTo
     {
         return $this->belongsTo(Team::class)->withDefault();
     }
-
 }

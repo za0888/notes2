@@ -19,7 +19,7 @@ class TeamScope implements Scope
         }
 
         if (!$this->isAdmin($user)) {
-            $builder->where('domain_id' === $user->domain_id);
+            $builder->where('team_id' === $user->team_id);
         }
 
 

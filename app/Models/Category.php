@@ -21,20 +21,19 @@ class Category extends Model
         'name',
     ];
 
-    protected static function booted()
-    {
-        static::addGlobalScope(new TeamScope);
+//    protected static function booted()
+//    {
+//        static::addGlobalScope(new TeamScope);
+//    }
 
-    }
-
-    public function theme() :BelongsTo
+    public function theme(): BelongsTo
     {
         return $this->belongsTo(Theme::class)
             ->withDefault(['name' => 'ANONIMOUS']);
     }
 
 
-    public function subCategories():HasMany
+    public function subCategories(): HasMany
     {
         return $this->hasMany(SubCategory::class)
             ->orderBy('name');
@@ -47,11 +46,10 @@ class Category extends Model
 
     public function name(): Attribute
     {
-//        get set - named arguments https://www.php.net/manual/en/functions.arguments.php
+        //        get set - named arguments https://www.php.net/manual/en/functions.arguments.php
         return Attribute::make(
-            get: (fn($value)=>Str::replace('_',' ',$value)),
-            set:(fn($value)=>Str::slug($value,'_'))
+            get: (fn ($value) => Str::replace('_', ' ', $value)),
+            set: (fn ($value) => Str::slug($value, '_'))
         );
     }
-
 }

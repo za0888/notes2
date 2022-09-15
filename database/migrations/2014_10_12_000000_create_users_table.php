@@ -19,7 +19,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
 
-            $table->foreignIdFor(Team::class);
+            $table->foreignIdFor(Team::class)->nullable();
 
             $table->string('email')->unique();
 
@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('password');
 
             $table->integer('permissions')
+//                ->default(128)
                 ->nullable();
 
             $table->rememberToken();

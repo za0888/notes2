@@ -12,11 +12,7 @@ use App\Policies\Permissions;
 class NotesController extends Controller
 {
 
-    /**
-     * Create the controller instance.
-     *
-     * @return void
-     */
+
     public function __construct()
     {
         /*Authorizing Resource Controllers
@@ -25,68 +21,35 @@ If you are utilizing resource controllers, you may make use of the authorizeReso
         $this->authorizeResource(Note::class, 'note');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(User $user)
     {
-        //
+//        if ($user->cannot('view','note')) {
+//            abort('403');
+//        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create(User $user)
     {
 //        $this->authorize('create',NotePolicy::class);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreNotesRequest  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(StoreNotesRequest $request)
     {
 //
 //        $this->authorize('create',NotePolicy::class);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Note  $note
-     * @return \Illuminate\Http\Response
-     */
     public function show(Note $note)
     {
         //
 //        $this->authorize('view',$note);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Note  $note
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Note $note)
+         public function edit(Note $note)
     {
 //        $this->authorize('update',$note);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateNotesRequest  $request
-     * @param  \App\Models\Note  $note
-     * @return \Illuminate\Http\Response
-     */
     public function update(UpdateNotesRequest $request, Note $note)
     {
 //        if (!$this->authorize('update', $note)) {
@@ -96,12 +59,6 @@ If you are utilizing resource controllers, you may make use of the authorizeReso
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Note  $note
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Note $note)
     {
 //        $this->authorize('delete',$note);
