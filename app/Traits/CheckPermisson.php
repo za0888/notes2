@@ -62,14 +62,28 @@ trait CheckPermisson
 
     public function isAdmin(User $user)
     {
-        if ($user?->permissions & Permissions::IS_ADMIN) {
+        if (
+            $user?->permissions & Permissions::CAN_VIEW &&
+            $user?->permissions & Permissions::CAN_FORCE_DELETE &&
+            $user?->permissions & Permissions::CAN_DELETE &&
+            $user?->permissions & Permissions::CAN_RESTORE &&
+            $user?->permissions & Permissions::CAN_UPDATE&&
+            $user?->permissions & Permissions::CAN_CREATE
+        ) {
             return true;
         }
     }
 
     public function isSuperAdmin(User $user)
     {
-        if ($user?->permissions & Permissions::IS_SUPER_ADMIN) {
+        if ($user?->permissions & Permissions::CAN_BAN_USER &&
+            $user?->permissions & Permissions::CAN_VIEW &&
+            $user?->permissions & Permissions::CAN_FORCE_DELETE &&
+            $user?->permissions & Permissions::CAN_DELETE &&
+            $user?->permissions & Permissions::CAN_RESTORE &&
+            $user?->permissions & Permissions::CAN_UPDATE&&
+            $user?->permissions & Permissions::CAN_CREATE
+        ) {
             return true;
         }
     }

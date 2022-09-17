@@ -157,12 +157,13 @@ class PolicyTest extends TestCase
         $response->assertOk();
     }
 
-    public function test_user_see_only_teams_notes()
+    public function test_notes_global_scope_works()
     {
 //        according to Note model global scope a user can see only teams notes? otherwise respone has empty data
         $this->seed();
 
         $user = User::where('permissions', '&', Permissions::CAN_VIEW)->first();
+
         \Auth::login($user);
 
         $note = Note::whereNot('team_id', $user->team_id)->first()?->id;
