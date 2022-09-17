@@ -18,8 +18,8 @@ class TeamScope implements Scope
             return;
         }
 
-        if (!$this->isAdmin($user)) {
-            $builder->where('team_id' === $user->team_id);
+        if (!$this->isSuperAdmin($user)) {
+            $builder->where('team_id', $user->team_id);
         }
 
 

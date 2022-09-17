@@ -21,10 +21,10 @@ class Category extends Model
         'name',
     ];
 
-//    protected static function booted()
-//    {
-//        static::addGlobalScope(new TeamScope);
-//    }
+    protected static function booted()
+    {
+        static::addGlobalScope(new TeamScope);
+    }
 
     public function theme(): BelongsTo
     {

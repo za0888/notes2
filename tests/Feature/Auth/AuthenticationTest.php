@@ -27,6 +27,7 @@ class AuthenticationTest extends TestCase
         $response = $this->post('/login', [
             'email' => $user->email,
             'password' => 'password',
+            'team_id'=>1
         ]);
 //        dd($response);
 
