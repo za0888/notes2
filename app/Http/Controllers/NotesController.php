@@ -41,8 +41,7 @@ If you are utilizing resource controllers, you may make use of the authorizeReso
 
     public function show(Note $note)
     {
-        //
-//        $this->authorize('view',$note);
+        return 'show_note';
     }
 
          public function edit(Note $note)
