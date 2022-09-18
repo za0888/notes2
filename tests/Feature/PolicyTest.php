@@ -199,6 +199,28 @@ class PolicyTest extends TestCase
             ['title' => $note->title]
         );
     }
+
+    public function test_user_can_not_create_resourse()
+    {
+        $this->seed();
+
+        $user = User::whereNot('permissions', '&', Permissions::CAN_CREATE)->first();
+        \Auth::login($user);
+
+        $team = Team::where('id', $user->team_id)->first();
+        $subCategory = SubCategory::where('team_id', $team->id)->first();
+
+        $note = Note::factory()
+            ->subCategory($subCategory)
+            ->for($team)
+            ->for($user)
+            ->create();
+
+        $response = $this->actingAs($user)->post('notes',$note->toArray());
+        $response->assertForbidden();
+
+
+    }
 //
 //    public function test_user_can_edit_resource(){
 //

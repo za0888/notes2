@@ -17,7 +17,8 @@ class SubCategoryFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name'=>fake()->word(3)
         ];
     }
+
 }
