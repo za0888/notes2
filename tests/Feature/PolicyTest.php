@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Category;
 use App\Models\Note;
+use App\Models\SubCategory;
 use App\Models\Team;
 use App\Models\User;
 use App\Policies\Permissions;
@@ -173,13 +174,31 @@ class PolicyTest extends TestCase
             ->get("notes/{$note}");
 
         $response->assertSee(''); //response has empty data
+//        $response->assertNotFound()
     }
 
 //
-//    public function test_user_can_create_resource()
-//    {
-//
-//    }
+    public function test_user_can_create_resource()
+    {
+        $this->seed();
+
+        $user = User::where('permissions', '&', Permissions::CAN_CREATE)->first();
+        \Auth::login($user);
+
+        $team = Team::find($user->team->id);
+        $subCategory = SubCategory::where('team_id', $team->id)->first();
+
+        $note = Note::factory()
+            ->subCategory($subCategory)
+            ->for($team)
+            ->for($user)
+            ->create();
+
+        $this->assertDatabaseHas(
+            'notes',
+            ['title' => $note->title]
+        );
+    }
 //
 //    public function test_user_can_edit_resource(){
 //

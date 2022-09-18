@@ -76,7 +76,8 @@ trait CheckPermisson
 
     public function isSuperAdmin(User $user)
     {
-        if ($user?->permissions & Permissions::CAN_BAN_USER &&
+        if (
+            $user?->permissions & Permissions::CAN_BAN_USER && //plus to admin cans
             $user?->permissions & Permissions::CAN_VIEW &&
             $user?->permissions & Permissions::CAN_FORCE_DELETE &&
             $user?->permissions & Permissions::CAN_DELETE &&

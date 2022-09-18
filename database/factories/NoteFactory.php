@@ -16,7 +16,7 @@ class NoteFactory extends Factory
      */
     public function definition()
     {
-        $user = \Auth::user();
+//        $user = \Auth::user();
         return [
             'title' => fake()->word(3),
             'body' => fake()->text(),
@@ -53,7 +53,7 @@ class NoteFactory extends Factory
         }';
 
         return $this->state(
-            fn()=> [
+            fn() => [
                 'html_block' => [
                     [
                         'block_header' => fake()->text,
@@ -64,6 +64,16 @@ class NoteFactory extends Factory
                     ],
                 ],
             ]
+        );
+    }
+
+    public function subCategory($subCategory = null)
+    {
+        if (!$subCategory) {
+            throw new \Exception('NO PERMISSION !');
+        }
+        return $this->state(
+            fn(array $attributes) => ['sub_category_id' => $subCategory]
         );
     }
 

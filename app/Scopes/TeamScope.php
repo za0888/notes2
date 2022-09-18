@@ -17,7 +17,7 @@ class TeamScope implements Scope
         if (!$user) {
             return;
         }
-        if (!$this->isAdmin($user)) {
+        if (!$this->isSuperAdmin($user)) {
             $builder->where('team_id', $user->team_id);
         }
 
