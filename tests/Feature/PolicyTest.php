@@ -215,11 +215,18 @@ class PolicyTest extends TestCase
         $team = Team::where('id', $user->team_id)->first();
         $subCategory = SubCategory::where('team_id', $team->id)->first();
 
-        $note = Note::factory()
-            ->subCategory($subCategory)
-            ->for($team)
-            ->for($user)
-            ->create();
+        $note=new Note([
+            'title'=>'tiiiiiiiitle',
+            'body'=>'Booooooooooooooooooody'
+        ]);
+
+        $note->user()->associate($user);
+        $note->user()->associate($subCategory);
+//        $note = Note::factory()
+//            ->subCategory($subCategory)
+//            ->for($team)
+//            ->for($user)
+//            ->create();
 
         $response = $this->actingAs($user)->post('notes', $note->toArray());
         $response->assertForbidden();
