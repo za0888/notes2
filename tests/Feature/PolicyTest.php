@@ -221,12 +221,7 @@ class PolicyTest extends TestCase
         ]);
 
         $note->user()->associate($user);
-        $note->user()->associate($subCategory);
-//        $note = Note::factory()
-//            ->subCategory($subCategory)
-//            ->for($team)
-//            ->for($user)
-//            ->create();
+        $note->subCategory()->associate($subCategory);
 
         $response = $this->actingAs($user)->post('notes', $note->toArray());
         $response->assertForbidden();
@@ -253,7 +248,7 @@ class PolicyTest extends TestCase
         ]);
 
         $note->user()->associate($user_other);
-        $note->user()->associate($subCategory);
+        $note->subCategory()->associate($subCategory);
 
 
 
