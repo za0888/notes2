@@ -148,14 +148,23 @@ class PolicyTest extends TestCase
     {
         $this->seed();
 
-        $user = User::where('permissions', '&', Permissions::CAN_VIEW)->first();
-        \Auth::login($user);
-        $note = Note::where('team_id', $user->team_id)->first();
+        $user = User::where('permissions', '&', Permissions::CAN_VIEW)
+            ->where(
+                fn($query) => $query->whereNot('permissions', Permissions::IS_ADMIN)
+            )
+            ->first();
 
+        $note = Note::where('user_id', $user->id)->first();
+//        dd('user------', $user, 'note-------', $note);
         $response = $this->actingAs($user)
             ->get('notes');
-
         $response->assertOk();
+
+        $response = $this->actingAs($user)
+            ->get("notes/{$note->id}");
+//        dd('note_id---',$note->id,$user);
+        $response->assertOk();
+
     }
 
     public function test_notes_global_scope_works()
@@ -215,9 +224,9 @@ class PolicyTest extends TestCase
         $team = Team::where('id', $user->team_id)->first();
         $subCategory = SubCategory::where('team_id', $team->id)->first();
 
-        $note=new Note([
-            'title'=>'tiiiiiiiitle',
-            'body'=>'Booooooooooooooooooody'
+        $note = new Note([
+            'title' => 'tiiiiiiiitle',
+            'body' => 'Booooooooooooooooooody'
         ]);
 
         $note->user()->associate($user);
@@ -235,21 +244,20 @@ class PolicyTest extends TestCase
         $user = User::factory()
             ->name('diego')
             ->permission(Permissions::IS_SUPER_ADMIN)
-        ->create();
+            ->create();
 
         $team = Team::first();
-        $user_other = User::where('team_id',$team->id)->first();
+        $user_other = User::where('team_id', $team->id)->first();
 
         $subCategory = SubCategory::where('team_id', $team->id)->first();
 
-        $note=new Note([
-            'title'=>'tiiiiiiiitle',
-            'body'=>'Booooooooooooooooooody'
+        $note = new Note([
+            'title' => 'tiiiiiiiitle',
+            'body' => 'Booooooooooooooooooody'
         ]);
 
         $note->user()->associate($user_other);
         $note->subCategory()->associate($subCategory);
-
 
 
         $response = $this->actingAs($user)->post('notes', $note->toArray());
