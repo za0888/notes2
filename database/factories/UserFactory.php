@@ -57,4 +57,11 @@ class UserFactory extends Factory
             fn(array $attributes)=>['permissions'=>$permission]
         );
     }
+
+    public function name($name='forgot to NAME dear User')
+    {
+        return $this->state(
+            fn(array $attributes) =>['name'=>$name]
+        );
+    }
 }

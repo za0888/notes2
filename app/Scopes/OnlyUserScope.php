@@ -2,6 +2,7 @@
 
 namespace App\Scopes;
 
+use App\Policies\Permissions;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope;
@@ -23,16 +24,12 @@ class OnlyUserScope implements Scope
 
         $user = auth()->user();
 
-        $is_admin = $user->is_admin ?? false;
-//        if ($user) {
-//            $trusteds = $user->trusteds()
-//                ->get('trusted_user')
-//                ->pluck('trusted_user');
-//            $is_trusted = in_array($user->id, $trusteds);
-//        }
+        if ($user) {
+            $is_super_admin = $user->permissions === Permissions::IS_SUPER_ADMIN ?? false;
+        }
 
 
-        if (!$is_admin) {
+        if (!$is_super_admin) {
             $builder->where('created_by_user', auth()->id());
         }
 

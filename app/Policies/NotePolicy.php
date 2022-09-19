@@ -19,9 +19,15 @@ class NotePolicy extends ServiceForPolicies
      * @param string $ability
      * @return void|bool
      */
-    public function before(User $user)
+    public function before(User $user, string $ability)
     {
-        if ($this->isAdmin($user) || $this->isSuperAdmin($user)) {
+
+        if ( $this->canBanUser($user)) {
+//            dd($user);
+            return true;
+        }
+
+        if ($this->isAdmin($user)) {
             return true;
         }
     }

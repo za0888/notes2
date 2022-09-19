@@ -181,11 +181,12 @@ class PolicyTest extends TestCase
     public function test_user_can_create_resource()
     {
         $this->seed();
-
-        $user = User::where('permissions', '&', Permissions::CAN_CREATE)->first();
-        \Auth::login($user);
-
-        $team = Team::find($user->team->id);
+//
+        $user = User::where('permissions', '&', Permissions::CAN_CREATE)
+            ->where(fn($query) => $query->whereNot('permissions', Permissions::IS_ADMIN))
+            ->first();
+        $team = Team::find($user->team_id);
+//        dd($user,'team_id====',$team->id);
         $subCategory = SubCategory::where('team_id', $team->id)->first();
 
         $note = Note::factory()
@@ -193,11 +194,15 @@ class PolicyTest extends TestCase
             ->for($team)
             ->for($user)
             ->create();
-
+//        dd($user,$note);
         $this->assertDatabaseHas(
             'notes',
             ['title' => $note->title]
         );
+//dd($user);
+        $response = $this->actingAs($user)->post('notes', $note->toArray());
+//        $response->dumpHeaders();
+        $response->assertOk();
     }
 
     public function test_user_can_not_create_resourse()
@@ -216,9 +221,34 @@ class PolicyTest extends TestCase
             ->for($user)
             ->create();
 
-        $response = $this->actingAs($user)->post('notes',$note->toArray());
+        $response = $this->actingAs($user)->post('notes', $note->toArray());
         $response->assertForbidden();
 
+
+    }
+
+    public function test_method_before_note_policy_works()
+    {
+        $this->seed();
+        $user = User::factory()
+            ->name('diego')
+            ->permission(Permissions::IS_SUPER_ADMIN)
+        ->create();
+//        $user = User::where('permissions', Permissions::IS_SUPER_ADMIN)->first();
+
+        $team = Team::first();
+        $user2 = User::where('team_id',$team->id)->first();
+
+        $subCategory = SubCategory::where('team_id', $team->id)->first();
+
+        $note = Note::factory()
+            ->subCategory($subCategory)
+            ->for($team)
+            ->for($user2)
+            ->create();
+
+        $response = $this->actingAs($user)->post('notes', $note->toArray());
+        $response->assertOk();
 
     }
 //
