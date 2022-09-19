@@ -14,7 +14,7 @@ class NotesController extends Controller
      */
     public function index()
     {
-        //
+        $this->authorize('viewAny',Note::class);
     }
 
     /**
@@ -24,7 +24,7 @@ class NotesController extends Controller
      */
     public function create()
     {
-        //
+        $this->authorize('create',Note::class);
     }
 
     /**
@@ -35,7 +35,7 @@ class NotesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->authorize('create',Note::class);
     }
 
     /**
@@ -46,7 +46,7 @@ class NotesController extends Controller
      */
     public function show(Note $note)
     {
-        //
+        $this->authorize('view',$note);
     }
 
     /**
@@ -57,7 +57,7 @@ class NotesController extends Controller
      */
     public function edit(Note $note)
     {
-        //
+        $this->authorize('update',Note::class);
     }
 
     /**
@@ -69,7 +69,7 @@ class NotesController extends Controller
      */
     public function update(Request $request, Note $note)
     {
-        //
+        $this->authorize('update',Note::class);
     }
 
     /**
@@ -80,16 +80,8 @@ class NotesController extends Controller
      */
     public function destroy(Note $note)
     {
-        //
+        $this->authorize('delete',Note::class);
     }
 
-    /**
-     * Create the controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->authorizeResource(Note::class, 'notes');
-    }
+
 }
