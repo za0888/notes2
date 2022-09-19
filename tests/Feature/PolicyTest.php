@@ -234,18 +234,21 @@ class PolicyTest extends TestCase
             ->name('diego')
             ->permission(Permissions::IS_SUPER_ADMIN)
         ->create();
-//        $user = User::where('permissions', Permissions::IS_SUPER_ADMIN)->first();
 
         $team = Team::first();
-        $user2 = User::where('team_id',$team->id)->first();
+        $user_other = User::where('team_id',$team->id)->first();
 
         $subCategory = SubCategory::where('team_id', $team->id)->first();
 
-        $note = Note::factory()
-            ->subCategory($subCategory)
-            ->for($team)
-            ->for($user2)
-            ->create();
+        $note=new Note([
+            'title'=>'tiiiiiiiitle',
+            'body'=>'Booooooooooooooooooody'
+        ]);
+
+        $note->user()->associate($user_other);
+        $note->user()->associate($subCategory);
+
+
 
         $response = $this->actingAs($user)->post('notes', $note->toArray());
         $response->assertOk();
