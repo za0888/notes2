@@ -145,7 +145,7 @@ class PolicyTest extends TestCase
 //
 //    }
 //
-    public function test_user_can_view()
+    public function test_user_can_view_note()
     {
         $this->seed();
 
@@ -188,7 +188,7 @@ class PolicyTest extends TestCase
     }
 
 //
-    public function test_user_can_create_resource()
+    public function test_user_can_create_note()
     {
         $this->seed();
 //
@@ -215,7 +215,7 @@ class PolicyTest extends TestCase
         $response->assertOk();
     }
 
-    public function test_user_can_not_create_resourse()
+    public function test_user_can_not_create_note()
     {
         $this->seed();
 
@@ -290,9 +290,9 @@ class PolicyTest extends TestCase
 
     }
 //
-//    public function test_user_can_edit_resource(){
-//
-//    }
+   /* public function test_user_can_edit_user(){
+
+    }*/
 //
 //    public function test_user_can_delete_resource()
 //    {
