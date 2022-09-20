@@ -9,6 +9,7 @@ use App\Models\Team;
 use App\Models\User;
 use App\Policies\Permissions;
 use Database\Seeders\UserSeeder;
+use Illuminate\Auth\Access\Response;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -233,8 +234,11 @@ class PolicyTest extends TestCase
         $note->subCategory()->associate($subCategory);
 
         $response = $this->actingAs($user)->post('notes', $note->toArray());
-        $response->assertForbidden();
-
+//        $response->assertForbidden();
+        $response->assertNotFound();
+//   if use following code in NotePolicy -create method     return $canCreate
+//            ? Response::allow()
+//            : Response::denyAsNotFound('You cannot cretae a Note.');
 
     }
 

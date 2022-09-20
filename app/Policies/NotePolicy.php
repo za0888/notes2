@@ -6,6 +6,7 @@ use App\Models\Note;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use App\Traits\CheckPermisson;
+use Illuminate\Auth\Access\Response;
 
 class NotePolicy extends ServiceForPolicies
 {
@@ -84,9 +85,13 @@ class NotePolicy extends ServiceForPolicies
         }
 
         $canCreate = $this->canCreate($user);
-        if ($canCreate) {
-            return true;
-        }
+
+        return $canCreate
+            ? Response::allow()
+            : Response::denyAsNotFound('You cannot create a Note.');
+//        if ($canCreate) {
+//            return true;
+//        }
     }
 
     /**
