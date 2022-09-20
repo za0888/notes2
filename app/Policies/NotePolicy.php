@@ -23,7 +23,7 @@ class NotePolicy extends ServiceForPolicies
     public function before(User $user, string $ability)
     {
 
-        if ( $this->canBanUser($user)) {
+        if ($this->canBanUser($user)) {
 //            dd($user);
             return true;
         }
@@ -65,6 +65,8 @@ class NotePolicy extends ServiceForPolicies
         }
 
         $canView = $this->canView($user);
+        $bothInTeam = $user->team_id === $note->team_id;
+        $canView = $canView && $bothInTeam;
 
         if ($canView) {
             return true;
@@ -88,7 +90,7 @@ class NotePolicy extends ServiceForPolicies
 
         return $canCreate
             ? Response::allow()
-            : Response::denyAsNotFound('You cannot create a Note.');
+            : Response::denyAsNotFound('You cannot create a Note. POLICY SAYS');
 //        if ($canCreate) {
 //            return true;
 //        }
@@ -105,6 +107,8 @@ class NotePolicy extends ServiceForPolicies
     {
 
         $canUpdate = $this->canUpdate($user);
+        $bothInTeam = $user->team_id === $note->team_id;
+        $canUpdate = $canUpdate && $bothInTeam;
 
         if ($canUpdate) {
             return true;
@@ -123,6 +127,8 @@ class NotePolicy extends ServiceForPolicies
     {
 
         $canDelete = $this->canDelete($user);
+        $bothInTeam = $user->team_id === $note->team_id;
+        $canDelete = $canDelete && $bothInTeam;
 
         if ($canDelete) {
             return true;
@@ -141,6 +147,9 @@ class NotePolicy extends ServiceForPolicies
     {
 //
         $canRestore = $this->canRestore($user);
+        $bothInTeam = $user->team_id === $note->team_id;
+        $canRestore = $canRestore && $bothInTeam;
+
         if ($canRestore) {
             return true;
         }
@@ -155,7 +164,12 @@ class NotePolicy extends ServiceForPolicies
      */
     public function forceDelete(User $user, Note $note)
     {
-        if ($this->canForceDelete($user)) {
+
+        $canForceDelete = $this->canForceDelete($user);
+        $bothInTeam = $user->team_id === $note->team_id;
+        $canForceDelete = $canForceDelete && $bothInTeam;
+
+        if ($canForceDelete) {
             return true;
         }
 
