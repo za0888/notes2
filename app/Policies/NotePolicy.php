@@ -6,6 +6,7 @@ use App\Models\Note;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use App\Traits\CheckPermisson;
+use Illuminate\Auth\Access\Response;
 
 class NotePolicy extends ServiceForPolicies
 {
@@ -22,7 +23,7 @@ class NotePolicy extends ServiceForPolicies
     public function before(User $user, string $ability)
     {
 
-        if ( $this->canBanUser($user)) {
+        if ($this->canBanUser($user)) {
 //            dd($user);
             return true;
         }
@@ -82,6 +83,8 @@ class NotePolicy extends ServiceForPolicies
         if (!$user) {
             return false;
         }
+//        $this->canCreate($user) ? Response::allow() : Response::denyWithStatus(404);
+
 
         $canCreate = $this->canCreate($user);
         if ($canCreate) {
@@ -104,6 +107,7 @@ class NotePolicy extends ServiceForPolicies
         if ($canUpdate) {
             return true;
         }
+//        $this->canUpdate() ?  Response::allow() :Response::denyWithStatus(606);
 
     }
 
