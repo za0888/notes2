@@ -22,15 +22,18 @@ class NotePolicy extends ServiceForPolicies
      */
     public function before(User $user, string $ability)
     {
+        if (!$user) {
+            return false;
+        }
 
         if ($this->canBanUser($user)) {
 //            dd($user);
             return true;
         }
 
-        if ($this->isAdmin($user)) {
-            return true;
-        }
+//        if ($this->isAdmin($user)) {
+//            return true;
+//        }
     }
 
     /**
@@ -65,8 +68,8 @@ class NotePolicy extends ServiceForPolicies
         }
 
         $canView = $this->canView($user);
-        $bothInTeam = $user->team_id === $note->team_id;
-        $canView = $canView && $bothInTeam;
+        $bothSameTeam = $user->team_id === $note->team_id;
+        $canView = $canView && $bothSameTeam;
 
         if ($canView) {
             return true;
@@ -105,10 +108,13 @@ class NotePolicy extends ServiceForPolicies
      */
     public function update(User $user, Note $note)
     {
+        if (!$user) {
+            return false;
+        }
 
         $canUpdate = $this->canUpdate($user);
-        $bothInTeam = $user->team_id === $note->team_id;
-        $canUpdate = $canUpdate && $bothInTeam;
+        $bothSameTeam = $user->team_id === $note->team_id;
+        $canUpdate = $canUpdate && $bothSameTeam;
 
         if ($canUpdate) {
             return true;
@@ -125,10 +131,13 @@ class NotePolicy extends ServiceForPolicies
      */
     public function delete(User $user, Note $note)
     {
+        if (!$user) {
+            return false;
+        }
 
         $canDelete = $this->canDelete($user);
-        $bothInTeam = $user->team_id === $note->team_id;
-        $canDelete = $canDelete && $bothInTeam;
+        $bothSameTeam = $user->team_id === $note->team_id;
+        $canDelete = $canDelete && $bothSameTeam;
 
         if ($canDelete) {
             return true;
@@ -147,8 +156,8 @@ class NotePolicy extends ServiceForPolicies
     {
 //
         $canRestore = $this->canRestore($user);
-        $bothInTeam = $user->team_id === $note->team_id;
-        $canRestore = $canRestore && $bothInTeam;
+        $bothSameTeam = $user->team_id === $note->team_id;
+        $canRestore = $canRestore && $bothSameTeam;
 
         if ($canRestore) {
             return true;
@@ -166,8 +175,8 @@ class NotePolicy extends ServiceForPolicies
     {
 
         $canForceDelete = $this->canForceDelete($user);
-        $bothInTeam = $user->team_id === $note->team_id;
-        $canForceDelete = $canForceDelete && $bothInTeam;
+        $bothSameTeam = $user->team_id === $note->team_id;
+        $canForceDelete = $canForceDelete && $bothSameTeam;
 
         if ($canForceDelete) {
             return true;

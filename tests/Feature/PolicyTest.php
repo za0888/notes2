@@ -268,6 +268,27 @@ class PolicyTest extends TestCase
         $response->assertOk();
 
     }
+
+    public function test_alien_admin_can_not_work_with_notes()
+    {
+        $this->seed();
+
+        $note = Note::first();
+        $team = Team::find($note->team_id);
+
+        $alienTeam = Team::whereNot('id', $team->id)->first();
+        $alienAdminUser = User::factory()
+            ->permission(Permissions::IS_ADMIN)
+            ->name('Diego Padri')
+            ->for($alienTeam)
+            ->create();
+
+//        dd($alienAdminUser, $alienTeam,$team,$note);
+
+        $response = $this->actingAs($alienAdminUser)->get("notes/{$note->id}");
+        $response->assertNotFound();
+
+    }
 //
 //    public function test_user_can_edit_resource(){
 //
