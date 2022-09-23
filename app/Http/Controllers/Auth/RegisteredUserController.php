@@ -94,8 +94,5 @@ class RegisteredUserController extends Controller
 
     }
 
-    public function ban(User $user)
-    {
 
-    }
 }
