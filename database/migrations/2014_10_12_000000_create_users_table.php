@@ -1,13 +1,13 @@
 <?php
 
-use App\Models\Domain;
 use App\Models\Team;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 return new class extends Migration
 {
+    use  SoftDeletes;
     /**
      * Run the migrations.
      *
@@ -34,6 +34,9 @@ return new class extends Migration
             $table->rememberToken();
 
             $table->timestamps();
+
+            $table->softDeletes();
+
         });
     }
 

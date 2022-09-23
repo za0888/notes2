@@ -19,7 +19,12 @@ class UserPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        if (!$user) {
+            return  false;
+        }
+        if ($this->isSuperAdmin($user)) {
+            return true;
+        }
     }
 
     /**
@@ -29,9 +34,13 @@ class UserPolicy
      * @param \App\Models\User $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, User $model)
+    public function view(User $user, $id)
     {
-        $userCanView = $this->isAdmin($user) || $this->isSuperAdmin($user);
+        if (!$user) {
+            return  false;
+        }
+//        by admins & himself
+        $userCanView = $this->canControlUser($user) || $user->id === $id;
 
         if ($userCanView) {
             return true;
@@ -56,12 +65,33 @@ class UserPolicy
      * @param \App\Models\User $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, User $model)
+    public function update(User $user,$id)
     {
-        $userCanUpdate = $this->isAdmin($user) || $this->isSuperAdmin($user);
-        $userCanUpdate = $userCanUpdate && $this->canUpdate($user);
+        //  here the id is an id of the user to be edited
+        if (!$user) {
+            return  false;
+        }
+
+        $userCanUpdate=$this->canControlUser($user) ||$user->id === $id;
+        $userCanUpdate = $this->canControlUser($user) ;
+
 
         if ($userCanUpdate) {
+            return true;
+        }
+    }
+
+//  here the id is an id of the user to be edited
+    public function edit(User $user,$id)
+    {
+        if (!$user) {
+            return  false;
+        }
+        $userCanEdit = $this->canControlUser($user) || $user->id === $id;
+//        $userCanUpdate = $this->canControlUser($user) || $user->id === $model->id;
+
+
+        if ($userCanEdit) {
             return true;
         }
     }
@@ -73,10 +103,12 @@ class UserPolicy
      * @param \App\Models\User $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, User $model)
+    public function delete(User $user,$id)
     {
-        $userCanDelete = $this->isAdmin($user) || $this->isSuperAdmin($user);
-        $userCanDelete = $userCanDelete && $this->canDelete($user);
+        if (!$user) {
+        return  false;
+    }
+        $userCanDelete = $this->canControlUser($user);
 
         if ($userCanDelete) {
             return true;
@@ -92,7 +124,10 @@ class UserPolicy
      */
     public function restore(User $user, User $model)
     {
-        $userCanRestore = $this->isAdmin($user) || $this->isSuperAdmin($user);
+        if (!$user) {
+            return  false;
+        }
+        $userCanRestore = $this->canControlUser($user);
         $userCanRestore = $userCanRestore && $this->canRestore($user);
 
         if ($userCanRestore) {
@@ -109,8 +144,10 @@ class UserPolicy
      */
     public function forceDelete(User $user, User $model)
     {
-        $userCanForceDelete = $this->isAdmin($user) || $this->canBanUser($user);
-        $userCanForceDelete = $userCanForceDelete && $this->canForceDelete($user);
+        if (!$user) {
+            return  false;
+        }
+        $userCanForceDelete = $this->canControlUser($user);
 
         if ($userCanForceDelete) {
             return true;

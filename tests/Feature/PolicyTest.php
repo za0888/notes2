@@ -138,6 +138,31 @@ class PolicyTest extends TestCase
 
         $response = $this->get('themes/1/edit');
         $response->assertForbidden();
+
+//        users
+        //              users
+        $response = $this->get('user');
+        $response->assertForbidden();
+//
+//        $response = $this->post('user');
+//        $response->assertForbidden();
+//
+        $response = $this->get('user/1');
+        $response->assertForbidden();
+//
+        $response = $this->get('user/1/edit');
+        $response->assertForbidden();
+//        $response->dumpHeaders();
+////////
+        $response = $this->put('user/1');
+        $response->assertForbidden();
+////
+        $response = $this->delete('user/1');
+        $response->assertForbidden();
+//
+//        $response = $this->get('user/1/edit');
+//        $response->assertForbidden();
+//
     }
 
 //    public function test_super_admin_can_ban_users()

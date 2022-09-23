@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\NotesController;
@@ -30,11 +31,18 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 Route::resources([
-    'notes'=> NotesController::class,
-    'media'=> MediaController::class,
-    'teams'=> TeamController::class,
-    'themes'=> ThemesController::class,
-    'categories'=> CategoriesController::class,
-    'subCategories'=> SubCategoriesController::class
+    'notes' => NotesController::class,
+    'media' => MediaController::class,
+    'teams' => TeamController::class,
+    'themes' => ThemesController::class,
+    'categories' => CategoriesController::class,
+    'subCategories' => SubCategoriesController::class
 ]);
-require __DIR__.'/auth.php';
+
+Route::get('user', [RegisteredUserController::class, 'index']);
+Route::get('user/{id}', [RegisteredUserController::class, 'show']);
+Route::get('user/{id}/edit',[RegisteredUserController::class,'edit']);
+Route::put('user/{id}', [RegisteredUserController::class,'update']);
+Route::delete('user/{id}', [RegisteredUserController::class , 'delete']);
+
+require __DIR__ . '/auth.php';

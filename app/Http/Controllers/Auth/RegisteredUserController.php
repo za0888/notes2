@@ -26,7 +26,7 @@ class RegisteredUserController extends Controller
     /**
      * Handle an incoming registration request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
      *
      * @throws \Illuminate\Validation\ValidationException
@@ -50,5 +50,52 @@ class RegisteredUserController extends Controller
         Auth::login($user);
 
         return redirect(RouteServiceProvider::HOME);
+    }
+
+    public function index()
+    {
+        $this->authorize('viewAny', User::class);
+    }
+
+    public function show(Request $request,$id)
+    {
+
+        $this->authorize('view', $request->user(),$id);
+    }
+
+    public function delete(User $user)
+    {
+        $this->authorize('delete',$user);
+    }
+
+
+    public function forceDelete(User $user)
+    {
+        $this->authorize('delete',$user);
+
+    }
+
+    public function update(User $user,$id)
+    {
+        $this->authorize('update',$user,$id);
+
+    }
+    public function edit(Request $request,$id)
+    {
+        $user=$request?->user();
+        $this->authorize('edit',$user,$id);
+
+        return view('components.user.edit', ['user' => $user]);
+    }
+
+    public function restore(User $user)
+    {
+        $this->authorize('delete',$user);
+
+    }
+
+    public function ban(User $user)
+    {
+
     }
 }
