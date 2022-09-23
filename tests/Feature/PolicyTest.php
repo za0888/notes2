@@ -314,14 +314,38 @@ class PolicyTest extends TestCase
         $response->assertNotFound();
 
     }
-//
-   /* public function test_user_can_edit_user(){
 
-    }*/
 //
-//    public function test_user_can_delete_resource()
-//    {
-//
-//    }
+    public function test_user_can_edit_oneself()
+    {
+        $user = User::factory()
+            ->name("Diego Padri")
+            ->permission(Permissions::CAN_UPDATE)
+            ->create();
+
+        $response=$this->actingAs($user)
+            ->get("user/{$user->id}/edit");
+
+        $response->assertOk();
+    }
+
+    public function test_super_admin_can_edit_user()
+    {
+        $userSuperAdmin = User::factory()
+            ->name("m-r Super ADMIN")
+            ->permission(Permissions::IS_SUPER_ADMIN)
+            ->create();
+
+        $user = User::factory()
+            ->name("Diego Padri")
+            ->permission(Permissions::CAN_VIEW)
+            ->create();
+
+        $response=$this->actingAs($userSuperAdmin)
+            ->get("user/{$user->id}/edit");
+
+        $response->assertOk();
+    }
+
 
 }

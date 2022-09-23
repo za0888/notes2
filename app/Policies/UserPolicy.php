@@ -72,7 +72,7 @@ class UserPolicy
             return  false;
         }
 
-        $userCanUpdate=$this->canControlUser($user) ||$user->id === $id;
+        $userCanUpdate=$this->canControlUser($user) ||$user->id === $id->id;
         $userCanUpdate = $this->canControlUser($user) ;
 
 
@@ -87,7 +87,8 @@ class UserPolicy
         if (!$user) {
             return  false;
         }
-        $userCanEdit = $this->canControlUser($user) || $user->id === $id;
+//        dd('============',$user->id , $id->id);
+        $userCanEdit = $this->canControlUser($user) || $user->id === $id?->id;
 //        $userCanUpdate = $this->canControlUser($user) || $user->id === $model->id;
 
 
@@ -128,7 +129,6 @@ class UserPolicy
             return  false;
         }
         $userCanRestore = $this->canControlUser($user);
-        $userCanRestore = $userCanRestore && $this->canRestore($user);
 
         if ($userCanRestore) {
             return true;
