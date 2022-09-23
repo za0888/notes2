@@ -59,6 +59,12 @@ trait CheckPermisson
             return true;
         }
     }
+    public function canControlUser(User $user)
+    {
+        if ($user?->permissions & Permissions::CAN_CONTROL_USER) {
+            return true;
+        }
+    }
 
     public function isAdmin(User $user)
     {
@@ -68,7 +74,9 @@ trait CheckPermisson
             $user?->permissions & Permissions::CAN_DELETE &&
             $user?->permissions & Permissions::CAN_RESTORE &&
             $user?->permissions & Permissions::CAN_UPDATE&&
-            $user?->permissions & Permissions::CAN_CREATE
+            $user?->permissions & Permissions::CAN_CREATE &&
+            $user?->permissions & Permissions::CAN_CONTROL_USER
+
         ) {
             return true;
         }
@@ -83,7 +91,9 @@ trait CheckPermisson
             $user?->permissions & Permissions::CAN_DELETE &&
             $user?->permissions & Permissions::CAN_RESTORE &&
             $user?->permissions & Permissions::CAN_UPDATE&&
-            $user?->permissions & Permissions::CAN_CREATE
+            $user?->permissions & Permissions::CAN_CREATE &&
+            $user?->permissions & Permissions::CAN_CONTROL_USER
+
         ) {
             return true;
         }

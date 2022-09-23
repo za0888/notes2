@@ -22,15 +22,18 @@ class NotePolicy extends ServiceForPolicies
      */
     public function before(User $user, string $ability)
     {
+        if (!$user) {
+            return false;
+        }
 
         if ($this->canBanUser($user)) {
 //            dd($user);
             return true;
         }
 
-        if ($this->isAdmin($user)) {
-            return true;
-        }
+//        if ($this->isAdmin($user)) {
+//            return true;
+//        }
     }
 
     /**
@@ -65,6 +68,8 @@ class NotePolicy extends ServiceForPolicies
         }
 
         $canView = $this->canView($user);
+        $bothSameTeam = $user->team_id === $note->team_id;
+        $canView = $canView && $bothSameTeam;
 
         if ($canView) {
             return true;
@@ -87,9 +92,13 @@ class NotePolicy extends ServiceForPolicies
 
 
         $canCreate = $this->canCreate($user);
-        if ($canCreate) {
-            return true;
-        }
+
+        return $canCreate
+            ? Response::allow()
+            : Response::denyAsNotFound('You cannot create a Note. POLICY SAYS');
+//        if ($canCreate) {
+//            return true;
+//        }
     }
 
     /**
@@ -101,8 +110,13 @@ class NotePolicy extends ServiceForPolicies
      */
     public function update(User $user, Note $note)
     {
+        if (!$user) {
+            return false;
+        }
 
         $canUpdate = $this->canUpdate($user);
+        $bothSameTeam = $user->team_id === $note->team_id;
+        $canUpdate = $canUpdate && $bothSameTeam;
 
         if ($canUpdate) {
             return true;
@@ -120,8 +134,13 @@ class NotePolicy extends ServiceForPolicies
      */
     public function delete(User $user, Note $note)
     {
+        if (!$user) {
+            return false;
+        }
 
         $canDelete = $this->canDelete($user);
+        $bothSameTeam = $user->team_id === $note->team_id;
+        $canDelete = $canDelete && $bothSameTeam;
 
         if ($canDelete) {
             return true;
@@ -140,6 +159,9 @@ class NotePolicy extends ServiceForPolicies
     {
 //
         $canRestore = $this->canRestore($user);
+        $bothSameTeam = $user->team_id === $note->team_id;
+        $canRestore = $canRestore && $bothSameTeam;
+
         if ($canRestore) {
             return true;
         }
@@ -154,7 +176,12 @@ class NotePolicy extends ServiceForPolicies
      */
     public function forceDelete(User $user, Note $note)
     {
-        if ($this->canForceDelete($user)) {
+
+        $canForceDelete = $this->canForceDelete($user);
+        $bothSameTeam = $user->team_id === $note->team_id;
+        $canForceDelete = $canForceDelete && $bothSameTeam;
+
+        if ($canForceDelete) {
             return true;
         }
 

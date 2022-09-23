@@ -10,9 +10,10 @@ class Permissions
      const CAN_FORCE_DELETE=8;
      const CAN_CREATE=16;
      const CAN_VIEW=128;
-     const IS_ADMIN=159;
+     const IS_ADMIN=415;
+     const IS_SUPER_ADMIN=447;
+     const CAN_CONTROL_USER=256;
      const CAN_BAN_USER=32;
-     const IS_SUPER_ADMIN=191;
 
 // a user :CAN_UPDATE=1;CAN_DELETE=2;CAN_CREATE=16;CAN_VIEW=128
 //

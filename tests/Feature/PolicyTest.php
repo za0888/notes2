@@ -9,6 +9,7 @@ use App\Models\Team;
 use App\Models\User;
 use App\Policies\Permissions;
 use Database\Seeders\UserSeeder;
+use Illuminate\Auth\Access\Response;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -137,6 +138,31 @@ class PolicyTest extends TestCase
 
         $response = $this->get('themes/1/edit');
         $response->assertForbidden();
+
+//        users
+        //              users
+        $response = $this->get('user');
+        $response->assertForbidden();
+//
+//        $response = $this->post('user');
+//        $response->assertForbidden();
+//
+        $response = $this->get('user/1');
+        $response->assertForbidden();
+//
+        $response = $this->get('user/1/edit');
+        $response->assertForbidden();
+//        $response->dumpHeaders();
+////////
+        $response = $this->put('user/1');
+        $response->assertForbidden();
+////
+        $response = $this->delete('user/1');
+        $response->assertForbidden();
+//
+//        $response = $this->get('user/1/edit');
+//        $response->assertForbidden();
+//
     }
 
 //    public function test_super_admin_can_ban_users()
@@ -144,7 +170,7 @@ class PolicyTest extends TestCase
 //
 //    }
 //
-    public function test_user_can_view()
+    public function test_user_can_view_note()
     {
         $this->seed();
 
@@ -187,7 +213,7 @@ class PolicyTest extends TestCase
     }
 
 //
-    public function test_user_can_create_resource()
+    public function test_user_can_create_note()
     {
         $this->seed();
 //
@@ -214,7 +240,7 @@ class PolicyTest extends TestCase
         $response->assertOk();
     }
 
-    public function test_user_can_not_create_resourse()
+    public function test_user_can_not_create_note()
     {
         $this->seed();
 
@@ -233,8 +259,11 @@ class PolicyTest extends TestCase
         $note->subCategory()->associate($subCategory);
 
         $response = $this->actingAs($user)->post('notes', $note->toArray());
-        $response->assertForbidden();
-
+//        $response->assertForbidden();
+        $response->assertNotFound();
+//   if use following code in NotePolicy -create method     return $canCreate
+//            ? Response::allow()
+//            : Response::denyAsNotFound('You cannot cretae a Note.');
 
     }
 
@@ -264,14 +293,59 @@ class PolicyTest extends TestCase
         $response->assertOk();
 
     }
+
+    public function test_alien_admin_can_not_work_with_notes()
+    {
+        $this->seed();
+
+        $note = Note::first();
+        $team = Team::find($note->team_id);
+
+        $alienTeam = Team::whereNot('id', $team->id)->first();
+        $alienAdminUser = User::factory()
+            ->permission(Permissions::IS_ADMIN)
+            ->name('Diego Padri')
+            ->for($alienTeam)
+            ->create();
+
+//        dd($alienAdminUser, $alienTeam,$team,$note);
+
+        $response = $this->actingAs($alienAdminUser)->get("notes/{$note->id}");
+        $response->assertNotFound();
+
+    }
+
 //
-//    public function test_user_can_edit_resource(){
-//
-//    }
-//
-//    public function test_user_can_delete_resource()
-//    {
-//
-//    }
+    public function test_user_can_edit_oneself()
+    {
+        $user = User::factory()
+            ->name("Diego Padri")
+            ->permission(Permissions::CAN_UPDATE)
+            ->create();
+
+        $response=$this->actingAs($user)
+            ->get("user/{$user->id}/edit");
+
+        $response->assertOk();
+    }
+
+    public function test_super_admin_can_edit_user()
+    {
+        $userSuperAdmin = User::factory()
+            ->name("m-r Super ADMIN")
+            ->permission(Permissions::IS_SUPER_ADMIN)
+            ->create();
+
+        $user = User::factory()
+            ->name("Diego Padri")
+            ->permission(Permissions::CAN_VIEW)
+            ->create();
+
+        $response=$this->actingAs($userSuperAdmin)
+            ->get("user/{$user->id}/edit");
+
+        $response->assertOk();
+    }
+
 
 }
