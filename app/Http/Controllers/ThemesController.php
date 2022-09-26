@@ -7,10 +7,6 @@ use Illuminate\Http\Request;
 
 class ThemesController extends Controller
 {
-    public function __construct()
-    {
-        $this->authorizeResource(Theme::class,'theme');
-    }
 
     /**
      * Display a listing of the resource.

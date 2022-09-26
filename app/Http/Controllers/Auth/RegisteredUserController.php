@@ -74,7 +74,7 @@ class RegisteredUserController extends Controller
         $this->authorize('delete',$user);
 
     }
-
+// $id will be resolved as user with $id
     public function update(User $user,$id)
     {
         $this->authorize('update',$user,$id);

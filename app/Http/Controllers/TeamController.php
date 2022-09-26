@@ -8,11 +8,6 @@ use App\Http\Requests\UpdateTeamRequest;
 
 class TeamController extends Controller
 {
-    public function __construct()
-    {
-        $this->authorizeResource(Team::class,'team');
-    }
-
     /**
      * Display a listing of the resource.
      *
