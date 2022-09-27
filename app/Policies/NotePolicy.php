@@ -8,7 +8,7 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 use App\Traits\CheckPermisson;
 use Illuminate\Auth\Access\Response;
 
-class NotePolicy extends ServiceForPolicies
+class NotePolicy
 {
     use HandlesAuthorization;
     use CheckPermisson;
@@ -27,13 +27,9 @@ class NotePolicy extends ServiceForPolicies
         }
 
         if ($this->canBanUser($user)) {
-//            dd($user);
             return true;
         }
 
-//        if ($this->isAdmin($user)) {
-//            return true;
-//        }
     }
 
     /**
@@ -88,17 +84,13 @@ class NotePolicy extends ServiceForPolicies
         if (!$user) {
             return false;
         }
-//        $this->canCreate($user) ? Response::allow() : Response::denyWithStatus(404);
-
 
         $canCreate = $this->canCreate($user);
 
         return $canCreate
             ? Response::allow()
             : Response::denyAsNotFound('You cannot create a Note. POLICY SAYS');
-//        if ($canCreate) {
-//            return true;
-//        }
+
     }
 
     /**
@@ -121,8 +113,6 @@ class NotePolicy extends ServiceForPolicies
         if ($canUpdate) {
             return true;
         }
-//        $this->canUpdate() ?  Response::allow() :Response::denyWithStatus(606);
-
     }
 
     /**

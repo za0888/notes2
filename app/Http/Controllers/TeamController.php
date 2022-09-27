@@ -15,7 +15,7 @@ class TeamController extends Controller
      */
     public function index()
     {
-        //
+        $this->authorize('viewAny',Team::class);
     }
 
     /**
@@ -25,7 +25,7 @@ class TeamController extends Controller
      */
     public function create()
     {
-        //
+        $this->authorize('create',Team::class);
     }
 
     /**
@@ -36,7 +36,8 @@ class TeamController extends Controller
      */
     public function store(StoreTeamRequest $request)
     {
-        //
+
+        $this->authorize('create',Team::class);
     }
 
     /**
@@ -47,7 +48,7 @@ class TeamController extends Controller
      */
     public function show(Team $team)
     {
-        //
+        $this->authorize('view',$team);
     }
 
     /**
@@ -58,7 +59,7 @@ class TeamController extends Controller
      */
     public function edit(Team $team)
     {
-        //
+        $this->authorize('update',Team::class);
     }
 
     /**
@@ -70,7 +71,7 @@ class TeamController extends Controller
      */
     public function update(UpdateTeamRequest $request, Team $team)
     {
-        //
+        $this->authorize('update',Team::class);
     }
 
     /**
@@ -81,6 +82,6 @@ class TeamController extends Controller
      */
     public function destroy(Team $team)
     {
-        //
+        $this->authorize('delete',Team::class);
     }
 }

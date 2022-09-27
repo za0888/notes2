@@ -4,15 +4,23 @@ namespace App\Policies;
 
 use App\Models\SubCategory;
 use App\Models\User;
+use App\Traits\CheckPermisson;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Auth\Access\Response;
 
-class SubCategoryPolicy extends  ServiceForPolicies
+class SubCategoryPolicy
 {
     use HandlesAuthorization;
+    use CheckPermisson;
 
     public function before(User $user)
     {
-        if ($user->is_admin) {
+        if (!$user) {
+            return false;
+        }
+
+        if ($this->canBanUser($user)) {
+//            dd($user);
             return true;
         }
     }
@@ -24,7 +32,14 @@ class SubCategoryPolicy extends  ServiceForPolicies
      */
     public function viewAny(User $user)
     {
-        //
+        if (!$user) {
+            return false;
+        }
+
+        $canView = $this->canView($user);
+        if ($canView) {
+            return true;
+        }
     }
 
     /**
@@ -36,11 +51,17 @@ class SubCategoryPolicy extends  ServiceForPolicies
      */
     public function view(User $user, SubCategory $subCategory)
     {
-        //
-        return
-            $this->ifModelCreatedByUser($user, $subCategory)
-            ||
-            $this->isTrustedUser($user,$subCategory);
+        if (!$user) {
+            return false;
+        }
+
+        $canView = $this->canView($user);
+        $bothSameTeam = $user->team_id === $subCategory->team_id;
+        $canView = $canView && $bothSameTeam;
+
+        if ($canView) {
+            return true;
+        }
 
     }
 
@@ -52,7 +73,15 @@ class SubCategoryPolicy extends  ServiceForPolicies
      */
     public function create(User $user)
     {
-        return true;
+        if (!$user) {
+            return false;
+        }
+
+        $canCreate = $this->canCreate($user);
+
+        return $canCreate
+            ? Response::allow()
+            : Response::denyAsNotFound('You cannot create a Note. POLICY SAYS');
     }
 
     /**
@@ -64,9 +93,18 @@ class SubCategoryPolicy extends  ServiceForPolicies
      */
     public function update(User $user, SubCategory $subCategory)
     {
-        //
-        $this->ifModelCreatedByUser($user, $subCategory);
 
+        if (!$user) {
+            return false;
+        }
+
+        $canUpdate = $this->canUpdate($user);
+        $bothSameTeam = $user->team_id === $subCategory->team_id;
+        $canUpdate = $canUpdate && $bothSameTeam;
+
+        if ($canUpdate) {
+            return true;
+        }
     }
 
     /**
@@ -78,7 +116,18 @@ class SubCategoryPolicy extends  ServiceForPolicies
      */
     public function delete(User $user, SubCategory $subCategory)
     {
-        $this->ifModelCreatedByUser($user, $subCategory);
+        if (!$user) {
+            return false;
+        }
+
+        $canDelete = $this->canDelete($user);
+        $bothSameTeam = $user->team_id === $subCategory->team_id;
+        $canDelete = $canDelete && $bothSameTeam;
+
+        if ($canDelete) {
+            return true;
+        }
+
 
     }
 
@@ -91,8 +140,13 @@ class SubCategoryPolicy extends  ServiceForPolicies
      */
     public function restore(User $user, SubCategory $subCategory)
     {
-        $this->ifModelCreatedByUser($user, $subCategory);
+        $canRestore = $this->canRestore($user);
+        $bothSameTeam = $user->team_id === $subCategory->team_id;
+        $canRestore = $canRestore && $bothSameTeam;
 
+        if ($canRestore) {
+            return true;
+        }
     }
 
     /**
@@ -104,7 +158,13 @@ class SubCategoryPolicy extends  ServiceForPolicies
      */
     public function forceDelete(User $user, SubCategory $subCategory)
     {
-        $this->ifModelCreatedByUser($user, $subCategory);
+        $canForceDelete = $this->canForceDelete($user);
+        $bothSameTeam = $user->team_id === $subCategory->team_id;
+        $canForceDelete = $canForceDelete && $bothSameTeam;
+
+        if ($canForceDelete) {
+            return true;
+        }
 
     }
 }

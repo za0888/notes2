@@ -15,7 +15,7 @@ class ThemesController extends Controller
      */
     public function index()
     {
-        //
+        $this->authorize('viewAny',Theme::class);
     }
 
     /**
@@ -25,7 +25,7 @@ class ThemesController extends Controller
      */
     public function create()
     {
-        //
+        $this->authorize('create',Theme::class);
     }
 
     /**
@@ -36,7 +36,7 @@ class ThemesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->authorize('create',Theme::class);
     }
 
     /**
@@ -47,7 +47,8 @@ class ThemesController extends Controller
      */
     public function show(Theme $theme)
     {
-        //
+        $this->authorize('view',$theme);
+
     }
 
     /**
@@ -58,7 +59,7 @@ class ThemesController extends Controller
      */
     public function edit(Theme $theme)
     {
-        //
+        $this->authorize('update',Theme::class);
     }
 
     /**
@@ -70,7 +71,7 @@ class ThemesController extends Controller
      */
     public function update(Request $request, Theme $theme)
     {
-        //
+        $this->authorize('update',Theme::class);
     }
 
     /**
@@ -81,6 +82,6 @@ class ThemesController extends Controller
      */
     public function destroy(Theme $theme)
     {
-        //
+        $this->authorize('delete',Theme::class);
     }
 }

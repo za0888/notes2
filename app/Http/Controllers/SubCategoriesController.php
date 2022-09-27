@@ -18,7 +18,7 @@ class SubCategoriesController extends Controller
      */
     public function index()
     {
-        //
+        $this->authorize('viewAny',SubCategory::class);
     }
 
     /**
@@ -28,7 +28,7 @@ class SubCategoriesController extends Controller
      */
     public function create()
     {
-        //
+        $this->authorize('create',SubCategory::class);
     }
 
     /**
@@ -39,7 +39,7 @@ class SubCategoriesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->authorize('create',SubCategory::class);
     }
 
     /**
@@ -50,7 +50,7 @@ class SubCategoriesController extends Controller
      */
     public function show(SubCategory $subCategory)
     {
-        //
+        $this->authorize('view',$subCategory);
     }
 
     /**
@@ -61,7 +61,8 @@ class SubCategoriesController extends Controller
      */
     public function edit(SubCategory $subCategory)
     {
-        //
+
+        $this->authorize('update',SubCategory::class);
     }
 
     /**
@@ -73,7 +74,7 @@ class SubCategoriesController extends Controller
      */
     public function update(Request $request, SubCategory $subCategory)
     {
-        //
+        $this->authorize('update',SubCategory::class);
     }
 
     /**
@@ -84,6 +85,7 @@ class SubCategoriesController extends Controller
      */
     public function destroy(SubCategory $subCategory)
     {
-        //
+
+        $this->authorize('delete',SubCategory::class);
     }
 }

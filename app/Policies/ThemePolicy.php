@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\Theme;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Auth\Access\Response;
 
 class ThemePolicy extends ServiceForPolicies
 {
@@ -12,7 +13,12 @@ class ThemePolicy extends ServiceForPolicies
 
     public function before(User $user)
     {
-        if ($user->is_admin) {
+
+        if (!$user) {
+            return false;
+        }
+
+        if ($this->canBanUser($user)) {
             return true;
         }
     }
@@ -25,6 +31,14 @@ class ThemePolicy extends ServiceForPolicies
      */
     public function viewAny(User $user)
     {
+        if (!$user) {
+            return false;
+        }
+
+        $canView = $this->canView($user);
+        if ($canView) {
+            return true;
+        }
     }
 
     /**
@@ -36,11 +50,18 @@ class ThemePolicy extends ServiceForPolicies
      */
     public function view(User $user, Theme $theme)
     {
-        return
-            $this->ifModelCreatedByUser($user, $theme)
-            ||
-            $this->ifModelCreatedByUser($user, $theme);
 
+        if (!$user) {
+            return false;
+        }
+
+        $canView = $this->canView($user);
+        $bothSameTeam = $user->team_id === $theme->team_id;
+        $canView = $canView && $bothSameTeam;
+
+        if ($canView) {
+            return true;
+        }
     }
 
     /**
@@ -51,7 +72,15 @@ class ThemePolicy extends ServiceForPolicies
      */
     public function create(User $user)
     {
-        return true;
+        if (!$user) {
+            return false;
+        }
+
+        $canCreate = $this->canCreate($user);
+
+        return $canCreate
+            ? Response::allow()
+            : Response::denyAsNotFound('You cannot create a Note. POLICY SAYS');
     }
 
     /**
@@ -63,7 +92,17 @@ class ThemePolicy extends ServiceForPolicies
      */
     public function update(User $user, Theme $theme)
     {
-        return $this->ifModelCreatedByUser($user, $theme);
+        if (!$user) {
+            return false;
+        }
+
+        $canUpdate = $this->canUpdate($user);
+        $bothSameTeam = $user->team_id === $theme->team_id;
+        $canUpdate = $canUpdate && $bothSameTeam;
+
+        if ($canUpdate) {
+            return true;
+        }
     }
 
     /**
@@ -75,7 +114,17 @@ class ThemePolicy extends ServiceForPolicies
      */
     public function delete(User $user, Theme $theme)
     {
-        return $this->ifModelCreatedByUser($user, $theme);
+        if (!$user) {
+            return false;
+        }
+
+        $canDelete = $this->canDelete($user);
+        $bothSameTeam = $user->team_id === $theme->team_id;
+        $canDelete = $canDelete && $bothSameTeam;
+
+        if ($canDelete) {
+            return true;
+        }
     }
 
     /**
@@ -87,7 +136,13 @@ class ThemePolicy extends ServiceForPolicies
      */
     public function restore(User $user, Theme $theme)
     {
-        return $this->ifModelCreatedByUser($user, $theme);
+        $canRestore = $this->canRestore($user);
+        $bothSameTeam = $user->team_id === $theme->team_id;
+        $canRestore = $canRestore && $bothSameTeam;
+
+        if ($canRestore) {
+            return true;
+        }
     }
 
     /**
@@ -99,6 +154,12 @@ class ThemePolicy extends ServiceForPolicies
      */
     public function forceDelete(User $user, Theme $theme)
     {
-        return $this->ifIsAdmin();
+        $canForceDelete = $this->canForceDelete($user);
+        $bothSameTeam = $user->team_id === $theme->team_id;
+        $canForceDelete = $canForceDelete && $bothSameTeam;
+
+        if ($canForceDelete) {
+            return true;
+        }
     }
 }

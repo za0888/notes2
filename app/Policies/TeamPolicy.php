@@ -6,6 +6,7 @@ use App\Models\Team;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use App\Traits\CheckPermisson;
+use Illuminate\Auth\Access\Response;
 
 class TeamPolicy
 {
@@ -25,7 +26,14 @@ class TeamPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        if (!$user) {
+            return false;
+        }
+
+        $canView = $this->canView($user);
+        if ($canView) {
+            return true;
+        }
     }
 
     /**
@@ -37,7 +45,18 @@ class TeamPolicy
      */
     public function view(User $user, Team $team)
     {
-        //
+        if (!$user) {
+            return false;
+        }
+
+        $canView = $this->canView($user);
+        $bothSameTeam = $user->team_id === $note->team_id;
+        $canView = $canView && $bothSameTeam;
+
+        if ($canView) {
+            return true;
+        }
+
     }
 
     /**
@@ -48,6 +67,15 @@ class TeamPolicy
      */
     public function create(User $user)
     {
+        if (!$user) {
+            return false;
+        }
+
+        $canCreate = $this->canCreate($user);
+
+        return $canCreate
+            ? Response::allow()
+            : Response::denyAsNotFound('You cannot create a Note. POLICY SAYS');
     }
 
     /**
@@ -59,7 +87,17 @@ class TeamPolicy
      */
     public function update(User $user, Team $team)
     {
-        //
+        if (!$user) {
+            return false;
+        }
+
+        $canUpdate = $this->canUpdate($user);
+        $bothSameTeam = $user->team_id === $team->team_id;
+        $canUpdate = $canUpdate && $bothSameTeam;
+
+        if ($canUpdate) {
+            return true;
+        }
     }
 
     /**
@@ -71,7 +109,17 @@ class TeamPolicy
      */
     public function delete(User $user, Team $team)
     {
-        //
+        if (!$user) {
+            return false;
+        }
+
+        $canDelete = $this->canDelete($user);
+        $bothSameTeam = $user->team_id === $team->team_id;
+        $canDelete = $canDelete && $bothSameTeam;
+
+        if ($canDelete) {
+            return true;
+        }
     }
 
     /**
@@ -83,7 +131,13 @@ class TeamPolicy
      */
     public function restore(User $user, Team $team)
     {
-        //
+        $canRestore = $this->canRestore($user);
+        $bothSameTeam = $user->team_id === $team->team_id;
+        $canRestore = $canRestore && $bothSameTeam;
+
+        if ($canRestore) {
+            return true;
+        }
     }
 
     /**
@@ -95,6 +149,12 @@ class TeamPolicy
      */
     public function forceDelete(User $user, Team $team)
     {
-        //
+        $canForceDelete = $this->canForceDelete($user);
+        $bothSameTeam = $user->team_id === $team->team_id;
+        $canForceDelete = $canForceDelete && $bothSameTeam;
+
+        if ($canForceDelete) {
+            return true;
+        }
     }
 }
