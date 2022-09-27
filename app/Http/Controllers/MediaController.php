@@ -27,11 +27,12 @@ class MediaController extends Controller
     public function show(Media $media)
     {
         //
+        $this->authorize('view',$media);
     }
 
     public function edit(Media $media)
     {
-        $this->authorize('view',$media);
+        $this->authorize('update',$media);
     }
 
     public function update(UpdateMediaRequest $request, Media $media)

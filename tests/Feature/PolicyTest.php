@@ -159,17 +159,30 @@ class PolicyTest extends TestCase
 ////
         $response = $this->delete('user/1');
         $response->assertForbidden();
+
+//        Media
+
+        $response = $this->get('media');
+        $response->assertForbidden();
 //
-//        $response = $this->get('user/1/edit');
-//        $response->assertForbidden();
+        $response = $this->post('media');
+        $response->assertForbidden();
 //
+        $response = $this->get('media/1');
+//
+        $response->assertForbidden();
+//
+        $response = $this->put('media/2');
+        $response->assertForbidden();
+//
+        $response = $this->delete('media/1');
+        $response->assertForbidden();
+
+        $response = $this->get('media/1/edit');
+        $response->assertForbidden();
     }
 
-//    public function test_super_admin_can_ban_users()
-//    {
-//
-//    }
-//
+
     public function test_user_can_view_note()
     {
         $this->seed();
