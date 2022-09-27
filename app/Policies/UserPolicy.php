@@ -87,9 +87,7 @@ class UserPolicy
         if (!$user) {
             return  false;
         }
-//        dd('============',$user->id , $id->id);
         $userCanEdit = $this->canControlUser($user) || $user->id === $id?->id;
-//        $userCanUpdate = $this->canControlUser($user) || $user->id === $model->id;
 
 
         if ($userCanEdit) {
