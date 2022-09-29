@@ -116,11 +116,15 @@ class NotePolicy
         $canUpdate = $this->canUpdate($user);
         $bothSameTeam = $user->team_id === $note->team_id;
         $canUpdate = $canUpdate && $bothSameTeam;
+//        dd($canUpdate,$user->team_id,$note->team->id);
 
         if ($canUpdate) {
             return Response::allow();
         }
-        return Response::denyAsNotFound('NotFound my');
+        else{
+            return Response::denyAsNotFound('NotFound my');
+        }
+
     }
 
     /**

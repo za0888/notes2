@@ -17,7 +17,7 @@ class TeamFactory extends Factory
     public function definition()
     {
         return [
-            'name'=>fake()->word(3),
+            'name'=>fake()->words(3,true),
             'about'=>fake()->text
         ];
     }

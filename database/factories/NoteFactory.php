@@ -18,7 +18,7 @@ class NoteFactory extends Factory
     {
 //        $user = \Auth::user();
         return [
-            'title' => fake()->word(3),
+            'title' => fake()->words(3,true),
             'body' => fake()->text(),
             'links' => [
                 [

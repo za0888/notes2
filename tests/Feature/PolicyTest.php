@@ -203,8 +203,8 @@ class PolicyTest extends TestCase
             ->get("notes/{$note->id}");
         $response->assertOk();
 //and on the contrary
-        $user->permissions=null;
-        $response=$this->actingAs($user)->get("notes/{$note->id}");
+        $user->permissions = null;
+        $response = $this->actingAs($user)->get("notes/{$note->id}");
         $response->assertNotFound();
 
     }
@@ -339,7 +339,7 @@ class PolicyTest extends TestCase
             ->permission(Permissions::CAN_UPDATE)
             ->create();
 
-        $response=$this->actingAs($user)
+        $response = $this->actingAs($user)
             ->get("user/{$user->id}/edit");
 
         $response->assertOk();
@@ -357,7 +357,7 @@ class PolicyTest extends TestCase
             ->permission(Permissions::CAN_VIEW)
             ->create();
 
-        $response=$this->actingAs($userSuperAdmin)
+        $response = $this->actingAs($userSuperAdmin)
             ->get("user/{$user->id}/edit");
 
         $response->assertOk();
@@ -375,37 +375,66 @@ class PolicyTest extends TestCase
             ->team_id(1)
             ->make();
 //note
-        $note=Note::whereNot('team_id',$user->team_id)->first();
-        $response=$this->actingAs($user)->get("notes/{$note->id}/edit}");
+        $note = Note::whereNot('team_id', $user->team_id)->first();
+        $response = $this->actingAs($user)->get("notes/{$note->id}/edit}");
         $response->assertNotFound();
 
 //        theme
 //        $theme=Theme::whereNot('team_id',$user->team_id)->first();
-       $theme=Theme::factory()->team_id(2)->create();
+        $theme = Theme::factory()->team_id(2)->create();
 
-        $response=$this->actingAs($user)->get("themes/{$theme->id}/edit}");
+        $response = $this->actingAs($user)->get("themes/{$theme->id}/edit}");
         $response->assertNotFound();
 
 //        category
-        $category=Category::whereNot('team_id',$user->team_id)->first();
-        $response=$this->actingAs($user)->get("categories/{$category?->id}/edit}");
+        $category = Category::whereNot('team_id', $user->team_id)->first();
+        $response = $this->actingAs($user)->get("categories/{$category?->id}/edit}");
         $response->assertNotFound();
 
 //        subcategory
-        $subCategory=SubCategory::factory()->team_id(2)->create();
+        $subCategory = SubCategory::factory()->team_id(2)->create();
 //        dd($subCategory);
-        $response=$this->actingAs($user)
+        $response = $this->actingAs($user)
             ->get("subCategories/{$subCategory?->id}/edit}");
 
         $response->assertNotFound();
 
 //      media
-      $media=Media::factory()->team_id(2)->create();
-        $response=$this->actingAs($user)->get("media/{$media->id}/edit}");
+        $media = Media::factory()->team_id(2)->create();
+        $response = $this->actingAs($user)->get("media/{$media->id}/edit}");
         $response->assertNotFound();
 
 
     }
 
+    public function test_authorized_user_can_touch_model()
+    {
+//        start
+        $team = Team::factory()->create();
+        $user = User::factory()->for($team)->permission(Permissions::CAN_VIEW)->create();
+        $subCategory = SubCategory::factory()->for($team)->create();
+        $note = Note::factory()->for($team)->for($user)->for($subCategory)->create();
+// end of start
+
+        $response = $this->actingAs($user)->get('notes');
+        $response->assertOk();
+
+        $response = $this->actingAs($user)->get("notes/{$note->id}");
+        $response->assertOk();
+
+        $response = $this->actingAs($user)->get("notes/{$note->id}/edit");
+//        $user->permisssions=Permissions::CAN_UPDATE;
+        $response->assertNotFound();//user only view
+
+        $response = $this->actingAs($user)->put("notes/{$note->id}");
+        $response->assertNotFound();
+
+        $response = $this->actingAs($user)->get('subCategories');
+        $response->assertOk();
+
+        $response = $this->actingAs($user)->get("subCategories/{$subCategory->id}");
+        $response->assertOk();
+
+    }
 
 }

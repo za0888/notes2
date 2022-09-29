@@ -57,7 +57,7 @@ class NotesController extends Controller
      */
     public function edit(Note $note)
     {
-        $this->authorize('update',Note::class);
+        $this->authorize('update',$note);
     }
 
     /**
@@ -69,7 +69,7 @@ class NotesController extends Controller
      */
     public function update(Request $request, Note $note)
     {
-        $this->authorize('update',Note::class);
+        $this->authorize('update',$note);
     }
 
     /**
