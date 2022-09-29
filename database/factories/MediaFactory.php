@@ -17,7 +17,8 @@ class MediaFactory extends Factory
     public function definition()
     {
         return [
-            ['media_type'=>0]
+            'media_type'=>0,
+            'title'=>fake()->words(3,true)
         ];
     }
 
@@ -25,6 +26,12 @@ class MediaFactory extends Factory
     {
         return $this->state(
             fn(array $attributes)=>['media_type'=>1]
+        );
+    }
+    public function team_id(int $team_id)
+    {
+        return $this->state(
+            fn(array $attributes) =>['team_id'=>$team_id]
         );
     }
 }

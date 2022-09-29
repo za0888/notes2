@@ -23,9 +23,6 @@ return new class extends Migration {
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
 
-//            $table->bigInteger('created_by_user')
-//                ->nullable();
-
             $table->foreignIdFor(Team::class);
 
 

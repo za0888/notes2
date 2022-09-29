@@ -3,9 +3,11 @@
 namespace Tests\Feature;
 
 use App\Models\Category;
+use App\Models\Media;
 use App\Models\Note;
 use App\Models\SubCategory;
 use App\Models\Team;
+use App\Models\Theme;
 use App\Models\User;
 use App\Policies\Permissions;
 use Database\Seeders\UserSeeder;
@@ -359,6 +361,50 @@ class PolicyTest extends TestCase
             ->get("user/{$user->id}/edit");
 
         $response->assertOk();
+    }
+
+    public function
+
+    test_unautorized_user_from_alien_team_cannot_touch_models()
+    {
+        $this->seed();
+
+        $user = User::factory()
+            ->name("Diego Padri")
+            ->permission(Permissions::CAN_UPDATE)
+            ->team_id(1)
+            ->make();
+//note
+        $note=Note::whereNot('team_id',$user->team_id)->first();
+        $response=$this->actingAs($user)->get("notes/{$note->id}/edit}");
+        $response->assertNotFound();
+
+//        theme
+//        $theme=Theme::whereNot('team_id',$user->team_id)->first();
+       $theme=Theme::factory()->team_id(2)->create();
+
+        $response=$this->actingAs($user)->get("themes/{$theme->id}/edit}");
+        $response->assertNotFound();
+
+//        category
+        $category=Category::whereNot('team_id',$user->team_id)->first();
+        $response=$this->actingAs($user)->get("categories/{$category?->id}/edit}");
+        $response->assertNotFound();
+
+//        subcategory
+        $subCategory=SubCategory::factory()->team_id(2)->create();
+//        dd($subCategory);
+        $response=$this->actingAs($user)
+            ->get("subCategories/{$subCategory?->id}/edit}");
+
+        $response->assertNotFound();
+
+//      media
+      $media=Media::factory()->team_id(2)->create();
+        $response=$this->actingAs($user)->get("media/{$media->id}/edit}");
+        $response->assertNotFound();
+
+
     }
 
 

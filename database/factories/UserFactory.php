@@ -64,4 +64,10 @@ class UserFactory extends Factory
             fn(array $attributes) =>['name'=>$name]
         );
     }
+    public function team_id(int $team_id)
+    {
+        return $this->state(
+            fn(array $attributes) =>['team_id'=>$team_id]
+        );
+    }
 }

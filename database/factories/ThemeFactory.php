@@ -18,6 +18,15 @@ class ThemeFactory extends Factory
     public function definition()
     {
         return [
+            'name'=>fake()->word(2),
+            'team_id'=>1
         ];
+    }
+
+    public function team_id(int $team_id)
+    {
+        return $this->state(
+            fn(array $attributes) =>['team_id'=>$team_id]
+        );
     }
 }

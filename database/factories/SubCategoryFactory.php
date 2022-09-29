@@ -17,8 +17,13 @@ class SubCategoryFactory extends Factory
     public function definition()
     {
         return [
-            'name'=>fake()->word(3)
+            'name'=>fake()->words(2,true)
         ];
     }
-
+    public function team_id(int $team_id)
+    {
+        return $this->state(
+            fn(array $attributes) =>['team_id'=>$team_id]
+        );
+    }
 }
