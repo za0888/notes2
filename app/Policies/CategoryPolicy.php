@@ -39,6 +39,7 @@ class CategoryPolicy extends ServiceForPolicies
         if ($canView) {
             return true;
         }
+        
     }
 
     /**

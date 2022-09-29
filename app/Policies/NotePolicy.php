@@ -70,6 +70,9 @@ class NotePolicy
         if ($canView) {
             return true;
         }
+        else{
+            return Response::denyAsNotFound('Alas. Sorry');
+        }
 
     }
 
@@ -82,7 +85,8 @@ class NotePolicy
     public function create(User $user)
     {
         if (!$user) {
-            return false;
+//            return false;
+           return Response::denyAsNotFound('You cannot create a Note. POLICY SAYS');
         }
 
         $canCreate = $this->canCreate($user);
@@ -103,7 +107,7 @@ class NotePolicy
     public function update(User $user, Note $note)
     {
         if (!$user) {
-            return false;
+           return Response::denyAsNotFound('You must be a User');
         }
 
         $canUpdate = $this->canUpdate($user);
@@ -111,8 +115,9 @@ class NotePolicy
         $canUpdate = $canUpdate && $bothSameTeam;
 
         if ($canUpdate) {
-            return true;
+            return Response::allow();
         }
+        return Response::denyAsNotFound('NotFound my');
     }
 
     /**

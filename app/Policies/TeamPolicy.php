@@ -27,7 +27,8 @@ class TeamPolicy
     public function viewAny(User $user)
     {
         if (!$user) {
-            return false;
+            return Response::denyAsNotFound('foo');
+//            return false;
         }
 
         $canView = $this->canView($user);

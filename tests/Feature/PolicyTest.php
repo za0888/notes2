@@ -85,7 +85,6 @@ class PolicyTest extends TestCase
         $response->assertForbidden();
 //
         $response = $this->get('subCategories/1');
-//
         $response->assertForbidden();
 //
         $response = $this->put('subCategories/2');
@@ -169,7 +168,6 @@ class PolicyTest extends TestCase
         $response->assertForbidden();
 //
         $response = $this->get('media/1');
-//
         $response->assertForbidden();
 //
         $response = $this->put('media/2');
@@ -201,8 +199,11 @@ class PolicyTest extends TestCase
 
         $response = $this->actingAs($user)
             ->get("notes/{$note->id}");
-//        dd('note_id---',$note->id,$user);
         $response->assertOk();
+//and on the contrary
+        $user->permissions=null;
+        $response=$this->actingAs($user)->get("notes/{$note->id}");
+        $response->assertNotFound();
 
     }
 
