@@ -39,7 +39,9 @@ class CategoryPolicy extends ServiceForPolicies
         if ($canView) {
             return true;
         }
-        
+        else{
+            return Response::denyAsNotFound('Alas. Sorry');
+        }
     }
 
     /**
@@ -62,7 +64,9 @@ class CategoryPolicy extends ServiceForPolicies
         if ($canView) {
             return true;
         }
-
+        else{
+            return Response::denyAsNotFound('Alas. Sorry');
+        }
     }
 
     /**
@@ -106,6 +110,9 @@ class CategoryPolicy extends ServiceForPolicies
         if ($canUpdate) {
             return true;
         }
+        else{
+            return Response::denyAsNotFound('Alas. Sorry');
+        }
     }
 
     /**
@@ -128,6 +135,9 @@ class CategoryPolicy extends ServiceForPolicies
         if ($canDelete) {
             return true;
         }
+        else{
+            return Response::denyAsNotFound('Alas. Sorry');
+        }
     }
 
     /**
@@ -146,7 +156,9 @@ class CategoryPolicy extends ServiceForPolicies
         if ($canRestore) {
             return true;
         }
-
+        else{
+            return Response::denyAsNotFound('Alas. Sorry');
+        }
     }
 
     /**
@@ -164,6 +176,9 @@ class CategoryPolicy extends ServiceForPolicies
 
         if ($canForceDelete) {
             return true;
+        }
+        else{
+            return Response::denyAsNotFound('Alas. Sorry');
         }
     }
 

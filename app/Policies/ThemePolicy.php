@@ -21,6 +21,9 @@ class ThemePolicy extends ServiceForPolicies
         if ($this->canBanUser($user)) {
             return true;
         }
+        else{
+            return Response::denyAsNotFound('Alas. Sorry');
+        }
     }
 
     /**
@@ -38,6 +41,9 @@ class ThemePolicy extends ServiceForPolicies
         $canView = $this->canView($user);
         if ($canView) {
             return true;
+        }
+        else{
+            return Response::denyAsNotFound('Alas. Sorry');
         }
     }
 
@@ -61,6 +67,9 @@ class ThemePolicy extends ServiceForPolicies
 
         if ($canView) {
             return true;
+        }
+        else{
+            return Response::denyAsNotFound('Alas. Sorry');
         }
     }
 
@@ -103,6 +112,9 @@ class ThemePolicy extends ServiceForPolicies
         if ($canUpdate) {
             return true;
         }
+        else{
+            return Response::denyAsNotFound('Alas. Sorry');
+        }
     }
 
     /**
@@ -125,6 +137,9 @@ class ThemePolicy extends ServiceForPolicies
         if ($canDelete) {
             return true;
         }
+        else{
+            return Response::denyAsNotFound('Alas. Sorry');
+        }
     }
 
     /**
@@ -143,6 +158,9 @@ class ThemePolicy extends ServiceForPolicies
         if ($canRestore) {
             return true;
         }
+        else{
+            return Response::denyAsNotFound('Alas. Sorry');
+        }
     }
 
     /**
@@ -160,6 +178,9 @@ class ThemePolicy extends ServiceForPolicies
 
         if ($canForceDelete) {
             return true;
+        }
+        else{
+            return Response::denyAsNotFound('Alas. Sorry');
         }
     }
 }

@@ -41,6 +41,8 @@ class MediaPolicy extends ServiceForPolicies
         $canView = $this->canView($user);
         if ($canView) {
             return true;
+        } else {
+            return Response::denyAsNotFound('Alas. Sorry');
         }
     }
 
@@ -58,13 +60,14 @@ class MediaPolicy extends ServiceForPolicies
         }
 
         $canView = $this->canView($user);
-        $bothSameTeam = $user->team_id === $note->team_id;
+        $bothSameTeam = $user->team_id === $media->team_id;
         $canView = $canView && $bothSameTeam;
 
         if ($canView) {
             return true;
+        } else {
+            return Response::denyAsNotFound('Alas. Sorry');
         }
-
     }
 
     /**
@@ -104,9 +107,10 @@ class MediaPolicy extends ServiceForPolicies
         $bothSameTeam = $user->team_id === $media->team_id;
         $canUpdate = $canUpdate && $bothSameTeam;
 
-        if ($canUpdate) {
-            return true;
-        }
+//        if ($canUpdate) {
+//            return true;
+//        }
+        return $canUpdate ? $this->allow() : $this->denyAsNotFound();
     }
 
     /**
@@ -129,6 +133,9 @@ class MediaPolicy extends ServiceForPolicies
         if ($canDelete) {
             return true;
         }
+        else{
+            return Response::denyAsNotFound('Alas. Sorry');
+        }
     }
 
     /**
@@ -148,6 +155,9 @@ class MediaPolicy extends ServiceForPolicies
         if ($canRestore) {
             return true;
         }
+        else{
+            return Response::denyAsNotFound('Alas. Sorry');
+        }
     }
 
     /**
@@ -166,6 +176,8 @@ class MediaPolicy extends ServiceForPolicies
         if ($canForceDelete) {
             return true;
         }
-
+        else{
+            return Response::denyAsNotFound('Alas. Sorry');
+        }
     }
 }

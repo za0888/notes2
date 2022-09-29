@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
+use Illuminate\Auth\Access\Response;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use App\Traits\CheckPermisson;
 
@@ -45,6 +46,10 @@ class UserPolicy
         if ($userCanView) {
             return true;
         }
+        else{
+            Response::denyAsNotFound();
+        }
+
     }
 
     /**
@@ -72,12 +77,14 @@ class UserPolicy
             return  false;
         }
 
-        $userCanUpdate=$this->canControlUser($user) ||$user->id === $id->id;
-        $userCanUpdate = $this->canControlUser($user) ;
+        $userCanUpdate=$this->canControlUser($user) || $user->id === $id->id;
 
 
         if ($userCanUpdate) {
             return true;
+        }
+        else{
+            Response::denyAsNotFound();
         }
     }
 
@@ -92,6 +99,9 @@ class UserPolicy
 
         if ($userCanEdit) {
             return true;
+        }
+        else{
+            Response::denyAsNotFound();
         }
     }
 
@@ -131,6 +141,9 @@ class UserPolicy
         if ($userCanRestore) {
             return true;
         }
+        else{
+            Response::denyAsNotFound();
+        }
     }
 
     /**
@@ -149,6 +162,9 @@ class UserPolicy
 
         if ($userCanForceDelete) {
             return true;
+        }
+        else{
+            Response::denyAsNotFound();
         }
     }
 

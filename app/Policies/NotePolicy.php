@@ -48,6 +48,9 @@ class NotePolicy
         if ($canView) {
             return true;
         }
+        else{
+            return Response::denyAsNotFound('Alas. Sorry');
+        }
     }
 
     /**

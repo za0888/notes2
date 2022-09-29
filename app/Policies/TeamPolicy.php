@@ -51,13 +51,15 @@ class TeamPolicy
         }
 
         $canView = $this->canView($user);
-        $bothSameTeam = $user->team_id === $note->team_id;
+        $bothSameTeam = $user->team_id === $team->id;
         $canView = $canView && $bothSameTeam;
 
         if ($canView) {
             return true;
         }
-
+        else{
+            return Response::denyAsNotFound('Alas. Sorry');
+        }
     }
 
     /**
@@ -93,7 +95,7 @@ class TeamPolicy
         }
 
         $canUpdate = $this->canUpdate($user);
-        $bothSameTeam = $user->team_id === $team->team_id;
+        $bothSameTeam = $user->team_id === $team->id;
         $canUpdate = $canUpdate && $bothSameTeam;
 
         if ($canUpdate) {
@@ -115,11 +117,14 @@ class TeamPolicy
         }
 
         $canDelete = $this->canDelete($user);
-        $bothSameTeam = $user->team_id === $team->team_id;
+        $bothSameTeam = $user->team_id === $team->id;
         $canDelete = $canDelete && $bothSameTeam;
 
         if ($canDelete) {
             return true;
+        }
+        else{
+            return Response::denyAsNotFound('Alas. Sorry');
         }
     }
 
@@ -133,11 +138,14 @@ class TeamPolicy
     public function restore(User $user, Team $team)
     {
         $canRestore = $this->canRestore($user);
-        $bothSameTeam = $user->team_id === $team->team_id;
+        $bothSameTeam = $user->team_id === $team->id;
         $canRestore = $canRestore && $bothSameTeam;
 
         if ($canRestore) {
             return true;
+        }
+        else{
+            return Response::denyAsNotFound('Alas. Sorry');
         }
     }
 
@@ -151,11 +159,14 @@ class TeamPolicy
     public function forceDelete(User $user, Team $team)
     {
         $canForceDelete = $this->canForceDelete($user);
-        $bothSameTeam = $user->team_id === $team->team_id;
+        $bothSameTeam = $user->team_id === $team->id;
         $canForceDelete = $canForceDelete && $bothSameTeam;
 
         if ($canForceDelete) {
             return true;
+        }
+        else{
+            return Response::denyAsNotFound('Alas. Sorry');
         }
     }
 }

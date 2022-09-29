@@ -40,6 +40,9 @@ class SubCategoryPolicy
         if ($canView) {
             return true;
         }
+        else{
+            return Response::denyAsNotFound('Alas. Sorry');
+        }
     }
 
     /**
@@ -62,6 +65,9 @@ class SubCategoryPolicy
         if ($canView) {
             return true;
         }
+        else{
+            return Response::denyAsNotFound('Alas. Sorry');
+        }
 
     }
 
@@ -81,7 +87,7 @@ class SubCategoryPolicy
 
         return $canCreate
             ? Response::allow()
-            : Response::denyAsNotFound('You cannot create a Note. POLICY SAYS');
+            : Response::denyAsNotFound();
     }
 
     /**
@@ -105,6 +111,9 @@ class SubCategoryPolicy
         if ($canUpdate) {
             return true;
         }
+        else{
+            return Response::denyAsNotFound('Alas. Sorry');
+        }
     }
 
     /**
@@ -127,7 +136,9 @@ class SubCategoryPolicy
         if ($canDelete) {
             return true;
         }
-
+        else{
+            return Response::denyAsNotFound('Alas. Sorry');
+        }
 
     }
 
@@ -147,6 +158,9 @@ class SubCategoryPolicy
         if ($canRestore) {
             return true;
         }
+        else{
+            return Response::denyAsNotFound('Alas. Sorry');
+        }
     }
 
     /**
@@ -165,6 +179,8 @@ class SubCategoryPolicy
         if ($canForceDelete) {
             return true;
         }
-
+        else{
+            return Response::denyAsNotFound('Alas. Sorry');
+        }
     }
 }
