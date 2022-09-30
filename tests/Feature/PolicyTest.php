@@ -185,16 +185,23 @@ class PolicyTest extends TestCase
 
     public function test_user_can_view_note()
     {
-        $this->seed();
 
-        $user = User::where('permissions', '&', Permissions::CAN_VIEW)
-            ->where(
-                fn($query) => $query->whereNot('permissions', Permissions::IS_ADMIN)
-            )
-            ->first();
+        $team=Team::factory()->create();
+        $user=User::factory()
+            ->permission(Permissions::CAN_VIEW)
+            ->for($team)
+            ->create();
 
-        $note = Note::where('user_id', $user->id)->first();
-//        dd('user------', $user, 'note-------', $note);
+        $subCategory=SubCategory::factory()
+            ->for($team)
+            ->create();
+
+        $note=Note::factory()
+            ->for($team)
+            ->for($subCategory)
+            ->for($user)
+            ->create();
+
         $response = $this->actingAs($user)
             ->get('notes');
         $response->assertOk();
@@ -216,7 +223,7 @@ class PolicyTest extends TestCase
 
         $user = User::where('permissions', '&', Permissions::CAN_VIEW)->first();
 
-        \Auth::login($user);
+//        \Auth::login($user);
 
         $note = Note::whereNot('team_id', $user->team_id)->first()?->id;
 //        dd($note);
