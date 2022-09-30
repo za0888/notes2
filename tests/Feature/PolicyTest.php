@@ -411,30 +411,99 @@ class PolicyTest extends TestCase
     {
 //        start
         $team = Team::factory()->create();
-        $user = User::factory()->for($team)->permission(Permissions::CAN_VIEW)->create();
-        $subCategory = SubCategory::factory()->for($team)->create();
-        $note = Note::factory()->for($team)->for($user)->for($subCategory)->create();
+
+        $user = User::factory()
+            ->for($team)
+            ->permission(Permissions::CAN_VIEW)
+            ->create();
+
+        $theme = Theme::factory()
+            ->for($team)
+            ->create();
+
+        $category = Category::factory()
+            ->for($team)
+            ->for($theme)
+            ->create();
+
+        $subCategory = SubCategory::factory()
+            ->for($category)
+            ->for($team)
+            ->create();
+
+        $note = Note::factory()
+            ->for($team)
+            ->for($user)
+            ->for($subCategory)
+            ->create();
+
 // end of start
 
         $response = $this->actingAs($user)->get('notes');
         $response->assertOk();
-
+//Note
         $response = $this->actingAs($user)->get("notes/{$note->id}");
         $response->assertOk();
 
         $response = $this->actingAs($user)->get("notes/{$note->id}/edit");
-//        $user->permisssions=Permissions::CAN_UPDATE;
         $response->assertNotFound();//user only view
 
         $response = $this->actingAs($user)->put("notes/{$note->id}");
         $response->assertNotFound();
 
+//SubCategory
         $response = $this->actingAs($user)->get('subCategories');
         $response->assertOk();
 
         $response = $this->actingAs($user)->get("subCategories/{$subCategory->id}");
         $response->assertOk();
 
+        $response = $this->actingAs($user)->get("subCategoris/{$subCategory->id}/edit");
+//        $user->permisssions=Permissions::CAN_UPDATE;
+        $response->assertNotFound();//user only view
+
+        $response = $this->actingAs($user)->put("subCategoris/{$subCategory->id}");
+        $response->assertNotFound();
+
+//        Team
+        $response = $this->actingAs($user)->get('teams');
+        $response->assertOk();
+
+        $response = $this->actingAs($user)->get("teams/{$team->id}");
+        $response->assertOk();
+
+        $response = $this->actingAs($user)->get("teams/{$team->id}/edit");
+        $response->assertNotFound();//user only view
+
+        $response = $this->actingAs($user)->put("teams/{$team->id}");
+        $response->assertNotFound();
+
+//        theme
+        $response = $this->actingAs($user)->get('themes');
+        $response->assertOk();
+
+        $response = $this->actingAs($user)->get("themes/{$theme->id}");
+        $response->assertOk();
+
+        $response = $this->actingAs($user)->get("themes/{$theme->id}/edit");
+        $response->assertNotFound();//user can only view
+
+        $response = $this->actingAs($user)->put("themes/{$theme->id}");
+        $response->assertNotFound();
+
+//    category
+        $response = $this->actingAs($user)->get('categories');
+        $response->assertOk();
+
+        $response = $this->actingAs($user)->get("categories/{$category->id}");
+        $response->assertOk();
+
+        $response = $this->actingAs($user)->get("categories/{$category->id}/edit");
+        $response->assertNotFound();//user can only view
+
+        $response = $this->actingAs($user)->put("categories/{$category->id}");
+        $response->assertNotFound();
     }
+
 
 }

@@ -2,6 +2,7 @@
 
 use App\Models\Domain;
 use App\Models\Team;
+use App\Models\Theme;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -19,7 +20,7 @@ return new class extends Migration {
 
             $table->string('name');
 
-            $table->foreignId('theme_id')
+            $table->foreignIdFor(Theme::class)
                 ->nullable()
                 ->constrained()
                 ->cascadeOnDelete()

@@ -18,8 +18,8 @@ class ThemeFactory extends Factory
     public function definition()
     {
         return [
-            'name'=>fake()->word(2),
-            'team_id'=>1
+            'name'=>fake()->word(),
+//            'team_id'=>1
         ];
     }
 

@@ -32,7 +32,7 @@ class CategoryPolicy extends ServiceForPolicies
     public function viewAny(User $user)
     {
         if (!$user) {
-            return false;
+            return Response::denyAsNotFound('Alas. Sorry');
         }
 
         $canView = $this->canView($user);

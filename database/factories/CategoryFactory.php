@@ -21,4 +21,11 @@ class CategoryFactory extends Factory
             'team_id'=>1
         ];
     }
+
+    public function team_id(int $team_id)
+    {
+        return $this->state(
+            fn(array $attributes) =>['team_id'=>$team_id]
+        );
+    }
 }

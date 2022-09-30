@@ -59,7 +59,7 @@ class ThemesController extends Controller
      */
     public function edit(Theme $theme)
     {
-        $this->authorize('update',Theme::class);
+        $this->authorize('update',$theme);
     }
 
     /**

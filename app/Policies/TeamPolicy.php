@@ -12,12 +12,14 @@ class TeamPolicy
 {
     use HandlesAuthorization;
     use CheckPermisson;
+
     public function before(User $user)
     {
         if ($this->isAdmin($user) || $this->isSuperAdmin($user)) {
             return true;
         }
     }
+
     /**
      * Determine whether the user can view any models.
      *
@@ -56,8 +58,7 @@ class TeamPolicy
 
         if ($canView) {
             return true;
-        }
-        else{
+        } else {
             return Response::denyAsNotFound('Alas. Sorry');
         }
     }
@@ -91,7 +92,7 @@ class TeamPolicy
     public function update(User $user, Team $team)
     {
         if (!$user) {
-            return false;
+            return Response::denyAsNotFound();
         }
 
         $canUpdate = $this->canUpdate($user);
@@ -99,7 +100,10 @@ class TeamPolicy
         $canUpdate = $canUpdate && $bothSameTeam;
 
         if ($canUpdate) {
-            return true;
+            return Response::allow();
+        } else {
+//            dd($canUpdate, $user->team_id, $team->id);
+            return Response::denyAsNotFound();
         }
     }
 
@@ -122,8 +126,7 @@ class TeamPolicy
 
         if ($canDelete) {
             return true;
-        }
-        else{
+        } else {
             return Response::denyAsNotFound('Alas. Sorry');
         }
     }
@@ -143,8 +146,7 @@ class TeamPolicy
 
         if ($canRestore) {
             return true;
-        }
-        else{
+        } else {
             return Response::denyAsNotFound('Alas. Sorry');
         }
     }
@@ -164,8 +166,7 @@ class TeamPolicy
 
         if ($canForceDelete) {
             return true;
-        }
-        else{
+        } else {
             return Response::denyAsNotFound('Alas. Sorry');
         }
     }

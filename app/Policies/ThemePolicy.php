@@ -21,9 +21,7 @@ class ThemePolicy extends ServiceForPolicies
         if ($this->canBanUser($user)) {
             return true;
         }
-        else{
-            return Response::denyAsNotFound('Alas. Sorry');
-        }
+
     }
 
     /**
@@ -39,6 +37,7 @@ class ThemePolicy extends ServiceForPolicies
         }
 
         $canView = $this->canView($user);
+
         if ($canView) {
             return true;
         }
