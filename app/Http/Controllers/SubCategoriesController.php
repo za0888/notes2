@@ -62,7 +62,7 @@ class SubCategoriesController extends Controller
     public function edit(SubCategory $subCategory)
     {
 
-        $this->authorize('update',SubCategory::class);
+        $this->authorize('update',$subCategory);
     }
 
     /**
@@ -74,7 +74,7 @@ class SubCategoriesController extends Controller
      */
     public function update(Request $request, SubCategory $subCategory)
     {
-        $this->authorize('update',SubCategory::class);
+        $this->authorize('update',$subCategory);
     }
 
     /**

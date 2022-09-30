@@ -59,7 +59,7 @@ class TeamController extends Controller
      */
     public function edit(Team $team)
     {
-        $this->authorize('update',Team::class);
+        $this->authorize('update',$team);
     }
 
     /**
@@ -71,7 +71,7 @@ class TeamController extends Controller
      */
     public function update(UpdateTeamRequest $request, Team $team)
     {
-        $this->authorize('update',Team::class);
+        $this->authorize('update',$team);
     }
 
     /**

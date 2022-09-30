@@ -71,7 +71,7 @@ class ThemesController extends Controller
      */
     public function update(Request $request, Theme $theme)
     {
-        $this->authorize('update',Theme::class);
+        $this->authorize('update',$theme);
     }
 
     /**
@@ -82,6 +82,6 @@ class ThemesController extends Controller
      */
     public function destroy(Theme $theme)
     {
-        $this->authorize('delete',Theme::class);
+        $this->authorize('delete',$theme);
     }
 }

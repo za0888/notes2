@@ -32,12 +32,12 @@ class CategoriesController extends Controller
 
     public function edit(Category $category)
     {
-        $this->authorize('update',Category::class);
+        $this->authorize('update',$category);
     }
 
     public function update(Request $request, Category $category)
     {
-        $this->authorize('update',Category::class);
+        $this->authorize('update',$category);
     }
 
     public function destroy(Category $category)

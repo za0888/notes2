@@ -38,7 +38,7 @@ class MediaController extends Controller
     public function update(UpdateMediaRequest $request, Media $media)
     {
 
-        $this->authorize('update',Media::class);
+        $this->authorize('update',$media);
     }
 
     public function destroy(Media $media)
