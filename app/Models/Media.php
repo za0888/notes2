@@ -32,12 +32,14 @@ class Media extends Model
             ->withDefault(['title' => 'empty note']);
     }
 
-    protected static function booted()
-    {
-        static::addGlobalScope(new TeamScope);
-    }
+
     public function team(): BelongsTo
     {
         return $this->belongsTo(Team::class)->withDefault();
+    }
+
+    protected static function booted()
+    {
+        static::addGlobalScope(new TeamScope);
     }
 }
