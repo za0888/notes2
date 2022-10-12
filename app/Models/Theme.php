@@ -16,6 +16,7 @@ class Theme extends Model
 
     protected $fillable=[
         'name',
+        'team_id'
     ];
 
     protected static function booted()

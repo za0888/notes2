@@ -512,5 +512,28 @@ class PolicyTest extends TestCase
         $response->assertNotFound();
     }
 
+//    public function test_auto_add_team_id_to_note_model()
+//    {
+//        $team=Team::factory()->create();
+//
+//        $user=User::factory()
+//            ->for($team)
+//            ->create();
+//
+//        $subCategory=SubCategory::factory()
+//            ->for($team)
+//            ->create();
+//        \Auth::login($user);
+//        $note=Note::factory()
+//            ->for($user)
+//            ->for($subCategory)
+//            ->create();
+//
+//        $this->actingAs($user)
+//            ->assertDatabaseHas('notes',[
+//            'team_id'=>$team->id
+//        ]);
+//
+//}
 
 }

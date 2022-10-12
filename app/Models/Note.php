@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Scopes\TeamScope;
+use App\Traits\TeamFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,16 +11,22 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Scopes\OnlyUserScope;
+use Illuminate\Support\Facades\Auth;
+
 class Note extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    use TeamFilter;
 
     protected $fillable = [
         'title',
         'body',
         'html_block',
         'links',
+        'user_id',
+        'team_id',
+        'sub_category_id'
     ];
 
     protected $casts=[
@@ -30,6 +37,12 @@ class Note extends Model
     protected static function booted()
     {
         static::addGlobalScope(new TeamScope);
+//        if (Auth::user()) {
+//            static::creating(function ($note) {
+//                $note->team_id = \Auth::user()->team_id;
+//
+//            });
+//        }
 
     }
 

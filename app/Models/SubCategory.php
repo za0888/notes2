@@ -20,6 +20,8 @@ class SubCategory extends Model
 
     protected $fillable = [
         'name',
+        'team_id',
+        'category_id'
     ];
 
     protected static function booted()

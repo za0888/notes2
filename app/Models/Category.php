@@ -19,11 +19,14 @@ class Category extends Model
 
     protected $fillable = [
         'name',
+        'team_id',
+        'theme_id'
     ];
 
     protected static function booted()
     {
         static::addGlobalScope(new TeamScope);
+
     }
 
     public function theme(): BelongsTo

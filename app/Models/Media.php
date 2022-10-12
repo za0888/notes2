@@ -22,7 +22,9 @@ class Media extends Model
     protected $fillable = [
         'title',
         'media_type',
-        'description'
+        'description',
+        'note_id',
+        'team_id'
     ];
 
     public function note()
