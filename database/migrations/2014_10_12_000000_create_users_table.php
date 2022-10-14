@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Team;
+use App\Policies\Permissions;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -28,7 +29,7 @@ return new class extends Migration
             $table->string('password');
 
             $table->integer('permissions')
-//                ->default(128)
+                ->default(Permissions::CAN_VIEW)
                 ->nullable();
 
             $table->rememberToken();

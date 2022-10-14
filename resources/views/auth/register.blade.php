@@ -9,9 +9,9 @@
         <!-- Validation Errors -->
         <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
-        <form method="POST" action="{{ route('register') }}">
+        <form method="POST" action="{{ route('register.store') }}">
             @csrf
-
+            <input type="number" name=team value="{{$team?->id}}" hidden>
             <!-- Name -->
             <div>
                 <x-label for="name" :value="__('Name')" />

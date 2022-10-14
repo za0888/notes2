@@ -9,6 +9,7 @@ use App\Http\Controllers\SubCategoriesController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\ThemesController;
 use App\Models\Note;
+use App\Models\Team;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,7 +24,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $teams=Team::whereNotNull('about')->get();
+    return view('components.teams.teams-start',compact('teams'));
 });
 
 Route::get('/dashboard', function () {
