@@ -26,8 +26,8 @@ return new class extends Migration
                 //                ->fulltext()
                 ->nullable();
 
-            $table->integer('rating_popularity')->default(0);
-            
+            $table->integer('rating')->default(0);
+
 
             $table->json('html_block')->nullable();
             // a block {
