@@ -21,9 +21,9 @@ class RegisteredUserController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function create(Team $team)
+    public function create()
     {
-        return view('auth.register', ['team' => $team]);
+        return view('auth.register', ['teams' => Team::all() ?? null]);
     }
 
     /**
@@ -41,11 +41,9 @@ class RegisteredUserController extends Controller
 
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
 
-            'team' => [
+            'team_id' => [
                 'required',
-                Rule::in(Team::all('id')
-                ->pluck('id')
-                ->toArray()),
+                'numeric'
             ],
 
             'password' => ['required', 'confirmed', Rules\Password::defaults()],

@@ -22,11 +22,11 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
+Route::get('/',function () {
     $teams=Team::whereNotNull('about')->get();
-    return view('components.teams.teams-start',compact('teams'));
-});
+    return view('welcome',compact('teams'));
+});;
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
