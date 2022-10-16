@@ -403,13 +403,13 @@
 
 <body class="antialiased">
 
-<section class="bg-gray-100 text-white min-h-screen">
+<section class="bg-gray-100 dark:text-white min-h-screen">
     <div class="max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
         <div class="flex flex-col">
             <div class="max-w-xl">
                 <h2 class="text-3xl font-bold sm:text-4xl">What makes us special</h2>
 
-                <p class="mt-4 mb-8 text-gray-300">
+                <p class="mt-4 mb-8 text-gray-700">
                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat
                     dolores iure fugit totam iste obcaecati. Consequatur ipsa quod ipsum
                     sequi culpa delectus, cumque id tenetur quibusdam, quos fuga minima.
@@ -417,7 +417,7 @@
 
                 <h1 class="text-3xl font-bold sm:text-4xl">Our Teams:</h1>
             </div>
-            <div class="relative h-8 flex items-top justify-center dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
+            <div class="relative h-8 flex items-top justify-center dark:bg-gray-700 sm:items-center py-4 sm:pt-0">
                 @if (Route::has('login'))
                     <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block p-8 z-10 bg-slate-400">
                         @auth
@@ -444,7 +444,7 @@
 
             @foreach($teams as $team)
                 <div class="flex items-start">
-        <span class="flex-shrink-0 rounded-lg bg-gray-800 p-4">
+        <span class="flex-shrink-0 rounded-lg bg-gray-500 p-4">
           <svg
               class="h-5 w-5"
               fill="none"
@@ -468,7 +468,7 @@
                     <div class="ml-4">
                         <h2 class="text-lg font-bold">{{strtoupper($team->name ?? '')}}</h2>
 
-                        <p class="mt-1 text-sm text-gray-300">
+                        <p class="mt-1 text-sm text-gray-700">
                             {{$team->about}}
                         </p>
                     </div>

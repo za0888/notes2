@@ -14,10 +14,8 @@
             {{--            team--}}
             <div>
                 <x-label for="team" :value="__('Team')"/>
-                <select name="team_id" id="team"
-                        class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                        type="text"
-                        required autofocus>
+
+                <x-select name="team_id" id="team" class="block mt-1 w-full">
 
                     @foreach($teams as $team)
 
@@ -26,13 +24,14 @@
                         @endif
 
                         <option value="{{$team->id}}">
-                          {{strtoupper($team->name) ?? ''}}
+                            {{strtoupper($team->name) ?? ''}}
                         </option>
 
 
                     @endforeach
 
-                </select>
+                </x-select>
+
             </div>
             <!-- Name -->
             <div>
