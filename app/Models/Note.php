@@ -19,6 +19,17 @@ class Note extends Model
     use SoftDeletes;
     use TeamFilter;
 
+    /**
+     * The relationships that should always be loaded.
+     * prevent N+1 problem
+     * @var array
+     */
+    protected $with = [
+        'subCategory',
+        'team',
+        'user'
+    ];
+
     protected $fillable = [
         'title',
         'body',
@@ -29,9 +40,9 @@ class Note extends Model
         'sub_category_id'
     ];
 
-    protected $casts=[
-        'html_block'=>'array',
-        'links'=>'array',
+    protected $casts = [
+        'html_block' => 'array',
+        'links' => 'array',
     ];
 
     protected static function booted()
@@ -49,16 +60,16 @@ class Note extends Model
     public function subCategory(): BelongsTo
     {
         return $this->belongsTo(SubCategory::class)
-            ->withDefault(['name'=>'ANONIMOUS subcat']);
+            ->withDefault(['name' => 'ANONIMOUS subcat']);
     }
 
-    public function user():BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class)
             ->withDefault('ANONIMOUS user');
     }
 
-    public function media():HasMany
+    public function media(): HasMany
     {
         return $this->hasMany(Media::class)
             ->orderBy('media_type');

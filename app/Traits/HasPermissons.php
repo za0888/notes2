@@ -3,10 +3,12 @@
 namespace App\Traits;
 
 use App\Models\User;
+use App\Models\Permission;
 use App\Policies\Permissions;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
-trait CheckPermisson
+trait HasPermissons
 {
 
     public function canUpdate(User $user)
@@ -15,7 +17,9 @@ trait CheckPermisson
         if ($user?->permissions & Permissions::CAN_UPDATE) {
             return true;
         }
+
     }
+
 
     public function canDelete(User $user)
     {
@@ -59,6 +63,7 @@ trait CheckPermisson
             return true;
         }
     }
+
     public function canControlUser(User $user)
     {
         if ($user?->permissions & Permissions::CAN_CONTROL_USER) {
@@ -73,7 +78,7 @@ trait CheckPermisson
             $user?->permissions & Permissions::CAN_FORCE_DELETE &&
             $user?->permissions & Permissions::CAN_DELETE &&
             $user?->permissions & Permissions::CAN_RESTORE &&
-            $user?->permissions & Permissions::CAN_UPDATE&&
+            $user?->permissions & Permissions::CAN_UPDATE &&
             $user?->permissions & Permissions::CAN_CREATE &&
             $user?->permissions & Permissions::CAN_CONTROL_USER
 
@@ -90,12 +95,26 @@ trait CheckPermisson
             $user?->permissions & Permissions::CAN_FORCE_DELETE &&
             $user?->permissions & Permissions::CAN_DELETE &&
             $user?->permissions & Permissions::CAN_RESTORE &&
-            $user?->permissions & Permissions::CAN_UPDATE&&
+            $user?->permissions & Permissions::CAN_UPDATE &&
             $user?->permissions & Permissions::CAN_CREATE &&
             $user?->permissions & Permissions::CAN_CONTROL_USER
 
         ) {
             return true;
+        }
+    }
+
+    public function givePermissionTo(string|array $permissionName)
+    {
+        if (is_string($permissionName) && in_array($permissionName,Permissions::ALL_PERMISSIONS_NAMES)) {
+            $this->permissions = $this->permissions | $permissionName;
+            $this->save();
+        }
+
+        if (is_array($permissionName)) {
+            foreach ($permissionName as $permissionItem) {
+                $this->permissions = $this->permissions | $permissionItem;
+            }
         }
     }
 

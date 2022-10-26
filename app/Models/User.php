@@ -10,10 +10,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-
+use App\Policies\Permissions;
+use App\Traits\HasPermissons;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+    use HasPermissons;
 
     /**
      * The attributes that are mass assignable.
@@ -49,6 +51,7 @@ class User extends Authenticatable
 
     public function notes():HasMany
     {
+
         return $this->hasMany(Note::class)
             ->orderBy('updated_at');
     }
@@ -58,5 +61,8 @@ class User extends Authenticatable
         return $this->belongsTo(Team::class)->withDefault();
     }
 
+    public function givePermissionTO(string $permissiion)
+    {
 
+}
 }

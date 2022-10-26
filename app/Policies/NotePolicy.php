@@ -5,13 +5,13 @@ namespace App\Policies;
 use App\Models\Note;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use App\Traits\CheckPermisson;
+use App\Traits\HasPermissons;
 use Illuminate\Auth\Access\Response;
 
 class NotePolicy
 {
     use HandlesAuthorization;
-    use CheckPermisson;
+    use HasPermissons;
 
     /**
      * Perform pre-authorization checks.
@@ -25,8 +25,9 @@ class NotePolicy
         if (!$user) {
             return false;
         }
-
-        if ($this->canBanUser($user)) {
+//super admin
+//        if($user->isSuperAdmin())
+        if ($this->isSuperAdmin($user)) {
             return true;
         }
 

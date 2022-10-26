@@ -5,10 +5,10 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope;
 use Illuminate\Support\Facades\Session;
-use App\Traits\CheckPermisson;
+use App\Traits\HasPermissons;
 class TeamScope implements Scope
 {
-    use CheckPermisson;
+    use HasPermissons;
 
     public function apply(Builder $builder, Model $model)
     {

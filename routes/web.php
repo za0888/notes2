@@ -25,7 +25,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/',function () {
     $teams=Team::whereNotNull('about')->get();
     return view('welcome',compact('teams'));
-});;
+});
+
+Route::get('/main',function () {
+    return view('layouts.main');
+});
 
 
 Route::get('/dashboard', function () {

@@ -409,7 +409,7 @@
             <div class="max-w-xl">
                 <h2 class="text-3xl font-bold sm:text-4xl">What makes us special</h2>
 
-                <p class="mt-4 mb-8 text-gray-700">
+                <p class="mt-4 mb-8 text-gray-700 prose">
                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat
                     dolores iure fugit totam iste obcaecati. Consequatur ipsa quod ipsum
                     sequi culpa delectus, cumque id tenetur quibusdam, quos fuga minima.
@@ -424,8 +424,7 @@
                             <a href="{{ url('/dashboard') }}"
                                class="text-sm text-gray-700 dark:text-gray-500 underline">Dashboard</a>
                         @else
-                            <a href="{{ route('login') }}" class="text-xl text-gray-700 dark:text-gray-500 underline">Log
-                                in</a>
+                            <a href="{{ route('login') }}" class="text-xl text-gray-700 dark:text-gray-500 underline">Log in</a>
 
                             @if (Route::has('register'))
                                 <a href="{{ route('register') }}"
@@ -468,7 +467,7 @@
                     <div class="ml-4">
                         <h2 class="text-lg font-bold">{{strtoupper($team->name ?? '')}}</h2>
 
-                        <p class="mt-1 text-sm text-gray-700">
+                        <p class="mt-1 text-sm text-gray-700 prose lg:prose-xl">
                             {{$team->about}}
                         </p>
                     </div>

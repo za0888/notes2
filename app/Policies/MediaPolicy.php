@@ -4,14 +4,14 @@ namespace App\Policies;
 
 use App\Models\Media;
 use App\Models\User;
-use App\Traits\CheckPermisson;
+use App\Traits\HasPermissons;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Auth\Access\Response;
 
 class MediaPolicy extends ServiceForPolicies
 {
     use HandlesAuthorization;
-    use CheckPermisson;
+    use HasPermissons;
 
     public function before(User $user, string $ability)
     {

@@ -5,12 +5,12 @@ namespace App\Policies;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use App\Traits\CheckPermisson;
+use App\Traits\HasPermissons;
 
 class UserPolicy
 {
     use HandlesAuthorization;
-    use CheckPermisson;
+    use HasPermissons;
 
     /**
      * Determine whether the user can view any models.

@@ -124,6 +124,30 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\Permission
+ *
+ * @property int $id
+ * @property string $name
+ * @property int $value
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission newQuery()
+ * @method static \Illuminate\Database\Query\Builder|Permission onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission whereValue($value)
+ * @method static \Illuminate\Database\Query\Builder|Permission withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Permission withoutTrashed()
+ */
+	class Permission extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Searched
  *
  * @property int $id
