@@ -10,6 +10,7 @@ use App\Http\Controllers\TeamController;
 use App\Http\Controllers\ThemesController;
 use App\Models\Note;
 use App\Models\Team;
+use App\Models\Theme;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,18 +23,24 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/',function () {
-    $teams=Team::whereNotNull('about')->get();
-    return view('welcome',compact('teams'));
-});
+Route::get('/', function () {
+    $teams = Team::whereNotNull('about')->get();
+    return view('welcome', compact('teams'));
+})->name('home');
 
-Route::get('/main',function () {
+Route::get('/main', function () {
     return view('layouts.main');
 });
 
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+
+    $team = Team::findOrNew(Auth::user()?->team_id);
+    $themes = Theme::where('team_id', $team->id)->get();
+
+    return view('dashboard', compact('team','themes'));
+
+
 })->middleware(['auth'])->name('dashboard');
 
 Route::resources([
@@ -47,8 +54,8 @@ Route::resources([
 
 Route::get('user', [RegisteredUserController::class, 'index']);
 Route::get('user/{id}', [RegisteredUserController::class, 'show']);
-Route::get('user/{id}/edit',[RegisteredUserController::class,'edit']);
-Route::put('user/{id}', [RegisteredUserController::class,'update']);
-Route::delete('user/{id}', [RegisteredUserController::class , 'delete']);
+Route::get('user/{id}/edit', [RegisteredUserController::class, 'edit']);
+Route::put('user/{id}', [RegisteredUserController::class, 'update']);
+Route::delete('user/{id}', [RegisteredUserController::class, 'delete']);
 
 require __DIR__ . '/auth.php';

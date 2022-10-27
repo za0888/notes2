@@ -1,4 +1,4 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
@@ -19,11 +19,12 @@
     <header
         class="flex justify-between gap-8 col-start-1 col-span-2  bg-gray-200 text-gray-700 p-8 place-content-center">
         <div>
-            <a href="">
+            <a href="{{route('home')}}">
                 <img src="https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=Nt" alt="">
             </a>
+
             @isset($team)
-                <h1 class="text-teal-700">Team {{$team->name}}</h1>
+                <h1 class="text-teal-700">Team {{$team->name ?? 'EMPTY'}}</h1>
             @endisset
         </div>
 
@@ -33,24 +34,6 @@
 
         @endisset
 
-        <div class="relative h-8 flex items-top justify-center dark:bg-gray-700 sm:items-center py-4 sm:pt-0">
-            @if (Route::has('login'))
-                <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block p-8 z-10">
-                    @auth
-                        <a href="{{ url('/dashboard') }}"
-                           class="text-sm text-gray-700 dark:text-gray-500 underline">Dashboard</a>
-                    @else
-                        <a href="{{ route('login') }}" class="text-xl text-gray-700 dark:text-gray-500 underline">Log
-                            in</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}"
-                               class="ml-4 text-xl text-gray-700 dark:text-gray-500 underline">Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
-        </div>
     </header>
 
     <!-- sidebar -->
@@ -62,11 +45,14 @@
 
     </section>
 
-{{--    <div class="col-start-2 col-span-1 row-auto p-8">--}}
+    <main class="col-start-2 col-span-1 row-auto p-8">
 
-{{--       {{$slot}}--}}
-{{--    </div>--}}
+{{--        @isset($team)--}}
+{{--            <h1 class="text-2xl font-bold">All about {{$team->name}}</h1>--}}
+{{--        @endisset--}}
 
+       {{$slot}}
+    </main>
 
 </main>
 </body>

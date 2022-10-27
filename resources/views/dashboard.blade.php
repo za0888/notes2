@@ -1,17 +1,31 @@
-<x-app-layout>
+{{--<x-app-layout>--}}
+
+<x-main>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
+        <x-navigation/>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
-                    You're logged in!
-                </div>
-            </div>
+    <x-slot name='sidebar'>
+        @isset($themes)
+            <h1>Themes:</h1>
+            <ul class="flex flex-col">
+                @foreach($themes as $theme)
+                    <li class="flex-1 p-4 text-[#0D8ABC]">
+
+                        <a href="{{route('themes.show',$theme->id)}}">{{$theme->name ?? 'NO THEMES'}}</a>
+
+                    </li>
+                @endforeach
+            </ul>
+        @endisset
+    </x-slot>
+    @isset($team)
+        <h1 class="mb-8">All about team <span class="font-bold">{{strtoupper($team?->name) ?? ''}}</span> :</h1>
+        <div class="prose lg:prose-xl prose-slate text-justify indent-8">Lorem ipsum dolor sit amet, consectetur
+            adipisicing elit.
+            {{$team->about ?? "Nothing. Just empty"}}
         </div>
-    </div>
-</x-app-layout>
+    @endisset
+</x-main>
+
+{{--</x-app-layout>--}}
